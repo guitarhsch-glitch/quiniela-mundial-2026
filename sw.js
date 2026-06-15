@@ -1,5 +1,5 @@
-const APP_VERSION='313.10';
-const CACHE='quiniela-v313-10-onesignal';
+const APP_VERSION='313.15';
+const CACHE='quiniela-v313-15-login-finalizados';
 const ASSETS=['./','./index.html','./manifest.webmanifest?v=313.9','./icon-192.png','./icon-512.png'];
 
 self.addEventListener('install',event=>{

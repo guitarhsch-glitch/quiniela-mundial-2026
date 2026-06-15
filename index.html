@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#26105f">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>Quiniela Copa Mundial 2026 V313.13 Notificaciones</title>
+<title>Quiniela Copa Mundial 2026 V313.15 Login Actualizado</title>
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -68,7 +68,7 @@ nav button{min-width:98px;background:transparent;color:#33245c;font-size:12px}na
 @media(max-width:720px){.brand{font-size:17px}.header-row{align-items:flex-start}.header-row>div:last-child{display:flex;gap:6px}.header-row button{padding:9px 10px}.live-score{font-size:42px;border-radius:18px}.card{border-radius:20px}.wrap{padding:10px 10px 84px}.login-card{border-radius:26px}nav button{min-width:88px;padding:11px 7px}}
 
 
-/* ===== V313.13 Notificaciones controladas y corregidas ===== */
+/* ===== V313.15 Login actualizado + finalizado ===== */
 html{scroll-padding-bottom:120px;}
 .wrap{padding-bottom:calc(122px + env(safe-area-inset-bottom,0px));}
 nav{
@@ -128,7 +128,7 @@ nav button.active{transform:translateY(-1px);}
 <div id="updateBanner">Nueva versión disponible. Actualizando...</div>
 <div id="loginScreen" class="login">
  <div class="login-card">
-  <div class="logo">CM26</div><h1>Quiniela Copa Mundial 2026</h1><p class="muted">V311.1 Plus · Notificaciones · Chat · Estadísticas</p>
+  <div class="logo">CM26</div><h1>Quiniela Copa Mundial 2026</h1><p class="muted">V313.15 Login actualizado · Notificaciones · Finalizados</p>
   <div id="configBox" class="alert hidden"><b>Falta configurar Supabase.</b><label>URL Supabase</label><input id="cfgUrl" value="https://kwezracgftuzctzwejlt.supabase.co"><label>Clave publicable</label><input id="cfgKey" placeholder="sb_publishable_..."><button class="primary" style="width:100%;margin-top:8px" onclick="saveConfig()">Guardar configuración</button></div>
   <label>Usuario</label><input id="loginUser" value="admin"><label>Contraseña</label><input id="loginPass" type="password" value="1234">
   <label>Grupo</label><select id="loginGroup"></select>
@@ -136,7 +136,7 @@ nav button.active{transform:translateY(-1px);}
   <div id="loginMsg" class="status">Cargando grupos...</div>
  </div>
 </div>
-<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">🏆 Quiniela Copa Mundial 2026</div><div class="ver">V313.13 Notificaciones · <span id="cloudState">Conectando...</span></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
+<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">🏆 Quiniela Copa Mundial 2026</div><div class="ver">V313.15 Finalizados · <span id="cloudState">Conectando...</span></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
 <div class="wrap">
 <section id="inicio" class="section active"><div class="card live-priority-card"><h2>🔴 Partido en vivo</h2><div id="liveMatchBox"></div></div><div class="card"><h2>🏟️ Panel general</h2><p class="muted">Grupo actual: <b id="currentGroupName"></b></p><div id="homeGroupSwitchBox" class="hidden" style="margin:10px 0"><label>Cambiar grupo</label><select id="homeGroupSwitch" onchange="switchSessionGroup(this.value)"></select><p class="small">Puedes cambiar de grupo sin cerrar sesión.</p></div><div class="grid3"><div class="status">Participantes<br><b id="statPlayers">0</b></div><div class="status">Bolsa<br><b id="statPool">Q0</b></div><div class="status">Líder<br><b id="statLeader">-</b></div></div></div><div class="card"><h2>🥇 Top 3 del grupo</h2><div id="homePlayers" class="players"></div></div><div class="card"><h2>📅 Próximos partidos</h2><div id="homeMatches"></div></div><div class="card"><h2>🔔 Alertas y avisos</h2><div id="homeAlerts"></div></div><div class="card"><h2>🎉 Ganadores</h2><div id="winnerBox"></div></div></section>
 <section id="pred" class="section"><div class="card"><h2>🎯 Mis pronósticos</h2><div class="grid2"><div><label>Fase</label><select id="predPhase" onchange="fillDays();renderPred()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="predDay" onchange="renderPred()"></select></div></div><div id="predList"></div></div></section>
@@ -351,7 +351,9 @@ async function saveRankingSnapshot(){if(!supa||!session) return; const key='hist
 function statusBase(s){return String(s||'').split('|')[0].trim()}
 function statusDetails(s){return String(s||'').split('|').slice(1).join('|').trim()}
 function isLiveResult(r){const b=statusBase(r?.status).toLowerCase(); const raw=String(r?.status||'').toLowerCase(); return ['1t','2t','descanso','tiempo extra','descanso te','penales','interrumpido','en vivo','live','1h','2h','et','p','ht','bt','susp','int'].some(x=>b.startsWith(x)||raw.includes(x))}
+function isFinishedResult(r){const b=statusBase(r?.status).toLowerCase(); const raw=String(r?.status||'').toLowerCase(); return !!(r&&r.home_score!==null&&r.home_score!==undefined&&r.away_score!==null&&r.away_score!==undefined) && (['finalizado','finalizado te','finalizado penales','final','ft','aet','pen'].some(x=>b===x||b.startsWith(x)||raw.includes(x)))}
 function liveMatches(){return matches.filter(m=>isLiveResult(resFor(m.id))).sort((a,b)=>new Date(a.date)-new Date(b.date))}
+function recentFinishedMatches(limit=1){const now=Date.now(); return matches.filter(m=>{const r=resFor(m.id); const t=new Date(m.date).getTime(); return isFinishedResult(r) && t<now && t>now-8*3600000;}).sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,limit)}
 function upcomingMatches(){const now=Date.now(); return matches.filter(m=>new Date(m.date).getTime()>now && !hasRealResult(m)).sort((a,b)=>new Date(a.date)-new Date(b.date)).slice(0,6)}
 function timeUntil(d){let ms=new Date(d).getTime()-Date.now(); if(ms<=0)return 'Iniciando'; let h=Math.floor(ms/3600000), mn=Math.floor((ms%3600000)/60000); if(h>=24){let days=Math.floor(h/24); return `Faltan ${days} día${days===1?'':'s'}`;} return `Faltan ${h}h ${mn}m`;}
 function eventIconFromText(t){t=String(t||'').toLowerCase(); if(t.includes('⚽')||t.includes('goal')||t.includes('gol'))return '⚽'; if(t.includes('red card')||t.includes('roja'))return '🟥'; if(t.includes('card')||t.includes('yellow')||t.includes('amarilla'))return '🟨'; if(t.includes('penalty')||t.includes('penal'))return '🥅'; if(t.includes('var'))return '📺'; if(t.includes('subst')||t.includes('substitution')||t.includes('cambio'))return '🔁'; return '📌'}
@@ -360,7 +362,7 @@ function renderEventList(details){
   if(!parts.length) return '<div class="live-events muted">Minuto/estado actualizado por API Football. Eventos aparecerán si la API los devuelve.</div>';
   return `<div class="live-events"><b>Eventos importantes</b><div class="event-list">${parts.map(ev=>`<div class="event-item"><div class="event-icon">${eventIconFromText(ev)}</div><div>${esc(ev)}</div></div>`).join('')}</div></div>`;
 }
-function renderLiveHome(){const lives=liveMatches(); if(!lives.length){liveMatchBox.innerHTML='<p class="muted">No hay partido en vivo en este momento.</p>'+(isAdmin()?'<button class="good" onclick="updateApiFootballLive(false)">Actualizar vivo ahora</button>':''); return;} liveMatchBox.innerHTML=lives.map(m=>{let r=resFor(m.id)||{}, details=statusDetails(r.status); return matchCard(m,`<div class="status err live-state"><span class="live-badge">EN VIVO</span> ${esc(statusBase(r.status)||'En vivo')}</div><div class="live-score">${r.home_score??'-'} - ${r.away_score??'-'}</div>${renderEventList(details)}`)}).join('')+(isAdmin()?'<button class="good" onclick="updateApiFootballLive(false)">Actualizar vivo ahora</button>':'')}
+function renderLiveHome(){const lives=liveMatches(); if(!lives.length){const finished=recentFinishedMatches(1); if(finished.length){liveMatchBox.innerHTML=finished.map(m=>{let r=resFor(m.id)||{}, details=statusDetails(r.status); return matchCard(m,`<div class="status ok live-state"><span class="live-badge">TERMINADO</span> ${esc(statusBase(r.status)||'Finalizado')}</div><div class="live-score">${r.home_score??'-'} - ${r.away_score??'-'}</div>${details?renderEventList(details):'<div class="small muted">Marcador final confirmado.</div>'}`)}).join('')+(isAdmin()?'<button class="good" onclick="updateApiFootballLive(false)">Actualizar vivo ahora</button>':''); return;} liveMatchBox.innerHTML='<p class="muted">No hay partido en vivo en este momento.</p>'+(isAdmin()?'<button class="good" onclick="updateApiFootballLive(false)">Actualizar vivo ahora</button>':''); return;} liveMatchBox.innerHTML=lives.map(m=>{let r=resFor(m.id)||{}, details=statusDetails(r.status); return matchCard(m,`<div class="status err live-state"><span class="live-badge">EN VIVO</span> ${esc(statusBase(r.status)||'En vivo')}</div><div class="live-score">${r.home_score??'-'} - ${r.away_score??'-'}</div>${renderEventList(details)}`)}).join('')+(isAdmin()?'<button class="good" onclick="updateApiFootballLive(false)">Actualizar vivo ahora</button>':'')}
 
 function phaseMatches(phase){return matches.filter(m=>m.phase===phase)}
 function phaseComplete(phase){const list=phaseMatches(phase); return list.length && list.every(m=>{const r=resFor(m.id); return r&&r.home_score!==null&&r.away_score!==null})}
@@ -825,7 +827,7 @@ async function scheduleMatchPushes(){
     const now=Date.now();
     const gid=currentGroupId();
     const members=groupMembers(gid);
-    const list=matches.filter(m=>{const t=new Date(m.date).getTime(); return t>now-15*60000 && t<now+70*60000;}).sort((a,b)=>new Date(a.date)-new Date(b.date));
+    const list=matches.filter(m=>{const t=new Date(m.date).getTime(); return t>now-8*3600000 && t<now+70*60000;}).sort((a,b)=>new Date(a.date)-new Date(b.date));
     for(const m of list){
       const t=new Date(m.date).getTime();
       for(const mins of [30,10]){
@@ -841,6 +843,11 @@ async function scheduleMatchPushes(){
       if(isInNotifyWindow(now,t,8) && !settingValue(pushSettingKey('started',m.id,'grupo'),null)){
         await markPushScheduled('started',m.id,'grupo',new Date().toISOString());
         await notifyGroup('match_started','🔴 El partido ya empezó',`${m.home} vs ${m.away} ya inició.`,{excludeSender:false});
+      }
+      const r=resFor(m.id);
+      if(isFinishedResult(r) && !settingValue(pushSettingKey('finished',m.id,'grupo'),null)){
+        await markPushScheduled('finished',m.id,'grupo',new Date().toISOString());
+        await notifyGroup('match_finished','🏁 Partido finalizado',`${m.home} ${r.home_score} - ${r.away_score} ${m.away}.`,{excludeSender:false});
       }
     }
   }catch(e){console.warn('scheduleMatchPushes error',e)}
