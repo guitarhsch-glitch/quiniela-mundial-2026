@@ -1,6 +1,6 @@
-const APP_VERSION='313.15';
-const CACHE='quiniela-v313-15-login-finalizados';
-const ASSETS=['./','./index.html','./manifest.webmanifest?v=313.9','./icon-192.png','./icon-512.png'];
+const APP_VERSION='313.16';
+const CACHE='hcq-v313-16-branding';
+const ASSETS=['./','./index.html','./manifest.webmanifest?v=31316-hcq','./icon-192.png?v=31316-hcq','./icon-512.png?v=31316-hcq','./apple-touch-icon.png?v=31316-hcq','./logo-hcq.png?v=31316-hcq'];
 
 self.addEventListener('install',event=>{
   self.skipWaiting();

@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#26105f">
+<meta name="theme-color" content="#071a3f">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-192.png">
-<title>Quiniela Copa Mundial 2026 V313.15 Login Actualizado</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=31316-hcq">
+<link rel="icon" href="favicon.ico?v=31316-hcq">
+<title>HCQ - Hattrick Club Quinielas V313.16</title>
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -68,7 +69,7 @@ nav button{min-width:98px;background:transparent;color:#33245c;font-size:12px}na
 @media(max-width:720px){.brand{font-size:17px}.header-row{align-items:flex-start}.header-row>div:last-child{display:flex;gap:6px}.header-row button{padding:9px 10px}.live-score{font-size:42px;border-radius:18px}.card{border-radius:20px}.wrap{padding:10px 10px 84px}.login-card{border-radius:26px}nav button{min-width:88px;padding:11px 7px}}
 
 
-/* ===== V313.15 Login actualizado + finalizado ===== */
+/* ===== V313.16 HCQ branding + login actualizado + finalizado ===== */
 html{scroll-padding-bottom:120px;}
 .wrap{padding-bottom:calc(122px + env(safe-area-inset-bottom,0px));}
 nav{
@@ -121,6 +122,22 @@ nav button.active{transform:translateY(-1px);}
 }
 
 
+
+/* ===== HCQ Branding V313.16 ===== */
+.logo{
+  width:118px!important;
+  height:118px!important;
+  border-radius:30px!important;
+  background:#050d1f url('logo-hcq.png?v=31316-hcq') center/cover no-repeat!important;
+  box-shadow:0 18px 42px rgba(0,0,0,.38), inset 0 0 0 2px rgba(248,197,71,.45)!important;
+}
+.logo:before,.logo:after{content:none!important;}
+.login-card h1{font-size:28px;text-align:center;color:#071a3f;}
+.login-card h1 .brand-main{display:block;font-size:34px;font-weight:1000;letter-spacing:.8px;color:#071a3f;}
+.login-card h1 .brand-sub{display:block;font-size:15px;font-weight:900;letter-spacing:.4px;color:#334155;margin-top:2px;}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand:before{content:"";width:38px;height:38px;border-radius:12px;background:#050d1f url('logo-hcq.png?v=31316-hcq') center/cover no-repeat;box-shadow:0 0 0 1px rgba(248,197,71,.45);flex:0 0 auto;}
+
 #updateBanner{position:fixed;left:12px;right:12px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:9999;background:rgba(255,255,255,.96);color:#150b35;border-radius:16px;padding:12px 14px;text-align:center;font-weight:900;box-shadow:0 8px 24px rgba(0,0,0,.35);display:none}
 #updateBanner.show{display:block}
 </style>
@@ -128,7 +145,7 @@ nav button.active{transform:translateY(-1px);}
 <div id="updateBanner">Nueva versión disponible. Actualizando...</div>
 <div id="loginScreen" class="login">
  <div class="login-card">
-  <div class="logo">CM26</div><h1>Quiniela Copa Mundial 2026</h1><p class="muted">V313.15 Login actualizado · Notificaciones · Finalizados</p>
+  <div class="logo" aria-label="HCQ"></div><h1><span class="brand-main">HCQ</span><span class="brand-sub">Hattrick Club Quinielas</span></h1><p class="muted">Pronostica • Compite • Gana<br>V313.16 HCQ · Login actualizado · Notificaciones · Finalizados</p>
   <div id="configBox" class="alert hidden"><b>Falta configurar Supabase.</b><label>URL Supabase</label><input id="cfgUrl" value="https://kwezracgftuzctzwejlt.supabase.co"><label>Clave publicable</label><input id="cfgKey" placeholder="sb_publishable_..."><button class="primary" style="width:100%;margin-top:8px" onclick="saveConfig()">Guardar configuración</button></div>
   <label>Usuario</label><input id="loginUser" value="admin"><label>Contraseña</label><input id="loginPass" type="password" value="1234">
   <label>Grupo</label><select id="loginGroup"></select>
@@ -136,7 +153,7 @@ nav button.active{transform:translateY(-1px);}
   <div id="loginMsg" class="status">Cargando grupos...</div>
  </div>
 </div>
-<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">🏆 Quiniela Copa Mundial 2026</div><div class="ver">V313.15 Finalizados · <span id="cloudState">Conectando...</span></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
+<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V313.16 HCQ · <span id="cloudState">Conectando...</span></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
 <div class="wrap">
 <section id="inicio" class="section active"><div class="card live-priority-card"><h2>🔴 Partido en vivo</h2><div id="liveMatchBox"></div></div><div class="card"><h2>🏟️ Panel general</h2><p class="muted">Grupo actual: <b id="currentGroupName"></b></p><div id="homeGroupSwitchBox" class="hidden" style="margin:10px 0"><label>Cambiar grupo</label><select id="homeGroupSwitch" onchange="switchSessionGroup(this.value)"></select><p class="small">Puedes cambiar de grupo sin cerrar sesión.</p></div><div class="grid3"><div class="status">Participantes<br><b id="statPlayers">0</b></div><div class="status">Bolsa<br><b id="statPool">Q0</b></div><div class="status">Líder<br><b id="statLeader">-</b></div></div></div><div class="card"><h2>🥇 Top 3 del grupo</h2><div id="homePlayers" class="players"></div></div><div class="card"><h2>📅 Próximos partidos</h2><div id="homeMatches"></div></div><div class="card"><h2>🔔 Alertas y avisos</h2><div id="homeAlerts"></div></div><div class="card"><h2>🎉 Ganadores</h2><div id="winnerBox"></div></div></section>
 <section id="pred" class="section"><div class="card"><h2>🎯 Mis pronósticos</h2><div class="grid2"><div><label>Fase</label><select id="predPhase" onchange="fillDays();renderPred()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="predDay" onchange="renderPred()"></select></div></div><div id="predList"></div></div></section>
