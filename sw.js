@@ -1,14 +1,14 @@
-const APP_VERSION='313.19';
-const CACHE='hcq-v313-19-icon-force';
+const APP_VERSION='313.20';
+const CACHE='hcq-v313-20-icon-force';
 const ASSETS=[
-  './?v=31319-icon-force',
-  './index.html?v=31319-icon-force',
-  './manifest.webmanifest?v=31319-icon-force',
-  './icon-192-v31319.png?v=31319-force-icon',
-  './icon-512-v31319.png?v=31319-force-icon',
-  './apple-touch-icon-v31319.png?v=31319-force-icon',
-  './favicon-v31319.ico?v=31319-force-icon',
-  './logo-hcq-login-v31317.png?v=31319-icon-force'
+  './?v=31320-icon-force',
+  './index.html?v=31320-icon-force',
+  './manifest.webmanifest?v=31320-icon-force',
+  './icon-192-v31320.png?v=31320-force-icon',
+  './icon-512-v31320.png?v=31320-force-icon',
+  './apple-touch-icon-v31320.png?v=31320-force-icon',
+  './favicon-v31320.ico?v=31320-force-icon',
+  './logo-hcq-login-v31317.png?v=31320-icon-force'
 ];
 
 self.addEventListener('install',event=>{
@@ -43,7 +43,7 @@ self.addEventListener('fetch',event=>{
       const copy=resp.clone();
       caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{});
       return resp;
-    }).catch(()=>caches.match(req).then(r=>r || caches.match('./index.html?v=31319-icon-force'))));
+    }).catch(()=>caches.match(req).then(r=>r || caches.match('./index.html?v=31320-icon-force'))));
     return;
   }
   event.respondWith(fetch(req,{cache:'no-store'}).catch(()=>caches.match(req)));
