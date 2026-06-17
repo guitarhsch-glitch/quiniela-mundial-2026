@@ -4,10 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071a3f">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="apple-touch-icon-v31316.png?v=31316-hcq">
-<link rel="icon" href="favicon.ico?v=31316-hcq">
-<title>HCQ - Hattrick Club Quinielas V313.16</title>
+<link rel="manifest" href="manifest.webmanifest?v=31318-icon-force">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-v31318.png?v=31318-force-icon">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="apple-touch-icon-v31318.png?v=31318-force-icon">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192-v31318.png?v=31318-force-icon">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512-v31318.png?v=31318-force-icon">
+<link rel="shortcut icon" href="favicon-v31318.ico?v=31318-force-icon">
+<link rel="preload" as="image" href="logo-hcq-login-v31317.png?v=31318-icon-force" fetchpriority="high">
+<title>HCQ - Hattrick Club Quinielas V313.18</title>
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -70,6 +74,10 @@ nav button{min-width:98px;background:transparent;color:#33245c;font-size:12px}na
 
 
 /* ===== V313.16 HCQ branding + login actualizado + finalizado ===== */
+/* ===== V313.18 Login optimizado: evita carga por partes del logo ===== */
+#loginScreen .login-card{content-visibility:auto;}
+.logo,.brand:before{background-color:#050d1f!important;background-origin:border-box;background-clip:border-box;}
+
 html{scroll-padding-bottom:120px;}
 .wrap{padding-bottom:calc(122px + env(safe-area-inset-bottom,0px));}
 nav{
@@ -128,7 +136,7 @@ nav button.active{transform:translateY(-1px);}
   width:118px!important;
   height:118px!important;
   border-radius:30px!important;
-  background:#050d1f url('logo-hcq.png?v=31316-hcq') center/cover no-repeat!important;
+  background:#050d1f url('logo-hcq-login-v31317.png?v=31318-icon-force') center/contain no-repeat!important;
   box-shadow:0 18px 42px rgba(0,0,0,.38), inset 0 0 0 2px rgba(248,197,71,.45)!important;
 }
 .logo:before,.logo:after{content:none!important;}
@@ -136,7 +144,7 @@ nav button.active{transform:translateY(-1px);}
 .login-card h1 .brand-main{display:block;font-size:34px;font-weight:1000;letter-spacing:.8px;color:#071a3f;}
 .login-card h1 .brand-sub{display:block;font-size:15px;font-weight:900;letter-spacing:.4px;color:#334155;margin-top:2px;}
 .brand{display:flex;align-items:center;gap:10px;}
-.brand:before{content:"";width:38px;height:38px;border-radius:12px;background:#050d1f url('logo-hcq.png?v=31316-hcq') center/cover no-repeat;box-shadow:0 0 0 1px rgba(248,197,71,.45);flex:0 0 auto;}
+.brand:before{content:"";width:38px;height:38px;border-radius:12px;background:#050d1f url('logo-hcq-login-v31317.png?v=31318-icon-force') center/contain no-repeat;box-shadow:0 0 0 1px rgba(248,197,71,.45);flex:0 0 auto;}
 
 #updateBanner{position:fixed;left:12px;right:12px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:9999;background:rgba(255,255,255,.96);color:#150b35;border-radius:16px;padding:12px 14px;text-align:center;font-weight:900;box-shadow:0 8px 24px rgba(0,0,0,.35);display:none}
 #updateBanner.show{display:block}
@@ -145,7 +153,7 @@ nav button.active{transform:translateY(-1px);}
 <div id="updateBanner">Nueva versión disponible. Actualizando...</div>
 <div id="loginScreen" class="login">
  <div class="login-card">
-  <div class="logo" aria-label="HCQ"></div><h1><span class="brand-main">HCQ</span><span class="brand-sub">Hattrick Club Quinielas</span></h1><p class="muted">Pronostica • Compite • Gana<br>V313.16 HCQ · Login actualizado · Notificaciones · Finalizados</p>
+  <div class="logo" aria-label="HCQ"></div><h1><span class="brand-main">HCQ</span><span class="brand-sub">Hattrick Club Quinielas</span></h1><p class="muted">Pronostica • Compite • Gana<br>V313.18 HCQ · Login optimizado · Notificaciones · Finalizados</p>
   <div id="configBox" class="alert hidden"><b>Falta configurar Supabase.</b><label>URL Supabase</label><input id="cfgUrl" value="https://kwezracgftuzctzwejlt.supabase.co"><label>Clave publicable</label><input id="cfgKey" placeholder="sb_publishable_..."><button class="primary" style="width:100%;margin-top:8px" onclick="saveConfig()">Guardar configuración</button></div>
   <label>Usuario</label><input id="loginUser" value="admin"><label>Contraseña</label><input id="loginPass" type="password" value="1234">
   <label>Grupo</label><select id="loginGroup"></select>
@@ -153,7 +161,7 @@ nav button.active{transform:translateY(-1px);}
   <div id="loginMsg" class="status">Cargando grupos...</div>
  </div>
 </div>
-<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V313.16 HCQ · <span id="cloudState">Conectando...</span></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
+<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V313.18 HCQ · <span id="cloudState">Conectando...</span></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
 <div class="wrap">
 <section id="inicio" class="section active"><div class="card live-priority-card"><h2>🔴 Partido en vivo</h2><div id="liveMatchBox"></div></div><div class="card"><h2>🏟️ Panel general</h2><p class="muted">Grupo actual: <b id="currentGroupName"></b></p><div id="homeGroupSwitchBox" class="hidden" style="margin:10px 0"><label>Cambiar grupo</label><select id="homeGroupSwitch" onchange="switchSessionGroup(this.value)"></select><p class="small">Puedes cambiar de grupo sin cerrar sesión.</p></div><div class="grid3"><div class="status">Participantes<br><b id="statPlayers">0</b></div><div class="status">Bolsa<br><b id="statPool">Q0</b></div><div class="status">Líder<br><b id="statLeader">-</b></div></div></div><div class="card"><h2>🥇 Top 3 del grupo</h2><div id="homePlayers" class="players"></div></div><div class="card"><h2>📅 Próximos partidos</h2><div id="homeMatches"></div></div><div class="card"><h2>🔔 Alertas y avisos</h2><div id="homeAlerts"></div></div><div class="card"><h2>🎉 Ganadores</h2><div id="winnerBox"></div></div></section>
 <section id="pred" class="section"><div class="card"><h2>🎯 Mis pronósticos</h2><div class="grid2"><div><label>Fase</label><select id="predPhase" onchange="fillDays();renderPred()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="predDay" onchange="renderPred()"></select></div></div><div id="predList"></div></div></section>
@@ -221,6 +229,11 @@ nav button.active{transform:translateY(-1px);}
 </section>
 </div><nav><button class="active" data-sec="inicio">🏠 Inicio</button><button data-sec="pred">🎯 Pronósticos</button><button data-sec="todos">👥 Todos</button><button data-sec="campeon">👑 Campeón</button><button data-sec="mundial">🌎 Mundial</button><button data-sec="ranking">🏆 Ranking</button><button data-sec="perfil">👤 Perfil</button><button data-sec="chat">💬 Chat</button><button data-sec="admin" id="adminTab">⚙️ Admin</button><button data-sec="reglas">📜 Reglas</button></nav></div>
 <script>
+(function(){
+  const img=new Image();
+  img.src='logo-hcq-login-v31317.png?v=31318-icon-force';
+  if(img.decode) img.decode().catch(()=>{});
+})();
 const DEFAULT_URL='https://kwezracgftuzctzwejlt.supabase.co';
 const EMBED_KEY='sb_publishable_-O5P9UDDqqkcbkWK4TkXbQ_XRXt_kqD'; // Clave publicable integrada para no pedir configuración en celulares.
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}

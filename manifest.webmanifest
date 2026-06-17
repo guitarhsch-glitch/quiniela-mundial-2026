@@ -2,7 +2,8 @@
   "name": "HCQ - Hattrick Club Quinielas",
   "short_name": "HCQ",
   "description": "App premium de quinielas multigrupo con pronósticos, ranking, campeón oculto, resultados en vivo, chat, avisos y caché automático.",
-  "start_url": "./?v=31316-hcq",
+  "id": "./?app=hcq&v=31318-icon-force",
+  "start_url": "./?v=31318-icon-force",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
@@ -10,16 +11,28 @@
   "theme_color": "#071a3f",
   "icons": [
     {
-      "src": "icon-192-v31316.png?v=31316-hcq",
+      "src": "icon-192-v31318.png?v=31318-force-icon",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "icon-512-v31316.png?v=31316-hcq",
+      "src": "icon-192-v31318.png?v=31318-force-icon-maskable",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-512-v31318.png?v=31318-force-icon",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512-v31318.png?v=31318-force-icon-maskable",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

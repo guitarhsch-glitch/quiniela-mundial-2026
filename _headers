@@ -6,3 +6,7 @@
   Cache-Control: no-store, no-cache, must-revalidate, max-age=0
 /manifest.webmanifest
   Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+/*.png
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+/*.ico
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
