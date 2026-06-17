@@ -1,14 +1,14 @@
-const APP_VERSION='313.21';
-const CACHE='hcq-v313-21-mejoras-completas';
+const APP_VERSION='313.22';
+const CACHE='hcq-v313-22-branding-elegante';
 const ASSETS=[
-  './?v=31321-mejoras-completas',
-  './index.html?v=31321-mejoras-completas',
-  './manifest.webmanifest?v=31321-mejoras-completas',
-  './icon-192-v31320.png?v=31321-mejoras-completas',
-  './icon-512-v31320.png?v=31321-mejoras-completas',
-  './apple-touch-icon-v31320.png?v=31321-mejoras-completas',
-  './favicon-v31320.ico?v=31321-mejoras-completas',
-  './logo-hcq-login-v31317.png?v=31321-mejoras-completas'
+  './?v=31322-branding-elegante',
+  './index.html?v=31322-branding-elegante',
+  './manifest.webmanifest?v=31322-branding-elegante',
+  './icon-192-v31320.png?v=31322-branding-elegante',
+  './icon-512-v31320.png?v=31322-branding-elegante',
+  './apple-touch-icon-v31320.png?v=31322-branding-elegante',
+  './favicon-v31320.ico?v=31322-branding-elegante',
+  './logo-hcq-login-v31317.png?v=31322-branding-elegante'
 ];
 
 self.addEventListener('install',event=>{
@@ -43,7 +43,7 @@ self.addEventListener('fetch',event=>{
       const copy=resp.clone();
       caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{});
       return resp;
-    }).catch(()=>caches.match(req).then(r=>r || caches.match('./index.html?v=31321-mejoras-completas'))));
+    }).catch(()=>caches.match(req).then(r=>r || caches.match('./index.html?v=31322-branding-elegante'))));
     return;
   }
   event.respondWith(fetch(req,{cache:'no-store'}).catch(()=>caches.match(req)));
