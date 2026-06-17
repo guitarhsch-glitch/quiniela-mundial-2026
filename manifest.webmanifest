@@ -1,9 +1,9 @@
 {
   "name": "HCQ - Hattrick Club Quinielas",
   "short_name": "HCQ",
-  "description": "App premium de quinielas multigrupo con branding elegante HCQ, ranking divertido, logros, trofeos, chat y resultados en vivo.",
-  "id": "./?app=hcq&v=31323-contraste-legible",
-  "start_url": "./?v=31323-contraste-legible",
+  "description": "App premium de quinielas multigrupo con branding elegante HCQ, contraste legible en vivo, ranking divertido, logros, trofeos, chat y resultados en vivo.",
+  "id": "./?app=hcq&v=31325-live-contraste",
+  "start_url": "./?v=31325-live-contraste",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
@@ -11,25 +11,25 @@
   "theme_color": "#071a3f",
   "icons": [
     {
-      "src": "icon-192-v31320.png?v=31323-contraste-legible",
+      "src": "icon-192-v31325-live-contraste.png?v=31325-live-contraste",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icon-192-v31320.png?v=31323-contraste-legible-maskable",
+      "src": "icon-192-v31325-live-contraste.png?v=31325-live-contraste",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "icon-512-v31320.png?v=31323-contraste-legible",
+      "src": "icon-512-v31325-live-contraste.png?v=31325-live-contraste",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icon-512-v31320.png?v=31323-contraste-legible-maskable",
+      "src": "icon-512-v31325-live-contraste.png?v=31325-live-contraste",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

@@ -1,14 +1,14 @@
-const APP_VERSION='313.22';
-const CACHE='hcq-v313-23-contraste-legible';
+const APP_VERSION='313.25';
+const CACHE='hcq-v313-25-live-contraste';
 const ASSETS=[
-  './?v=31323-contraste-legible',
-  './index.html?v=31323-contraste-legible',
-  './manifest.webmanifest?v=31323-contraste-legible',
-  './icon-192-v31320.png?v=31323-contraste-legible',
-  './icon-512-v31320.png?v=31323-contraste-legible',
-  './apple-touch-icon-v31320.png?v=31323-contraste-legible',
-  './favicon-v31320.ico?v=31323-contraste-legible',
-  './logo-hcq-login-v31317.png?v=31323-contraste-legible'
+  './?v=31325-live-contraste',
+  './index.html?v=31325-live-contraste',
+  './manifest.webmanifest?v=31325-live-contraste',
+  './icon-192-v31325-live-contraste.png?v=31325-live-contraste',
+  './icon-512-v31325-live-contraste.png?v=31325-live-contraste',
+  './apple-touch-icon-v31325-live-contraste.png?v=31325-live-contraste',
+  './favicon-v31325-live-contraste.ico?v=31325-live-contraste',
+  './logo-hcq-login-v31317.png?v=31325-live-contraste'
 ];
 
 self.addEventListener('install',event=>{
@@ -43,7 +43,7 @@ self.addEventListener('fetch',event=>{
       const copy=resp.clone();
       caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{});
       return resp;
-    }).catch(()=>caches.match(req).then(r=>r || caches.match('./index.html?v=31323-contraste-legible'))));
+    }).catch(()=>caches.match(req).then(r=>r || caches.match('./index.html?v=31325-live-contraste'))));
     return;
   }
   event.respondWith(fetch(req,{cache:'no-store'}).catch(()=>caches.match(req)));
