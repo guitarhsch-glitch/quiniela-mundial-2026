@@ -10,4 +10,4 @@ Mejoras:
 
 Importante:
 SUPABASE_URL en Netlify debe quedar sin /v1 ni /rest/v1.
-Ejemplo: https://kwezracgftuzctzwejlt.supabase.co
+Ejemplo: URL base de Supabase

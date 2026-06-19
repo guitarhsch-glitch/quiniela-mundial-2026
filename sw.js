@@ -1,4 +1,4 @@
-const APP_VERSION='313.35';
+const APP_VERSION='313.35B';
 const CACHE='hcq-v313-35-live-health';
 const ASSETS=[
   './?v=31335-live-health',

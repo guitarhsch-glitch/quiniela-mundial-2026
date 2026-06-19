@@ -35,8 +35,9 @@ function matchForFixture(fx, strictDate=false){
 }
 async function supabase(path, opts={}){
   // V313.35: acepta SUPABASE_URL con o sin /rest/v1 o /v1 para evitar 404.
-  // Valor ideal en Netlify: https://TU-PROYECTO.supabase.co
-  let url=(process.env.SUPABASE_URL||'https://kwezracgftuzctzwejlt.supabase.co').trim();
+  // Valor ideal en Netlify: URL base del proyecto Supabase
+  let url=(process.env.SUPABASE_URL||'').trim();
+  if(!url) throw new Error('Falta variable SUPABASE_URL en Netlify');
   url=url.replace(/\/$/,'').replace(/\/rest\/v1$/,'').replace(/\/v1$/,'');
   const key=process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
   if(!key) throw new Error('Falta SUPABASE_SERVICE_ROLE_KEY en Netlify.');

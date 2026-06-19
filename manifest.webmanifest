@@ -1,7 +1,7 @@
 {
   "name": "HCQ - Hattrick Club Quinielas",
   "short_name": "HCQ",
-  "description": "App premium de quinielas multigrupo HCQ V313.35 con API Health, minuto en vivo, detector de partidos huérfanos y optimización visual.",
+  "description": "App premium de quinielas multigrupo HCQ V313.35BB con API Health, minuto en vivo, detector de partidos huérfanos y optimización visual.",
   "id": "./?app=hcq&v=31335-live-health",
   "start_url": "./?v=31335-live-health",
   "scope": "./",
