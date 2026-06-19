@@ -1,14 +1,14 @@
-const APP_VERSION='313.26';
-const CACHE='hcq-v313-26-auditoria-lags';
+const APP_VERSION='313.28';
+const CACHE='hcq-v313-28-ux-lag';
 const ASSETS=[
-  './?v=31326-auditoria-lags',
-  './index.html?v=31326-auditoria-lags',
-  './manifest.webmanifest?v=31326-auditoria-lags',
-  './icon-192-v31326-auditoria-lags.png?v=31326-auditoria-lags',
-  './icon-512-v31326-auditoria-lags.png?v=31326-auditoria-lags',
-  './apple-touch-icon-v31326-auditoria-lags.png?v=31326-auditoria-lags',
-  './favicon-v31326-auditoria-lags.ico?v=31326-auditoria-lags',
-  './logo-hcq-login-v31317.png?v=31326-auditoria-lags'
+  './?v=31328-ux-lag',
+  './index.html?v=31328-ux-lag',
+  './manifest.webmanifest?v=31328-ux-lag',
+  './icon-192-v31328-ux-lag.png?v=31328-ux-lag',
+  './icon-512-v31328-ux-lag.png?v=31328-ux-lag',
+  './apple-touch-icon-v31328-ux-lag.png?v=31328-ux-lag',
+  './favicon-v31328-ux-lag.ico?v=31328-ux-lag',
+  './logo-hcq-login-v31317.png?v=31328-ux-lag'
 ];
 
 self.addEventListener('install',event=>{
@@ -22,28 +22,25 @@ self.addEventListener('activate',event=>{
     await Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)));
     await self.clients.claim();
     const clients=await self.clients.matchAll({type:'window',includeUncontrolled:true});
-    for(const client of clients){
-      client.postMessage({type:'APP_UPDATED',version:APP_VERSION,forceIconRefresh:true});
-    }
+    for(const client of clients){ client.postMessage({type:'APP_UPDATED',version:APP_VERSION,forceIconRefresh:true}); }
   })());
 });
 
-self.addEventListener('message',event=>{
-  if(event.data && event.data.type==='SKIP_WAITING') self.skipWaiting();
-});
+self.addEventListener('message',event=>{ if(event.data && event.data.type==='SKIP_WAITING') self.skipWaiting(); });
 
 self.addEventListener('fetch',event=>{
   const req=event.request;
   if(req.method!=='GET') return;
   const url=new URL(req.url);
-  const isAppShell = req.mode==='navigate' || url.pathname.endsWith('/index.html');
-  const isFreshAsset = url.pathname.endsWith('/sw.js') || url.pathname.endsWith('/manifest.webmanifest') || /icon-|apple-touch-icon|favicon/.test(url.pathname);
-  if(isAppShell || isFreshAsset){
-    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{
-      const copy=resp.clone();
-      caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{});
-      return resp;
-    }).catch(()=>caches.match(req).then(r=>r || caches.match('./index.html?v=31326-auditoria-lags'))));
+  const isAppShell=req.mode==='navigate'||url.pathname.endsWith('/index.html');
+  const isFreshAsset=url.pathname.endsWith('/sw.js')||url.pathname.endsWith('/manifest.webmanifest')||/icon-|apple-touch-icon|favicon/.test(url.pathname);
+  const isFlag=url.hostname==='flagcdn.com';
+  if(isAppShell||isFreshAsset){
+    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html?v=31328-ux-lag'))));
+    return;
+  }
+  if(isFlag){
+    event.respondWith(caches.match(req).then(cached=>cached||fetch(req,{mode:'no-cors',cache:'force-cache'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;})).catch(()=>fetch(req)));
     return;
   }
   event.respondWith(fetch(req,{cache:'no-store'}).catch(()=>caches.match(req)));

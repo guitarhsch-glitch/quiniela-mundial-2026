@@ -1,4 +1,4 @@
-// V313.27 - API Football automático aunque nadie tenga la app abierta
+// V313.28 - API Football automático inteligente: cada 1 min con partidos en vivo, cada 2 min sin vivo
 // Requiere variables en Netlify:
 // SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, API_FOOTBALL_KEY opcional
 
@@ -52,13 +52,28 @@ async function getConfig(){
   if(!key) throw new Error('Falta API_FOOTBALL_KEY o configuración api_football en Supabase.');
   return {key,league,season};
 }
-async function getFixtures(cfg){
+async function getCronStatus(){
+  try{
+    const rows=await supabase('settings?key=eq.api_football_cron_status&select=value&limit=1',{headers:{Prefer:''}});
+    return rows?.[0]?.value||null;
+  }catch(e){ return null; }
+}
+async function getFixtures(cfg, forceFull=false){
   const headers={'x-apisports-key':cfg.key}; const all=[];
   async function api(url){const r=await fetch(url,{headers}); if(!r.ok) throw new Error('API Football HTTP '+r.status); const d=await r.json(); if(d.errors&&(Array.isArray(d.errors)?d.errors.length:Object.keys(d.errors).length)) throw new Error('API Football: '+JSON.stringify(d.errors)); return d.response||[];}
-  all.push(...await api(`https://v3.football.api-sports.io/fixtures?live=all&league=${encodeURIComponent(cfg.league)}&season=${encodeURIComponent(cfg.season)}`));
-  const base=new Date();
-  for(const offset of [-1,0,1]){ const d=new Date(base.getTime()+offset*86400000); all.push(...await api(`https://v3.football.api-sports.io/fixtures?league=${encodeURIComponent(cfg.league)}&season=${encodeURIComponent(cfg.season)}&date=${dayKey(d)}`)); }
-  const seen=new Set(); return all.filter(f=>{const id=f.fixture?.id; if(!id||seen.has(id)) return false; seen.add(id); return String(f.league?.id||'')===String(cfg.league);});
+  const live=await api(`https://v3.football.api-sports.io/fixtures?live=all&league=${encodeURIComponent(cfg.league)}&season=${encodeURIComponent(cfg.season)}`);
+  all.push(...live);
+  const hasLive=live.some(f=>String(f.league?.id||'')===String(cfg.league));
+  const last=await getCronStatus();
+  const lastFullAt=last?.fullAt?new Date(last.fullAt).getTime():0;
+  const shouldFull=forceFull || hasLive || !lastFullAt || Date.now()-lastFullAt>110000;
+  if(shouldFull){
+    const base=new Date();
+    for(const offset of [-1,0,1]){ const d=new Date(base.getTime()+offset*86400000); all.push(...await api(`https://v3.football.api-sports.io/fixtures?league=${encodeURIComponent(cfg.league)}&season=${encodeURIComponent(cfg.season)}&date=${dayKey(d)}`)); }
+  }
+  const seen=new Set();
+  const fixtures=all.filter(f=>{const id=f.fixture?.id; if(!id||seen.has(id)) return false; seen.add(id); return String(f.league?.id||'')===String(cfg.league);});
+  return {fixtures,hasLive,mode:hasLive?'live_1min':(shouldFull?'normal_2min':'skip_2min'),fullAt:shouldFull?new Date().toISOString():(last?.fullAt||null)};
 }
 function buildUpdates(fixtures){
   const updates=[], unmatched=[];
@@ -80,15 +95,21 @@ function buildUpdates(fixtures){
   const byId=new Map(); updates.forEach(u=>byId.set(u.match_id,u));
   return {updates:[...byId.values()],unmatched};
 }
-export const config={schedule:'*/2 * * * *'};
+export const config={schedule:'*/1 * * * *'};
 export default async function handler(req, context){
   try{
     const cfg=await getConfig();
-    const fixtures=await getFixtures(cfg);
-    const {updates,unmatched}=buildUpdates(fixtures);
-    if(updates.length) await supabase('results?on_conflict=match_id',{method:'POST',body:JSON.stringify(updates),headers:{Prefer:'resolution=merge-duplicates,return=representation'}});
-    await supabase('settings?on_conflict=key',{method:'POST',body:JSON.stringify({key:'api_football_cron_status',value:{ok:true,at:new Date().toISOString(),fixtures:fixtures.length,updates:updates.length,unmatched:unmatched.slice(0,20)},updated_at:new Date().toISOString()}),headers:{Prefer:'resolution=merge-duplicates,return=minimal'}});
-    return new Response(JSON.stringify({ok:true,fixtures:fixtures.length,updates:updates.length,unmatched:unmatched.slice(0,10)}),{status:200,headers:{'Content-Type':'application/json'}});
+    const forceFull=new URL(req.url).searchParams.get('force')==='1';
+    const pack=await getFixtures(cfg,forceFull);
+    const {fixtures,hasLive,mode,fullAt}=pack;
+    let updates=[], unmatched=[];
+    if(mode!=='skip_2min'){
+      const built=buildUpdates(fixtures); updates=built.updates; unmatched=built.unmatched;
+      if(updates.length) await supabase('results?on_conflict=match_id',{method:'POST',body:JSON.stringify(updates),headers:{Prefer:'resolution=merge-duplicates,return=representation'}});
+    }
+    const status={ok:true,at:new Date().toISOString(),fullAt,hasLive,mode,next:hasLive?'1 minuto':'2 minutos',fixtures:fixtures.length,updates:updates.length,unmatched:unmatched.slice(0,20)};
+    await supabase('settings?on_conflict=key',{method:'POST',body:JSON.stringify({key:'api_football_cron_status',value:status,updated_at:new Date().toISOString()}),headers:{Prefer:'resolution=merge-duplicates,return=minimal'}});
+    return new Response(JSON.stringify(status),{status:200,headers:{'Content-Type':'application/json'}});
   }catch(e){
     try{await supabase('settings?on_conflict=key',{method:'POST',body:JSON.stringify({key:'api_football_cron_status',value:{ok:false,at:new Date().toISOString(),error:e.message},updated_at:new Date().toISOString()}),headers:{Prefer:'resolution=merge-duplicates,return=minimal'}})}catch(_){}
     return new Response(JSON.stringify({ok:false,error:e.message}),{status:500,headers:{'Content-Type':'application/json'}});
