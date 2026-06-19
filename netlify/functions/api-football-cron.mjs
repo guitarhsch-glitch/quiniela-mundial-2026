@@ -1,4 +1,4 @@
-// V313.29 - API Football robusto: aliases ampliados + backfill automático para partidos no detectados
+// V313.31 - API Football automático real: cron replica Actualizar todos + fallback por horario
 // Requiere variables en Netlify:
 // SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, API_FOOTBALL_KEY opcional
 
@@ -58,32 +58,94 @@ async function getCronStatus(){
     return rows?.[0]?.value||null;
   }catch(e){ return null; }
 }
+function localLiveWindow(now=new Date()){
+  // Detecta partidos que ya iniciaron por calendario local aunque API todavía no los marque como live.
+  // Ventana amplia: desde 10 min antes hasta 145 min después del inicio.
+  return matches.filter(m=>{
+    const t=new Date(m.date).getTime();
+    const diff=now.getTime()-t;
+    return diff>=-10*60000 && diff<=145*60000;
+  });
+}
 async function getFixtures(cfg, forceFull=false){
-  const headers={'x-apisports-key':cfg.key}; const all=[];
-  async function api(url){const r=await fetch(url,{headers}); if(!r.ok) throw new Error('API Football HTTP '+r.status); const d=await r.json(); if(d.errors&&(Array.isArray(d.errors)?d.errors.length:Object.keys(d.errors).length)) throw new Error('API Football: '+JSON.stringify(d.errors)); return d.response||[];}
-  const live=await api(`https://v3.football.api-sports.io/fixtures?live=all&league=${encodeURIComponent(cfg.league)}&season=${encodeURIComponent(cfg.season)}`);
-  all.push(...live);
-  const hasLive=live.some(f=>String(f.league?.id||'')===String(cfg.league));
-  const last=await getCronStatus();
-  const lastFullAt=last?.fullAt?new Date(last.fullAt).getTime():0;
-  const lastBackfillAt=last?.backfillAt?new Date(last.backfillAt).getTime():0;
-  const shouldFull=forceFull || hasLive || !lastFullAt || Date.now()-lastFullAt>110000;
-  const shouldBackfill=forceFull || !lastBackfillAt || Date.now()-lastBackfillAt>21600000; // cada 6 horas busca días anteriores por si algún partido no se detectó
-  if(shouldFull){
-    const base=new Date();
-    const offsets=shouldBackfill ? Array.from({length:13},(_,i)=>i-10) : [-1,0,1]; // backfill: últimos 10 días + hoy + próximos 2
-    const usedDates=new Set();
-    for(const offset of offsets){
-      const d=new Date(base.getTime()+offset*86400000);
-      const dk=dayKey(d);
-      if(usedDates.has(dk)) continue;
-      usedDates.add(dk);
-      all.push(...await api(`https://v3.football.api-sports.io/fixtures?league=${encodeURIComponent(cfg.league)}&season=${encodeURIComponent(cfg.season)}&date=${dk}`));
-    }
+  const headers={'x-apisports-key':cfg.key};
+  const all=[];
+  async function api(url,label){
+    const r=await fetch(url,{headers});
+    if(!r.ok) throw new Error(`${label||'API Football'} HTTP ${r.status}`);
+    const d=await r.json();
+    if(d.errors&&(Array.isArray(d.errors)?d.errors.length:Object.keys(d.errors).length)) throw new Error('API Football: '+JSON.stringify(d.errors));
+    return d.response||[];
   }
+
+  const last=await getCronStatus();
+  const now=new Date();
+  const scheduledLive=localLiveWindow(now);
+
+  // 1) SIEMPRE consulta live=all sin filtros de league/season.
+  // Algunas veces API-Sports no devuelve live cuando se filtra por liga/temporada.
+  const liveAll=await api(`https://v3.football.api-sports.io/fixtures?live=all`,'live-all');
+  const liveFiltered=liveAll.filter(f=>String(f.league?.id||'')===String(cfg.league));
+  all.push(...liveFiltered);
+
+  // 2) Si hay partido vivo por horario, replica el botón Admin "Actualizar todos los partidos".
+  // Esto corrige el caso donde entrar al admin sí actualizaba, pero el cron no.
+  const hasApiLive=liveFiltered.some(f=>['1H','2H','ET','P','HT','BT','SUSP','INT','LIVE'].includes(f.fixture?.status?.short));
+  const hasScheduleLive=scheduledLive.length>0;
+  const shouldTournamentPull=forceFull || hasApiLive || hasScheduleLive;
+
+  const lastTournamentAt=last?.tournamentAt?new Date(last.tournamentAt).getTime():0;
+  const lastBackfillAt=last?.backfillAt?new Date(last.backfillAt).getTime():0;
+  const shouldNormalPull=!lastTournamentAt || Date.now()-lastTournamentAt>110000;
+  const shouldBackfill=forceFull || !lastBackfillAt || Date.now()-lastBackfillAt>21600000;
+
+  let tournamentAt=last?.tournamentAt||null;
+  if(shouldTournamentPull || shouldNormalPull){
+    // Mismo endpoint del botón Admin "Actualizar todos los partidos".
+    const tournament=await api(`https://v3.football.api-sports.io/fixtures?league=${encodeURIComponent(cfg.league)}&season=${encodeURIComponent(cfg.season)}`,'tournament-all');
+    all.push(...tournament);
+    tournamentAt=new Date().toISOString();
+  }
+
+  // 3) Fechas de respaldo: ayudan cuando API no entrega bien el torneo completo o cambia zona horaria.
+  let backfillAt=last?.backfillAt||null;
+  const offsetSet=new Set();
+  [-1,0,1].forEach(x=>offsetSet.add(x));
+  if(shouldBackfill) Array.from({length:13},(_,i)=>i-10).forEach(x=>offsetSet.add(x));
+  // también agrega la fecha de cada partido que está en ventana viva por horario.
+  for(const m of scheduledLive){
+    const days=Math.round((new Date(m.date).setHours(12,0,0,0)-now.setHours(12,0,0,0))/86400000);
+    if(Number.isFinite(days)) offsetSet.add(days);
+  }
+  const usedDates=new Set();
+  for(const offset of [...offsetSet].sort((a,b)=>a-b)){
+    const d=new Date(Date.now()+offset*86400000);
+    const dk=dayKey(d);
+    if(usedDates.has(dk)) continue;
+    usedDates.add(dk);
+    const dayFixtures=await api(`https://v3.football.api-sports.io/fixtures?league=${encodeURIComponent(cfg.league)}&season=${encodeURIComponent(cfg.season)}&date=${dk}`,'date-'+dk);
+    all.push(...dayFixtures);
+  }
+  if(shouldBackfill) backfillAt=new Date().toISOString();
+
   const seen=new Set();
-  const fixtures=all.filter(f=>{const id=f.fixture?.id; if(!id||seen.has(id)) return false; seen.add(id); return String(f.league?.id||'')===String(cfg.league);});
-  return {fixtures,hasLive,mode:hasLive?'live_1min':(shouldBackfill?'backfill_6h':(shouldFull?'normal_2min':'skip_2min')),fullAt:shouldFull?new Date().toISOString():(last?.fullAt||null),backfillAt:shouldBackfill?new Date().toISOString():(last?.backfillAt||null)};
+  const fixtures=all.filter(f=>{
+    const id=f.fixture?.id;
+    if(!id||seen.has(id)) return false;
+    seen.add(id);
+    return String(f.league?.id||'')===String(cfg.league);
+  });
+  return {
+    fixtures,
+    hasLive: hasApiLive || hasScheduleLive,
+    hasApiLive,
+    hasScheduleLive,
+    scheduledLive: scheduledLive.map(m=>m.id),
+    mode: hasApiLive?'api_live_1min':(hasScheduleLive?'schedule_live_all_pull':(shouldBackfill?'backfill_6h':'normal_2min')),
+    fullAt: tournamentAt,
+    tournamentAt,
+    backfillAt
+  };
 }
 function buildUpdates(fixtures){
   const updates=[], unmatched=[];
@@ -111,13 +173,13 @@ export default async function handler(req, context){
     const cfg=await getConfig();
     const forceFull=new URL(req.url).searchParams.get('force')==='1';
     const pack=await getFixtures(cfg,forceFull);
-    const {fixtures,hasLive,mode,fullAt,backfillAt}=pack;
+    const {fixtures,hasLive,hasApiLive,hasScheduleLive,scheduledLive,mode,fullAt,tournamentAt,backfillAt}=pack;
     let updates=[], unmatched=[];
     if(mode!=='skip_2min'){
       const built=buildUpdates(fixtures); updates=built.updates; unmatched=built.unmatched;
       if(updates.length) await supabase('results?on_conflict=match_id',{method:'POST',body:JSON.stringify(updates),headers:{Prefer:'resolution=merge-duplicates,return=representation'}});
     }
-    const status={ok:true,at:new Date().toISOString(),fullAt,backfillAt,hasLive,mode,next:hasLive?'1 minuto':'2 minutos',fixtures:fixtures.length,updates:updates.length,unmatched:unmatched.slice(0,20)};
+    const status={ok:true,at:new Date().toISOString(),fullAt,tournamentAt,backfillAt,hasLive,hasApiLive,hasScheduleLive,scheduledLive,mode,next:hasLive?'1 minuto':'2 minutos',fixtures:fixtures.length,updates:updates.length,unmatched:unmatched.slice(0,20)};
     await supabase('settings?on_conflict=key',{method:'POST',body:JSON.stringify({key:'api_football_cron_status',value:status,updated_at:new Date().toISOString()}),headers:{Prefer:'resolution=merge-duplicates,return=minimal'}});
     return new Response(JSON.stringify(status),{status:200,headers:{'Content-Type':'application/json'}});
   }catch(e){
