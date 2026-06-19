@@ -1,4 +1,4 @@
-// V313.32 - Cron live sin filtro estricto de liga + diagnóstico de API
+// V313.33 - Cron live debug real + fallback por fecha/equipos + logs visibles
 // Requiere variables en Netlify:
 // SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, API_FOOTBALL_KEY opcional
 
@@ -67,33 +67,75 @@ function localLiveWindow(now=new Date()){
     return diff>=-10*60000 && diff<=145*60000;
   });
 }
+
+function apiDateKeysForMatch(m){
+  const d=new Date(m.date);
+  const keys=new Set();
+  [-1,0,1].forEach(off=>{
+    const x=new Date(d.getTime()+off*86400000);
+    keys.add(x.toISOString().slice(0,10));
+  });
+  return [...keys];
+}
+function englishName(local){
+  const map={
+    'México':'Mexico','Sudáfrica':'South Africa','Corea del Sur':'South Korea','Chequia':'Czechia',
+    'Canadá':'Canada','Suiza':'Switzerland','Catar':'Qatar','Bosnia y Herzegovina':'Bosnia and Herzegovina',
+    'Brasil':'Brazil','Marruecos':'Morocco','Haití':'Haiti','Escocia':'Scotland',
+    'Estados Unidos':'United States','Paraguay':'Paraguay','Australia':'Australia','Turquía':'Turkey',
+    'Alemania':'Germany','Curazao':'Curacao','Costa de Marfil':'Ivory Coast','Ecuador':'Ecuador',
+    'Países Bajos':'Netherlands','Japón':'Japan','Túnez':'Tunisia','Suecia':'Sweden',
+    'Bélgica':'Belgium','Egipto':'Egypt','Irán':'Iran','Nueva Zelanda':'New Zealand',
+    'España':'Spain','Cabo Verde':'Cape Verde','Arabia Saudita':'Saudi Arabia','Uruguay':'Uruguay',
+    'Francia':'France','Senegal':'Senegal','Noruega':'Norway','Irak':'Iraq',
+    'Argentina':'Argentina','Argelia':'Algeria','Austria':'Austria','Jordania':'Jordan',
+    'Portugal':'Portugal','Uzbekistán':'Uzbekistan','Colombia':'Colombia','Congo RD':'DR Congo',
+    'Inglaterra':'England','Croacia':'Croatia','Ghana':'Ghana','Panamá':'Panama'
+  };
+  return map[local]||local;
+}
 async function getFixtures(cfg, forceFull=false){
   const headers={'x-apisports-key':cfg.key};
   const all=[];
+  const diag=[];
   async function api(url,label){
-    const r=await fetch(url,{headers});
-    if(!r.ok) throw new Error(`${label||'API Football'} HTTP ${r.status}`);
-    const d=await r.json();
-    if(d.errors&&(Array.isArray(d.errors)?d.errors.length:Object.keys(d.errors).length)) throw new Error('API Football: '+JSON.stringify(d.errors));
-    return d.response||[];
+    const started=Date.now();
+    try{
+      const r=await fetch(url,{headers});
+      const txt=await r.text();
+      if(!r.ok){
+        diag.push(`${label}: HTTP ${r.status} ${txt.slice(0,180)}`);
+        console.log(`[HCQ CRON] ${label}: HTTP ${r.status}`, txt.slice(0,300));
+        throw new Error(`${label||'API Football'} HTTP ${r.status}`);
+      }
+      const d=txt?JSON.parse(txt):{};
+      const err=d.errors&&(Array.isArray(d.errors)?d.errors.length:Object.keys(d.errors).length);
+      if(err){
+        diag.push(`${label}: API errors ${JSON.stringify(d.errors).slice(0,180)}`);
+        console.log(`[HCQ CRON] ${label}: API errors`, JSON.stringify(d.errors).slice(0,500));
+        throw new Error('API Football: '+JSON.stringify(d.errors));
+      }
+      const response=d.response||[];
+      diag.push(`${label}: ${response.length} fixtures (${Date.now()-started}ms)`);
+      console.log(`[HCQ CRON] ${label}: ${response.length} fixtures (${Date.now()-started}ms)`);
+      return response;
+    }catch(e){
+      diag.push(`${label}: ERROR ${e.message}`);
+      console.log(`[HCQ CRON] ${label}: ERROR ${e.message}`);
+      return [];
+    }
   }
 
   const last=await getCronStatus();
   const now=new Date();
   const scheduledLive=localLiveWindow(now);
+  console.log(`[HCQ CRON] start force=${forceFull} scheduledLive=${scheduledLive.map(m=>m.id+':'+m.home+'-'+m.away).join('|')||'none'}`);
 
-  // 1) SIEMPRE consulta live=all sin filtros de league/season.
-  // Algunas veces API-Sports no devuelve live cuando se filtra por liga/temporada.
+  // 1) Siempre live=all sin filtros.
   const liveAll=await api(`https://v3.football.api-sports.io/fixtures?live=all`,'live-all');
-  // IMPORTANTE V313.32: no filtrar live=all por liga.
-  // API-Sports a veces reporta el vivo en otro ID/nombre de competición aunque los equipos sí coinciden.
-  // Guardamos candidatos vivos y luego emparejamos por equipos contra nuestro calendario local.
-  const liveFiltered=liveAll;
-  all.push(...liveFiltered);
+  all.push(...liveAll);
 
-  // 2) Si hay partido vivo por horario, replica el botón Admin "Actualizar todos los partidos".
-  // Esto corrige el caso donde entrar al admin sí actualizaba, pero el cron no.
-  const hasApiLive=liveFiltered.some(f=>['1H','2H','ET','P','HT','BT','SUSP','INT','LIVE'].includes(f.fixture?.status?.short));
+  const hasApiLive=liveAll.some(f=>['1H','2H','ET','P','HT','BT','SUSP','INT','LIVE'].includes(f.fixture?.status?.short));
   const hasScheduleLive=scheduledLive.length>0;
   const shouldTournamentPull=forceFull || hasApiLive || hasScheduleLive;
 
@@ -104,32 +146,40 @@ async function getFixtures(cfg, forceFull=false){
 
   let tournamentAt=last?.tournamentAt||null;
   if(shouldTournamentPull || shouldNormalPull){
-    // Mismo endpoint del botón Admin "Actualizar todos los partidos".
     const tournament=await api(`https://v3.football.api-sports.io/fixtures?league=${encodeURIComponent(cfg.league)}&season=${encodeURIComponent(cfg.season)}`,'tournament-all');
     all.push(...tournament);
     tournamentAt=new Date().toISOString();
   }
 
-  // 3) Fechas de respaldo: ayudan cuando API no entrega bien el torneo completo o cambia zona horaria.
-  let backfillAt=last?.backfillAt||null;
-  const offsetSet=new Set();
-  [-1,0,1].forEach(x=>offsetSet.add(x));
-  if(shouldBackfill) Array.from({length:13},(_,i)=>i-10).forEach(x=>offsetSet.add(x));
-  // también agrega la fecha de cada partido que está en ventana viva por horario.
+  // 2) Fallback fuerte para partidos que están vivos por horario:
+  // consultar la fecha sin filtro de liga. Corrige ligas/temporadas mal etiquetadas.
+  const dateKeys=new Set();
+  [-1,0,1].forEach(off=>{
+    const x=new Date(Date.now()+off*86400000);
+    dateKeys.add(x.toISOString().slice(0,10));
+  });
   for(const m of scheduledLive){
-    const days=Math.round((new Date(m.date).setHours(12,0,0,0)-now.setHours(12,0,0,0))/86400000);
-    if(Number.isFinite(days)) offsetSet.add(days);
+    apiDateKeysForMatch(m).forEach(k=>dateKeys.add(k));
   }
-  const usedDates=new Set();
-  for(const offset of [...offsetSet].sort((a,b)=>a-b)){
-    const d=new Date(Date.now()+offset*86400000);
-    const dk=dayKey(d);
-    if(usedDates.has(dk)) continue;
-    usedDates.add(dk);
-    const dayFixtures=await api(`https://v3.football.api-sports.io/fixtures?league=${encodeURIComponent(cfg.league)}&season=${encodeURIComponent(cfg.season)}&date=${dk}`,'date-'+dk);
-    all.push(...dayFixtures);
+  if(hasScheduleLive || forceFull){
+    for(const dk of [...dateKeys].sort()){
+      const dayAny=await api(`https://v3.football.api-sports.io/fixtures?date=${dk}`,'date-any-'+dk);
+      all.push(...dayAny);
+    }
   }
-  if(shouldBackfill) backfillAt=new Date().toISOString();
+
+  // 3) Backfill por liga de fechas recientes para resultados terminados que no entraron.
+  let backfillAt=last?.backfillAt||null;
+  if(shouldBackfill){
+    const usedDates=new Set();
+    for(let offset=-10; offset<=1; offset++){
+      const d=new Date(Date.now()+offset*86400000).toISOString().slice(0,10);
+      if(usedDates.has(d)) continue; usedDates.add(d);
+      const dayFixtures=await api(`https://v3.football.api-sports.io/fixtures?league=${encodeURIComponent(cfg.league)}&season=${encodeURIComponent(cfg.season)}&date=${d}`,'date-league-'+d);
+      all.push(...dayFixtures);
+    }
+    backfillAt=new Date().toISOString();
+  }
 
   const seen=new Set();
   const fixtures=all.filter(f=>{
@@ -138,18 +188,26 @@ async function getFixtures(cfg, forceFull=false){
     seen.add(id);
     return true;
   });
+  const sample=fixtures.slice(0,25).map(f=>`${f.teams?.home?.name||'?'} ${f.goals?.home??'-'}-${f.goals?.away??'-'} ${f.teams?.away?.name||'?'} [${f.fixture?.status?.short||'?'} ${f.fixture?.status?.elapsed??''} · league ${f.league?.id||'?'} ${f.league?.name||''}]`);
+  console.log(`[HCQ CRON] collected=${fixtures.length} hasApiLive=${hasApiLive} hasScheduleLive=${hasScheduleLive}`);
+  console.log(`[HCQ CRON] sample=${sample.join(' || ')}`);
   return {
     fixtures,
     hasLive: hasApiLive || hasScheduleLive,
     hasApiLive,
     hasScheduleLive,
     scheduledLive: scheduledLive.map(m=>m.id),
-    mode: hasApiLive?'api_live_1min':(hasScheduleLive?'schedule_live_all_pull':(shouldBackfill?'backfill_6h':'normal_2min')),
+    scheduledLiveNames: scheduledLive.map(m=>`${m.home} vs ${m.away}`),
+    mode: hasApiLive?'api_live_1min':(hasScheduleLive?'schedule_live_deep_pull':(shouldBackfill?'backfill_6h':'normal_2min')),
     fullAt: tournamentAt,
     tournamentAt,
-    backfillAt
+    backfillAt,
+    diag,
+    liveAllCount: liveAll.length,
+    sample
   };
 }
+
 function buildUpdates(fixtures){
   const updates=[], unmatched=[];
   for(const fx of fixtures){
@@ -179,16 +237,17 @@ export default async function handler(req, context){
     const cfg=await getConfig();
     const forceFull=new URL(req.url).searchParams.get('force')==='1';
     const pack=await getFixtures(cfg,forceFull);
-    const {fixtures,hasLive,hasApiLive,hasScheduleLive,scheduledLive,mode,fullAt,tournamentAt,backfillAt}=pack;
+    const {fixtures,hasLive,hasApiLive,hasScheduleLive,scheduledLive,scheduledLiveNames,mode,fullAt,tournamentAt,backfillAt,diag,liveAllCount,sample}=pack;
     let updates=[], unmatched=[];
     if(mode!=='skip_2min'){
-      const built=buildUpdates(fixtures); updates=built.updates; unmatched=built.unmatched;
+      const built=buildUpdates(fixtures); updates=built.updates; unmatched=built.unmatched; console.log(`[HCQ CRON] buildUpdates updates=${updates.length} unmatched=${unmatched.length}`); console.log('[HCQ CRON] updates '+JSON.stringify(updates).slice(0,2000)); console.log('[HCQ CRON] unmatched '+unmatched.slice(0,20).join(' || '));
       if(updates.length) await supabase('results?on_conflict=match_id',{method:'POST',body:JSON.stringify(updates),headers:{Prefer:'resolution=merge-duplicates,return=representation'}});
     }
-    const status={ok:true,at:new Date().toISOString(),fullAt,tournamentAt,backfillAt,hasLive,hasApiLive,hasScheduleLive,scheduledLive,mode,next:hasLive?'1 minuto':'2 minutos',fixtures:fixtures.length,liveAll:liveAll?.length||0,updates:updates.length,unmatched:unmatched.slice(0,30)};
+    const status={ok:true,version:'V313.33',at:new Date().toISOString(),fullAt,tournamentAt,backfillAt,hasLive,hasApiLive,hasScheduleLive,scheduledLive,scheduledLiveNames,mode,next:hasLive?'1 minuto':'2 minutos',fixtures:fixtures.length,liveAll:liveAllCount||0,updates:updates.length,unmatched:unmatched.slice(0,40),diag:(diag||[]).slice(-60),sample:(sample||[]).slice(0,25)}; console.log('[HCQ CRON] STATUS '+JSON.stringify(status).slice(0,3500));
     await supabase('settings?on_conflict=key',{method:'POST',body:JSON.stringify({key:'api_football_cron_status',value:status,updated_at:new Date().toISOString()}),headers:{Prefer:'resolution=merge-duplicates,return=minimal'}});
     return new Response(JSON.stringify(status),{status:200,headers:{'Content-Type':'application/json'}});
   }catch(e){
+    console.log('[HCQ CRON] FATAL '+(e&&e.stack?e.stack:e.message));
     try{await supabase('settings?on_conflict=key',{method:'POST',body:JSON.stringify({key:'api_football_cron_status',value:{ok:false,at:new Date().toISOString(),error:e.message},updated_at:new Date().toISOString()}),headers:{Prefer:'resolution=merge-duplicates,return=minimal'}})}catch(_){}
     return new Response(JSON.stringify({ok:false,error:e.message}),{status:500,headers:{'Content-Type':'application/json'}});
   }
