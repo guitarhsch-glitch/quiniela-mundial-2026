@@ -1,13 +1,13 @@
-const APP_VERSION='313.28';
+const APP_VERSION='313.30';
 const CACHE='hcq-v313-28-ux-lag';
 const ASSETS=[
   './?v=31328-ux-lag',
   './index.html?v=31328-ux-lag',
   './manifest.webmanifest?v=31328-ux-lag',
-  './icon-192-v31328-ux-lag.png?v=31328-ux-lag',
-  './icon-512-v31328-ux-lag.png?v=31328-ux-lag',
-  './apple-touch-icon-v31328-ux-lag.png?v=31328-ux-lag',
-  './favicon-v31328-ux-lag.ico?v=31328-ux-lag',
+  './icon-192-v31330-alias-backfill.png?v=31328-ux-lag',
+  './icon-512-v31330-alias-backfill.png?v=31328-ux-lag',
+  './apple-touch-icon-v31330-alias-backfill.png?v=31328-ux-lag',
+  './favicon-v31330-alias-backfill.ico?v=31328-ux-lag',
   './logo-hcq-login-v31317.png?v=31328-ux-lag'
 ];
 

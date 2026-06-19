@@ -1,7 +1,7 @@
 {
   "name": "HCQ - Hattrick Club Quinielas",
   "short_name": "HCQ",
-  "description": "App premium de quinielas multigrupo HCQ V313.28 con menú burbuja, optimización de banderas, contraste de campeón y cron inteligente.",
+  "description": "App premium de quinielas multigrupo HCQ V313.30 con menú burbuja, optimización de banderas, contraste de campeón y cron inteligente.",
   "id": "./?app=hcq&v=31328-ux-lag",
   "start_url": "./?v=31328-ux-lag",
   "scope": "./",
@@ -10,9 +10,9 @@
   "background_color": "#050d1f",
   "theme_color": "#071a3f",
   "icons": [
-    {"src":"icon-192-v31328-ux-lag.png?v=31328-ux-lag","sizes":"192x192","type":"image/png","purpose":"any"},
-    {"src":"icon-192-v31328-ux-lag.png?v=31328-ux-lag","sizes":"192x192","type":"image/png","purpose":"maskable"},
-    {"src":"icon-512-v31328-ux-lag.png?v=31328-ux-lag","sizes":"512x512","type":"image/png","purpose":"any"},
-    {"src":"icon-512-v31328-ux-lag.png?v=31328-ux-lag","sizes":"512x512","type":"image/png","purpose":"maskable"}
+    {"src":"icon-192-v31330-alias-backfill.png?v=31328-ux-lag","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"icon-192-v31330-alias-backfill.png?v=31328-ux-lag","sizes":"192x192","type":"image/png","purpose":"maskable"},
+    {"src":"icon-512-v31330-alias-backfill.png?v=31328-ux-lag","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"icon-512-v31330-alias-backfill.png?v=31328-ux-lag","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ]
 }
