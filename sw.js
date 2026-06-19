@@ -1,14 +1,14 @@
-const APP_VERSION='313.25';
-const CACHE='hcq-v313-25-live-contraste';
+const APP_VERSION='313.26';
+const CACHE='hcq-v313-26-auditoria-lags';
 const ASSETS=[
-  './?v=31325-live-contraste',
-  './index.html?v=31325-live-contraste',
-  './manifest.webmanifest?v=31325-live-contraste',
-  './icon-192-v31325-live-contraste.png?v=31325-live-contraste',
-  './icon-512-v31325-live-contraste.png?v=31325-live-contraste',
-  './apple-touch-icon-v31325-live-contraste.png?v=31325-live-contraste',
-  './favicon-v31325-live-contraste.ico?v=31325-live-contraste',
-  './logo-hcq-login-v31317.png?v=31325-live-contraste'
+  './?v=31326-auditoria-lags',
+  './index.html?v=31326-auditoria-lags',
+  './manifest.webmanifest?v=31326-auditoria-lags',
+  './icon-192-v31326-auditoria-lags.png?v=31326-auditoria-lags',
+  './icon-512-v31326-auditoria-lags.png?v=31326-auditoria-lags',
+  './apple-touch-icon-v31326-auditoria-lags.png?v=31326-auditoria-lags',
+  './favicon-v31326-auditoria-lags.ico?v=31326-auditoria-lags',
+  './logo-hcq-login-v31317.png?v=31326-auditoria-lags'
 ];
 
 self.addEventListener('install',event=>{
@@ -43,7 +43,7 @@ self.addEventListener('fetch',event=>{
       const copy=resp.clone();
       caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{});
       return resp;
-    }).catch(()=>caches.match(req).then(r=>r || caches.match('./index.html?v=31325-live-contraste'))));
+    }).catch(()=>caches.match(req).then(r=>r || caches.match('./index.html?v=31326-auditoria-lags'))));
     return;
   }
   event.respondWith(fetch(req,{cache:'no-store'}).catch(()=>caches.match(req)));
