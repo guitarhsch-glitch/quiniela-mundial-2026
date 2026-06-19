@@ -7,7 +7,7 @@ Qué cambia:
 4. La app ya no hace consulta automática al API desde el celular/admin cada 3 minutos; queda solo el botón manual del Admin.
 
 Variables necesarias en Netlify:
-- SUPABASE_URL = URL base de Supabase
+- SUPABASE_URL = https://<tu-proyecto>.supabase.co
 - SUPABASE_SERVICE_ROLE_KEY = clave service_role de Supabase (Project Settings > API)
 - API_FOOTBALL_KEY = tu key de API Football (opcional si ya está guardada en Admin, pero recomendado)
 - API_FOOTBALL_LEAGUE = 1

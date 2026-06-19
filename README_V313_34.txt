@@ -8,10 +8,10 @@ Cambios:
 
 IMPORTANTE:
 En Netlify, SUPABASE_URL idealmente debe ser solo:
-URL base de Supabase
+https://TU-PROYECTO.supabase.co
 
 NO debe ser:
-URL base de Supabase + /rest/v1
+https://TU-PROYECTO.supabase.co/rest/v1
 ni terminar solo en /v1
 
 Para reactivar el sitio pausado:
