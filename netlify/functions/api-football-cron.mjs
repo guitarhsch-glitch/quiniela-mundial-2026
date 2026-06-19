@@ -1,4 +1,4 @@
-// V313.34 - Recuperacion Netlify + Supabase URL fix + fallback por fecha/equipos + logs visibles
+// V313.35 - Recuperacion Netlify + Supabase URL fix + fallback por fecha/equipos + logs visibles
 // Requiere variables en Netlify:
 // SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, API_FOOTBALL_KEY opcional
 
@@ -34,7 +34,7 @@ function matchForFixture(fx, strictDate=false){
   return null;
 }
 async function supabase(path, opts={}){
-  // V313.34: acepta SUPABASE_URL con o sin /rest/v1 o /v1 para evitar 404.
+  // V313.35: acepta SUPABASE_URL con o sin /rest/v1 o /v1 para evitar 404.
   // Valor ideal en Netlify: https://TU-PROYECTO.supabase.co
   let url=(process.env.SUPABASE_URL||'https://kwezracgftuzctzwejlt.supabase.co').trim();
   url=url.replace(/\/$/,'').replace(/\/rest\/v1$/,'').replace(/\/v1$/,'');
@@ -211,6 +211,21 @@ async function getFixtures(cfg, forceFull=false){
   };
 }
 
+function relevantUnmatchedLines(lines){
+  const terms=['Mexico','México','South Africa','Sudáfrica','Korea','Corea','Czech','Chequia','Canada','Canadá','Switzerland','Suiza','Qatar','Catar','Bosnia','Brazil','Brasil','Morocco','Marruecos','Haiti','Haití','Scotland','Escocia','United States','USA','Estados Unidos','Australia','Paraguay','Turkey','Turquía','Germany','Alemania','Curacao','Curazao','Ivory Coast','Costa de Marfil','Ecuador','Netherlands','Países Bajos','Japan','Japón','Tunisia','Túnez','Sweden','Suecia','Belgium','Bélgica','Egypt','Egipto','Iran','Irán','New Zealand','Nueva Zelanda','Spain','España','Cape Verde','Cabo Verde','Saudi','Arabia','Uruguay','France','Francia','Senegal','Norway','Noruega','Iraq','Irak','Argentina','Algeria','Argelia','Austria','Jordan','Jordania','Portugal','Uzbekistan','Uzbekistán','Colombia','Congo','England','Inglaterra','Croatia','Croacia','Ghana','Panama','Panamá'];
+  const relevant=[];
+  for(const line of lines){
+    if(terms.some(t=>line.toLowerCase().includes(t.toLowerCase()))) relevant.push(line);
+    if(relevant.length>=50) break;
+  }
+  return relevant;
+}
+function liveDetailsFromUpdates(updates){
+  const obj={};
+  for(const u of updates){ obj[u.match_id]={home_score:u.home_score,away_score:u.away_score,status:u.status,qualifier:u.qualifier||null,at:u.updated_at}; }
+  return obj;
+}
+
 function buildUpdates(fixtures){
   const updates=[], unmatched=[];
   for(const fx of fixtures){
@@ -244,9 +259,13 @@ export default async function handler(req, context){
     let updates=[], unmatched=[];
     if(mode!=='skip_2min'){
       const built=buildUpdates(fixtures); updates=built.updates; unmatched=built.unmatched; console.log(`[HCQ CRON] buildUpdates updates=${updates.length} unmatched=${unmatched.length}`); console.log('[HCQ CRON] updates '+JSON.stringify(updates).slice(0,2000)); console.log('[HCQ CRON] unmatched_sample '+unmatched.slice(0,5).join(' || '));
-      if(updates.length) await supabase('results?on_conflict=match_id',{method:'POST',body:JSON.stringify(updates),headers:{Prefer:'resolution=merge-duplicates,return=representation'}});
+      if(updates.length){
+        await supabase('results?on_conflict=match_id',{method:'POST',body:JSON.stringify(updates),headers:{Prefer:'resolution=merge-duplicates,return=representation'}});
+        await supabase('settings?on_conflict=key',{method:'POST',body:JSON.stringify({key:'api_live_details',value:liveDetailsFromUpdates(updates),updated_at:new Date().toISOString()}),headers:{Prefer:'resolution=merge-duplicates,return=minimal'}});
+      }
     }
-    const status={ok:true,version:'V313.34',at:new Date().toISOString(),fullAt,tournamentAt,backfillAt,hasLive,hasApiLive,hasScheduleLive,scheduledLive,scheduledLiveNames,mode,next:hasLive?'1 minuto':'2 minutos',fixtures:fixtures.length,liveAll:liveAllCount||0,updates:updates.length,unmatched:unmatched.slice(0,40),diag:(diag||[]).slice(-60),sample:(sample||[]).slice(0,25)}; console.log('[HCQ CRON] STATUS '+JSON.stringify(status).slice(0,3500));
+    const relevantUnmatched=relevantUnmatchedLines(unmatched);
+    const status={ok:true,version:'V313.35',at:new Date().toISOString(),fullAt,tournamentAt,backfillAt,hasLive,hasApiLive,hasScheduleLive,scheduledLive,scheduledLiveNames,mode,next:'5 minutos (modo seguro Netlify)',fixtures:fixtures.length,liveAll:liveAllCount||0,updates:updates.length,unmatched:relevantUnmatched.slice(0,40),unmatched_total:unmatched.length,unmatched_relevant:relevantUnmatched.length,diag:(diag||[]).slice(-60),sample:(sample||[]).slice(0,25)}; console.log('[HCQ CRON] STATUS '+JSON.stringify(status).slice(0,3500));
     await supabase('settings?on_conflict=key',{method:'POST',body:JSON.stringify({key:'api_football_cron_status',value:status,updated_at:new Date().toISOString()}),headers:{Prefer:'resolution=merge-duplicates,return=minimal'}});
     return new Response(JSON.stringify(status),{status:200,headers:{'Content-Type':'application/json'}});
   }catch(e){
