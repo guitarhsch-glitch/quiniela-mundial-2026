@@ -1,14 +1,14 @@
 const APP_VERSION='313.35B';
 const CACHE='hcq-v313-35-live-health';
 const ASSETS=[
-  './?v=31335-live-health',
-  './index.html?v=31335-live-health',
-  './manifest.webmanifest?v=31335-live-health',
-  './icon-192-v31335-live-health.png?v=31335-live-health',
-  './icon-512-v31335-live-health.png?v=31335-live-health',
-  './apple-touch-icon-v31335-live-health.png?v=31335-live-health',
-  './favicon-v31335-live-health.ico?v=31335-live-health',
-  './logo-hcq-login-v31317.png?v=31335-live-health'
+  './?v=31335c-live-health',
+  './index.html?v=31335c-live-health',
+  './manifest.webmanifest?v=31335c-live-health',
+  './icon-192-v31335cc-live-health.png?v=31335c-live-health',
+  './icon-512-v31335cc-live-health.png?v=31335c-live-health',
+  './apple-touch-icon-v31335cc-live-health.png?v=31335c-live-health',
+  './favicon-v31335cc-live-health.ico?v=31335c-live-health',
+  './logo-hcq-login-v31317.png?v=31335c-live-health'
 ];
 
 self.addEventListener('install',event=>{
@@ -36,7 +36,7 @@ self.addEventListener('fetch',event=>{
   const isFreshAsset=url.pathname.endsWith('/sw.js')||url.pathname.endsWith('/manifest.webmanifest')||/icon-|apple-touch-icon|favicon/.test(url.pathname);
   const isFlag=url.hostname==='flagcdn.com';
   if(isAppShell||isFreshAsset){
-    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html?v=31335-live-health'))));
+    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html?v=31335c-live-health'))));
     return;
   }
   if(isFlag){

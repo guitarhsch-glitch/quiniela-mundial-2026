@@ -11,25 +11,25 @@
   "theme_color": "#071a3f",
   "icons": [
     {
-      "src": "icon-192-v31335-live-health.png?v=31335-live-health",
+      "src": "icon-192-v31335c-live-health.png?v=31335-live-health",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icon-192-v31335-live-health.png?v=31335-live-health",
+      "src": "icon-192-v31335c-live-health.png?v=31335-live-health",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "icon-512-v31335-live-health.png?v=31335-live-health",
+      "src": "icon-512-v31335c-live-health.png?v=31335-live-health",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icon-512-v31335-live-health.png?v=31335-live-health",
+      "src": "icon-512-v31335c-live-health.png?v=31335-live-health",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
