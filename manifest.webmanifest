@@ -10,9 +10,9 @@
   "background_color": "#050d1f",
   "theme_color": "#071a3f",
   "icons": [
-    {"src":"icon-192-v31330-alias-backfill.png?v=31328-ux-lag","sizes":"192x192","type":"image/png","purpose":"any"},
-    {"src":"icon-192-v31330-alias-backfill.png?v=31328-ux-lag","sizes":"192x192","type":"image/png","purpose":"maskable"},
-    {"src":"icon-512-v31330-alias-backfill.png?v=31328-ux-lag","sizes":"512x512","type":"image/png","purpose":"any"},
-    {"src":"icon-512-v31330-alias-backfill.png?v=31328-ux-lag","sizes":"512x512","type":"image/png","purpose":"maskable"}
+    {"src":"icon-192-v31332-cron-live.png?v=31328-ux-lag","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"icon-192-v31332-cron-live.png?v=31328-ux-lag","sizes":"192x192","type":"image/png","purpose":"maskable"},
+    {"src":"icon-512-v31332-cron-live.png?v=31328-ux-lag","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"icon-512-v31332-cron-live.png?v=31328-ux-lag","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ]
 }

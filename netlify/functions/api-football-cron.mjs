@@ -1,4 +1,4 @@
-// V313.31 - API Football automático real: cron replica Actualizar todos + fallback por horario
+// V313.32 - Cron live sin filtro estricto de liga + diagnóstico de API
 // Requiere variables en Netlify:
 // SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, API_FOOTBALL_KEY opcional
 
@@ -85,7 +85,10 @@ async function getFixtures(cfg, forceFull=false){
   // 1) SIEMPRE consulta live=all sin filtros de league/season.
   // Algunas veces API-Sports no devuelve live cuando se filtra por liga/temporada.
   const liveAll=await api(`https://v3.football.api-sports.io/fixtures?live=all`,'live-all');
-  const liveFiltered=liveAll.filter(f=>String(f.league?.id||'')===String(cfg.league));
+  // IMPORTANTE V313.32: no filtrar live=all por liga.
+  // API-Sports a veces reporta el vivo en otro ID/nombre de competición aunque los equipos sí coinciden.
+  // Guardamos candidatos vivos y luego emparejamos por equipos contra nuestro calendario local.
+  const liveFiltered=liveAll;
   all.push(...liveFiltered);
 
   // 2) Si hay partido vivo por horario, replica el botón Admin "Actualizar todos los partidos".
@@ -133,7 +136,7 @@ async function getFixtures(cfg, forceFull=false){
     const id=f.fixture?.id;
     if(!id||seen.has(id)) return false;
     seen.add(id);
-    return String(f.league?.id||'')===String(cfg.league);
+    return true;
   });
   return {
     fixtures,
@@ -151,8 +154,11 @@ function buildUpdates(fixtures){
   const updates=[], unmatched=[];
   for(const fx of fixtures){
     const map=matchForFixture(fx,false);
-    if(!map){unmatched.push(`${fx.teams?.home?.name||'?'} vs ${fx.teams?.away?.name||'?'}`); continue;}
-    let gh=fx.goals?.home, ga=fx.goals?.away; if(gh==null||ga==null) continue;
+    if(!map){unmatched.push(`${fx.teams?.home?.name||'?'} vs ${fx.teams?.away?.name||'?'} [league ${fx.league?.id||'?'} ${fx.league?.name||''} · ${fx.fixture?.status?.short||''} · ${fx.goals?.home ?? '-'}-${fx.goals?.away ?? '-'}]`); continue;}
+    let gh=fx.goals?.home, ga=fx.goals?.away;
+    if((gh==null||ga==null) && fx.score?.fulltime?.home!=null && fx.score?.fulltime?.away!=null){ gh=fx.score.fulltime.home; ga=fx.score.fulltime.away; }
+    if((gh==null||ga==null) && fx.score?.halftime?.home!=null && fx.score?.halftime?.away!=null){ gh=fx.score.halftime.home; ga=fx.score.halftime.away; }
+    if(gh==null||ga==null) continue;
     if(map.reversed) [gh,ga]=[ga,gh];
     const sh=fx.fixture?.status?.short; const elapsed=fx.fixture?.status?.elapsed;
     let status=apiStatusLabel(sh); if(['1H','2H','ET','P'].includes(sh)&&elapsed) status+=` ${elapsed}'`;
@@ -179,7 +185,7 @@ export default async function handler(req, context){
       const built=buildUpdates(fixtures); updates=built.updates; unmatched=built.unmatched;
       if(updates.length) await supabase('results?on_conflict=match_id',{method:'POST',body:JSON.stringify(updates),headers:{Prefer:'resolution=merge-duplicates,return=representation'}});
     }
-    const status={ok:true,at:new Date().toISOString(),fullAt,tournamentAt,backfillAt,hasLive,hasApiLive,hasScheduleLive,scheduledLive,mode,next:hasLive?'1 minuto':'2 minutos',fixtures:fixtures.length,updates:updates.length,unmatched:unmatched.slice(0,20)};
+    const status={ok:true,at:new Date().toISOString(),fullAt,tournamentAt,backfillAt,hasLive,hasApiLive,hasScheduleLive,scheduledLive,mode,next:hasLive?'1 minuto':'2 minutos',fixtures:fixtures.length,liveAll:liveAll?.length||0,updates:updates.length,unmatched:unmatched.slice(0,30)};
     await supabase('settings?on_conflict=key',{method:'POST',body:JSON.stringify({key:'api_football_cron_status',value:status,updated_at:new Date().toISOString()}),headers:{Prefer:'resolution=merge-duplicates,return=minimal'}});
     return new Response(JSON.stringify(status),{status:200,headers:{'Content-Type':'application/json'}});
   }catch(e){
