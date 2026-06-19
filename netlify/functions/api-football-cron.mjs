@@ -1,4 +1,4 @@
-// V313.33 - Cron live debug real + fallback por fecha/equipos + logs visibles
+// V313.34 - Recuperacion Netlify + Supabase URL fix + fallback por fecha/equipos + logs visibles
 // Requiere variables en Netlify:
 // SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, API_FOOTBALL_KEY opcional
 
@@ -34,13 +34,16 @@ function matchForFixture(fx, strictDate=false){
   return null;
 }
 async function supabase(path, opts={}){
-  const url=(process.env.SUPABASE_URL||'https://kwezracgftuzctzwejlt.supabase.co').replace(/\/$/,'');
+  // V313.34: acepta SUPABASE_URL con o sin /rest/v1 o /v1 para evitar 404.
+  // Valor ideal en Netlify: https://TU-PROYECTO.supabase.co
+  let url=(process.env.SUPABASE_URL||'https://kwezracgftuzctzwejlt.supabase.co').trim();
+  url=url.replace(/\/$/,'').replace(/\/rest\/v1$/,'').replace(/\/v1$/,'');
   const key=process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
   if(!key) throw new Error('Falta SUPABASE_SERVICE_ROLE_KEY en Netlify.');
   const res=await fetch(`${url}/rest/v1/${path}`,{...opts,headers:{apikey:key,Authorization:`Bearer ${key}`,'Content-Type':'application/json',Prefer:'return=representation',...(opts.headers||{})}});
-  const text=await res.text();
-  if(!res.ok) throw new Error(`Supabase ${res.status}: ${text}`);
-  try{return text?JSON.parse(text):null}catch{return text}
+  const bodyText=await res.text();
+  if(!res.ok) throw new Error(`Supabase ${res.status}: ${bodyText}`);
+  try{return bodyText?JSON.parse(bodyText):null}catch{return bodyText}
 }
 async function getConfig(){
   let key=process.env.API_FOOTBALL_KEY||''; let league=process.env.API_FOOTBALL_LEAGUE||'1'; let season=process.env.API_FOOTBALL_SEASON||'2026';
@@ -231,7 +234,7 @@ function buildUpdates(fixtures){
   const byId=new Map(); updates.forEach(u=>byId.set(u.match_id,u));
   return {updates:[...byId.values()],unmatched};
 }
-export const config={schedule:'*/1 * * * *'};
+export const config={schedule:'*/5 * * * *'};
 export default async function handler(req, context){
   try{
     const cfg=await getConfig();
@@ -240,10 +243,10 @@ export default async function handler(req, context){
     const {fixtures,hasLive,hasApiLive,hasScheduleLive,scheduledLive,scheduledLiveNames,mode,fullAt,tournamentAt,backfillAt,diag,liveAllCount,sample}=pack;
     let updates=[], unmatched=[];
     if(mode!=='skip_2min'){
-      const built=buildUpdates(fixtures); updates=built.updates; unmatched=built.unmatched; console.log(`[HCQ CRON] buildUpdates updates=${updates.length} unmatched=${unmatched.length}`); console.log('[HCQ CRON] updates '+JSON.stringify(updates).slice(0,2000)); console.log('[HCQ CRON] unmatched '+unmatched.slice(0,20).join(' || '));
+      const built=buildUpdates(fixtures); updates=built.updates; unmatched=built.unmatched; console.log(`[HCQ CRON] buildUpdates updates=${updates.length} unmatched=${unmatched.length}`); console.log('[HCQ CRON] updates '+JSON.stringify(updates).slice(0,2000)); console.log('[HCQ CRON] unmatched_sample '+unmatched.slice(0,5).join(' || '));
       if(updates.length) await supabase('results?on_conflict=match_id',{method:'POST',body:JSON.stringify(updates),headers:{Prefer:'resolution=merge-duplicates,return=representation'}});
     }
-    const status={ok:true,version:'V313.33',at:new Date().toISOString(),fullAt,tournamentAt,backfillAt,hasLive,hasApiLive,hasScheduleLive,scheduledLive,scheduledLiveNames,mode,next:hasLive?'1 minuto':'2 minutos',fixtures:fixtures.length,liveAll:liveAllCount||0,updates:updates.length,unmatched:unmatched.slice(0,40),diag:(diag||[]).slice(-60),sample:(sample||[]).slice(0,25)}; console.log('[HCQ CRON] STATUS '+JSON.stringify(status).slice(0,3500));
+    const status={ok:true,version:'V313.34',at:new Date().toISOString(),fullAt,tournamentAt,backfillAt,hasLive,hasApiLive,hasScheduleLive,scheduledLive,scheduledLiveNames,mode,next:hasLive?'1 minuto':'2 minutos',fixtures:fixtures.length,liveAll:liveAllCount||0,updates:updates.length,unmatched:unmatched.slice(0,40),diag:(diag||[]).slice(-60),sample:(sample||[]).slice(0,25)}; console.log('[HCQ CRON] STATUS '+JSON.stringify(status).slice(0,3500));
     await supabase('settings?on_conflict=key',{method:'POST',body:JSON.stringify({key:'api_football_cron_status',value:status,updated_at:new Date().toISOString()}),headers:{Prefer:'resolution=merge-duplicates,return=minimal'}});
     return new Response(JSON.stringify(status),{status:200,headers:{'Content-Type':'application/json'}});
   }catch(e){
