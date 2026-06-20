@@ -1,14 +1,14 @@
-const APP_VERSION='314.3';
-const CACHE='hcq-v314-3-retame';
+const APP_VERSION='314.4';
+const CACHE='hcq-v314-4-chat-premium';
 const ASSETS=[
-  './?v=3143-retame',
-  './index.html?v=3143-retame',
-  './manifest.webmanifest?v=3143-retame',
-  './icon-192-v31333-debug-api.png?v=3143-retame',
-  './icon-512-v31333-debug-api.png?v=3143-retame',
-  './apple-touch-icon-v31333-debug-api.png?v=3143-retame',
-  './favicon-v31333-debug-api.ico?v=3143-retame',
-  './logo-hcq-login-v31317.png?v=3143-retame'
+  './?v=3144-chat-premium',
+  './index.html?v=3144-chat-premium',
+  './manifest.webmanifest?v=3144-chat-premium',
+  './icon-192-v31333-debug-api.png?v=3144-chat-premium',
+  './icon-512-v31333-debug-api.png?v=3144-chat-premium',
+  './apple-touch-icon-v31333-debug-api.png?v=3144-chat-premium',
+  './favicon-v31333-debug-api.ico?v=3144-chat-premium',
+  './logo-hcq-login-v31317.png?v=3144-chat-premium'
 ];
 
 self.addEventListener('install',event=>{
@@ -36,7 +36,7 @@ self.addEventListener('fetch',event=>{
   const isFreshAsset=url.pathname.endsWith('/sw.js')||url.pathname.endsWith('/manifest.webmanifest')||/icon-|apple-touch-icon|favicon/.test(url.pathname);
   const isFlag=url.hostname==='flagcdn.com';
   if(isAppShell||isFreshAsset){
-    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html?v=3143-retame'))));
+    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html?v=3144-chat-premium'))));
     return;
   }
   if(isFlag){
