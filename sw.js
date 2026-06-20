@@ -1,14 +1,14 @@
-const APP_VERSION='313.30';
-const CACHE='hcq-v313-28-ux-lag';
+const APP_VERSION='314.2';
+const CACHE='hcq-v314-2-centro-mundial';
 const ASSETS=[
-  './?v=31328-ux-lag',
-  './index.html?v=31328-ux-lag',
-  './manifest.webmanifest?v=31328-ux-lag',
-  './icon-192-v31330-alias-backfill.png?v=31328-ux-lag',
-  './icon-512-v31330-alias-backfill.png?v=31328-ux-lag',
-  './apple-touch-icon-v31330-alias-backfill.png?v=31328-ux-lag',
-  './favicon-v31330-alias-backfill.ico?v=31328-ux-lag',
-  './logo-hcq-login-v31317.png?v=31328-ux-lag'
+  './?v=3142-centro-mundial',
+  './index.html?v=3142-centro-mundial',
+  './manifest.webmanifest?v=3142-centro-mundial',
+  './icon-192-v31333-debug-api.png?v=3142-centro-mundial',
+  './icon-512-v31333-debug-api.png?v=3142-centro-mundial',
+  './apple-touch-icon-v31333-debug-api.png?v=3142-centro-mundial',
+  './favicon-v31333-debug-api.ico?v=3142-centro-mundial',
+  './logo-hcq-login-v31317.png?v=3142-centro-mundial'
 ];
 
 self.addEventListener('install',event=>{
@@ -36,7 +36,7 @@ self.addEventListener('fetch',event=>{
   const isFreshAsset=url.pathname.endsWith('/sw.js')||url.pathname.endsWith('/manifest.webmanifest')||/icon-|apple-touch-icon|favicon/.test(url.pathname);
   const isFlag=url.hostname==='flagcdn.com';
   if(isAppShell||isFreshAsset){
-    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html?v=31328-ux-lag'))));
+    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html?v=3142-centro-mundial'))));
     return;
   }
   if(isFlag){
