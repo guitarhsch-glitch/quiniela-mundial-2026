@@ -1,18 +1,18 @@
 {
   "name": "HCQ - Hattrick Club Quinielas",
   "short_name": "HCQ",
-  "description": "App premium de quinielas multigrupo HCQ V314.2 con Centro Mundial y pestañas horizontales.",
-  "id": "./?app=hcq&v=3142-centro-mundial",
-  "start_url": "./?v=3142-centro-mundial",
+  "description": "App premium de quinielas multigrupo HCQ V314.3 con Centro Mundial + Rétame.",
+  "id": "./?app=hcq&v=3143-retame",
+  "start_url": "./?v=3143-retame",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#050d1f",
   "theme_color": "#071a3f",
   "icons": [
-    {"src":"icon-192-v31332-cron-live.png?v=3142-centro-mundial","sizes":"192x192","type":"image/png","purpose":"any"},
-    {"src":"icon-192-v31332-cron-live.png?v=3142-centro-mundial","sizes":"192x192","type":"image/png","purpose":"maskable"},
-    {"src":"icon-512-v31332-cron-live.png?v=3142-centro-mundial","sizes":"512x512","type":"image/png","purpose":"any"},
-    {"src":"icon-512-v31332-cron-live.png?v=3142-centro-mundial","sizes":"512x512","type":"image/png","purpose":"maskable"}
+    {"src":"icon-192-v31332-cron-live.png?v=3143-retame","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"icon-192-v31332-cron-live.png?v=3143-retame","sizes":"192x192","type":"image/png","purpose":"maskable"},
+    {"src":"icon-512-v31332-cron-live.png?v=3143-retame","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"icon-512-v31332-cron-live.png?v=3143-retame","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ]
 }
