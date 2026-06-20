@@ -1,7 +1,7 @@
 {
   "name": "HCQ - Hattrick Club Quinielas",
   "short_name": "HCQ",
-  "description": "App premium de quinielas multigrupo HCQ V314.4 con Centro Mundial + Rétame + Chat Premium.",
+  "description": "App premium de quinielas multigrupo HCQ V314.5 con Centro Mundial + Rétame + Ajustes UI.",
   "id": "./?app=hcq&v=3143-retame",
   "start_url": "./?v=3143-retame",
   "scope": "./",
