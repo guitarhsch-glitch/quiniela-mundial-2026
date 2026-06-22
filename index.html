@@ -829,7 +829,7 @@ nav button.active::after{
   <div id="loginMsg" class="status">Cargando grupos...</div>
  </div>
 </div>
-<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V315.11 HCQ · <span id="cloudState">Conectando...</span><span class="perf-note">V315.11 realtime</span></div><div class="top-group-switch" id="topGroupSwitchBox"><label>Grupo</label><select id="topGroupSwitch" onchange="switchSessionGroup(this.value)"></select></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
+<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V315.8 HCQ · <span id="cloudState">Conectando...</span><span class="perf-note">V315.8</span></div><div class="top-group-switch" id="topGroupSwitchBox"><label>Grupo</label><select id="topGroupSwitch" onchange="switchSessionGroup(this.value)"></select></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
 <div class="wrap">
 <section id="inicio" class="section active"><div class="card live-priority-card"><h2>🔴 Partido en vivo</h2><div id="liveMatchBox"></div></div><div class="card"><h2>📋 Partido anterior</h2><div id="previousMatchBox"></div></div><div class="card"><h2>⏳ Próximo partido</h2><div id="nextMatchBox"></div></div><div class="card"><h2>🏟️ Panel general</h2><p class="muted">Grupo actual: <b id="currentGroupName"></b></p><div id="homeGroupSwitchBox" class="hidden" style="margin:10px 0"><label>Cambiar grupo</label><select id="homeGroupSwitch" onchange="switchSessionGroup(this.value)"></select><p class="small">Puedes cambiar de grupo sin cerrar sesión.</p></div><div class="grid3"><div class="status">Participantes<br><b id="statPlayers">0</b></div><div class="status">Bolsa<br><b id="statPool">Q0</b></div><div class="status">Líder<br><b id="statLeader">-</b></div></div></div><div class="card"><h2>🥇 Top 3 del grupo</h2><div id="homePlayers" class="players"></div></div><div class="card"><h2>🔔 Alertas y avisos</h2><div id="homeAlerts"></div></div><div class="card"><h2>🎉 Ganadores</h2><div id="winnerBox"></div></div></section>
 <section id="quiniela" class="section"><div class="card"><h2>⚽ Quiniela</h2><div class="module-tabs"><button class="active" data-qtab="pronosticos" onclick="setQuinielaTab('pronosticos')">🎯 Pronósticos</button><button data-qtab="ver" onclick="setQuinielaTab('ver')">👥 Ver pronósticos</button><button data-qtab="campeon" onclick="setQuinielaTab('campeon')">👑 Campeón</button></div></div><div id="qtab-pronosticos" class="q-panel active"><div class="card"><h2>🎯 Mis pronósticos</h2><div class="grid2"><div><label>Fase</label><select id="predPhase" onchange="fillDays();renderPred()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="predDay" onchange="renderPred()"></select></div></div><div id="predList"></div></div></div><div id="qtab-ver" class="q-panel"><div class="card"><h2>👥 Pronósticos de todos</h2><div class="grid2"><div><label>Fase</label><select id="allPhase" onchange="fillDays();renderAllPreds()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="allDay" onchange="renderAllPreds()"></select></div></div><div id="allBox"></div></div></div><div id="qtab-campeon" class="q-panel"><div class="card"><h2>👑 Pronóstico de campeón</h2><p class="muted">Esta elección cuenta solo para la quiniela de eliminatorias. Si aciertas el campeón, suma <b>10 puntos extra</b>.</p><div id="championBox"></div></div></div></section>
@@ -926,8 +926,7 @@ let supa=null, session=null, state={groups:[],participants:[],members:[],predict
 let refreshInFlight=null, refreshQueued=false, refreshRenderTimer=null, lastRefreshAt=0;
 let lastChatPresenceWrite=0;
 let configLoadedForGroup='';
-let hcqRealtimeChannel=null, hcqDbChannel=null, hcqRealtimeGroupId='';
-let hcqLocalEventId=0;
+let hcqRealtimeChannel=null, hcqRealtimeGroupId='', hcqRealtimeRenderTimer=null, hcqRealtimeStatus='desconectado';
 function getCfg(){return {url:localStorage.getItem('v300_url')||DEFAULT_URL,key:localStorage.getItem('v300_key')||EMBED_KEY}}
 function saveConfig(){localStorage.setItem('v300_url',cfgUrl.value.trim());localStorage.setItem('v300_key',cfgKey.value.trim());location.reload()}
 function initClient(){const c=getCfg(); cfgUrl.value=c.url; if(c.key) cfgKey.value=c.key; if(!c.key){configBox.classList.remove('hidden'); loginMsg.className='status err'; loginMsg.textContent='Pega la clave publicable de Supabase para conectar.'; return false} supa=window.supabase.createClient(c.url,c.key); return true}
@@ -963,76 +962,70 @@ async function refreshAll(){
   })();
   return refreshInFlight;
 }
-function realtimeRelevantKey(key){
-  const gid=currentGroupId();
-  return key==='retame_'+gid || key==='retame_games_'+gid || key==='chat_'+gid || key==='chat_presence_'+gid || key==='chat_typing_'+gid;
-}
-function applyRealtimeSettingRow(row, source='db'){
-  try{
-    if(!row||!row.key) return false;
-    const i=state.settings.findIndex(x=>x.key===row.key);
-    if(row.__deleted){ if(i>=0) state.settings.splice(i,1); }
-    else if(i>=0) state.settings[i]={...state.settings[i],...row};
-    else state.settings.push(row);
-    if(!session) return true;
-    if(realtimeRelevantKey(row.key)){
-      if(row.key.startsWith('chat_')) renderChat();
-      if(row.key.startsWith('retame_')) renderRetame();
-      updateNavBadges();
-      cloudState.textContent='Online · tiempo real';
-      cloudState.style.color='#bbf7d0';
-    }
-    return true;
-  }catch(e){return false}
-}
-function renderRealtimeNotice(kind){
-  try{
-    const box=document.getElementById('retameTriviaBox');
-    if(kind==='retame' && box && document.getElementById('retame')?.classList.contains('active')){
-      // renderRetame ya actualiza la pantalla; esto deja una señal discreta de que llegó en vivo.
-      cloudState.textContent='Online · tiempo real';
-    }
-  }catch(e){}
-}
-async function broadcastHcqSetting(key,value){
-  try{
-    if(!hcqRealtimeChannel||!session||!realtimeRelevantKey(key)) return;
-    await hcqRealtimeChannel.send({type:'broadcast',event:'setting-change',payload:{key,value,updated_at:new Date().toISOString(),from:session.id,nonce:(Date.now()+'_'+(++hcqLocalEventId))}});
-  }catch(e){}
-}
 function subscribe(){
   if(!supa) return;
-  try{ if(hcqDbChannel) supa.removeChannel(hcqDbChannel); }catch(e){}
   let t=null;
-  hcqDbChannel=supa.channel('hcq-db-v31511')
-    .on('postgres_changes',{event:'*',schema:'public',table:'settings'},payload=>{
-      const row=payload.eventType==='DELETE'?{...(payload.old||{}),__deleted:true}:(payload.new||{});
-      if(row&&row.key&&realtimeRelevantKey(row.key)){ applyRealtimeSettingRow(row,'db'); }
-      else { clearTimeout(t); t=setTimeout(()=>refreshAll(),450); }
-    })
-    .on('postgres_changes',{event:'*',schema:'public',table:'predictions'},()=>{ clearTimeout(t); t=setTimeout(()=>refreshAll(),500); })
-    .on('postgres_changes',{event:'*',schema:'public',table:'results'},()=>{ clearTimeout(t); t=setTimeout(()=>refreshAll(),500); })
-    .on('postgres_changes',{event:'*',schema:'public',table:'participants'},()=>{ clearTimeout(t); t=setTimeout(()=>refreshAll(),500); })
-    .on('postgres_changes',{event:'*',schema:'public',table:'group_members'},()=>{ clearTimeout(t); t=setTimeout(()=>refreshAll(),500); })
-    .subscribe();
-  subscribeGroupRealtime();
+  supa.channel('v31512-main-fallback').on('postgres_changes',{event:'*',schema:'public'},()=>{
+    clearTimeout(t);
+    t=setTimeout(()=>refreshAll(),500);
+  }).subscribe();
 }
-function subscribeGroupRealtime(){
-  if(!supa||!session) return;
-  const gid=currentGroupId();
-  if(hcqRealtimeChannel && hcqRealtimeGroupId===gid) return;
-  try{ if(hcqRealtimeChannel) supa.removeChannel(hcqRealtimeChannel); }catch(e){}
-  hcqRealtimeGroupId=gid;
-  hcqRealtimeChannel=supa.channel('hcq-live-'+gid,{config:{broadcast:{self:false},presence:{key:session.id}}})
-    .on('broadcast',{event:'setting-change'},payload=>{
-      const p=payload.payload||{};
-      if(!p.key || !realtimeRelevantKey(p.key)) return;
-      applyRealtimeSettingRow({key:p.key,value:p.value,updated_at:p.updated_at||new Date().toISOString()},'broadcast');
-      renderRealtimeNotice(p.key.startsWith('retame_')?'retame':'chat');
-    })
-    .subscribe(status=>{
-      if(status==='SUBSCRIBED'){ cloudState.textContent='Online · tiempo real'; cloudState.style.color='#bbf7d0'; }
-    });
+function realtimeSettingMatchesGroup(key,gid=currentGroupId()){
+  if(!key||!gid) return false;
+  return key===('chat_'+gid)||key===('chat_presence_'+gid)||key===('chat_typing_'+gid)||key===('retame_'+gid)||key===('retame_games_'+gid)||String(key).includes('_'+gid);
+}
+function renderRealtimeKey(key){
+  clearTimeout(hcqRealtimeRenderTimer);
+  hcqRealtimeRenderTimer=setTimeout(()=>{
+    try{
+      if(key&&key.startsWith('chat_')){ renderChat(); updateNavBadges(); return; }
+      if(key&&key.startsWith('retame')){ renderRetame(); updateNavBadges(); return; }
+      renderAll();
+    }catch(e){}
+  },35);
+}
+function applyRealtimeSetting(payload){
+  try{
+    const data=payload?.payload||payload||{};
+    if(!data.key) return;
+    if(data.senderId && session && data.senderId===session.id) return;
+    if(data.groupId && currentGroupId() && data.groupId!==currentGroupId()) return;
+    if(!data.groupId && !realtimeSettingMatchesGroup(data.key,currentGroupId())) return;
+    const row={key:data.key,value:data.value,updated_at:data.updated_at||new Date().toISOString()};
+    const i=state.settings.findIndex(x=>x.key===row.key);
+    if(i>=0) state.settings[i]=row; else state.settings.push(row);
+    cloudState.textContent='Tiempo real'; cloudState.style.color='#86efac';
+    renderRealtimeKey(row.key);
+  }catch(e){}
+}
+function broadcastSettingChange(key,value){
+  try{
+    if(!hcqRealtimeChannel||hcqRealtimeStatus!=='SUBSCRIBED') return;
+    hcqRealtimeChannel.send({type:'broadcast',event:'setting_change',payload:{key,value,groupId:currentGroupId(),senderId:session?.id||'',updated_at:new Date().toISOString()}});
+  }catch(e){}
+}
+function setupRealtimeForCurrentGroup(){
+  try{
+    if(!supa||!session||!currentGroupId()) return;
+    const gid=currentGroupId();
+    if(hcqRealtimeChannel && hcqRealtimeGroupId===gid) return;
+    if(hcqRealtimeChannel){ try{supa.removeChannel(hcqRealtimeChannel);}catch(e){} }
+    hcqRealtimeGroupId=gid;
+    hcqRealtimeStatus='conectando';
+    hcqRealtimeChannel=supa.channel('hcq-live-'+gid,{config:{broadcast:{self:false},presence:{key:session.id}}})
+      .on('broadcast',{event:'setting_change'},applyRealtimeSetting)
+      .on('postgres_changes',{event:'*',schema:'public',table:'settings'},payload=>{
+        const row=payload?.new;
+        if(row&&realtimeSettingMatchesGroup(row.key,gid)) applyRealtimeSetting({payload:{key:row.key,value:row.value,groupId:gid,updated_at:row.updated_at}});
+      })
+      .subscribe(status=>{
+        hcqRealtimeStatus=status;
+        if(status==='SUBSCRIBED'){
+          try{hcqRealtimeChannel.track({pid:session.id,name:session.name,at:new Date().toISOString()});}catch(e){}
+          cloudState.textContent='Online · tiempo real'; cloudState.style.color='#bbf7d0';
+        }
+      });
+  }catch(e){}
 }
 function fillLoginGroups(preserveValue){
   const selected = preserveValue || loginGroup.value || localStorage.getItem('v300_last_group') || '';
@@ -1053,7 +1046,7 @@ async function saveSettingValue(key,value){
   await q(supa.from('settings').upsert(row));
   const i=state.settings.findIndex(x=>x.key===key);
   if(i>=0) state.settings[i]=row; else state.settings.push(row);
-  broadcastHcqSetting(key,value).catch(()=>{});
+  broadcastSettingChange(key,value);
 }
 function fmtDateTime(d){try{return new Intl.DateTimeFormat('es-GT',{dateStyle:'medium',timeStyle:'short'}).format(new Date(d))}catch(e){return new Date(d).toLocaleString()}}
 
@@ -1069,9 +1062,9 @@ async function login(){try{
   if(!user.is_super_admin && !state.members.some(m=>m.participant_id===user.id&&m.group_id===gid)) throw new Error('Este usuario no pertenece a este grupo');
   session={...user,group_id:gid};
   localStorage.setItem('v300_last_group', gid);
-  loginScreen.classList.add('hidden'); app.classList.remove('hidden'); adminTab.style.display=isAdmin()?'block':'none'; fillDays(); forceHomeTab(); renderAll(); subscribeGroupRealtime(); startLiveTimer(); initOneSignalForSession(); scheduleMatchPushes(); setTimeout(()=>window.scrollTo({top:0,behavior:'auto'}),20);
+  loginScreen.classList.add('hidden'); app.classList.remove('hidden'); adminTab.style.display=isAdmin()?'block':'none'; fillDays(); forceHomeTab(); renderAll(); setupRealtimeForCurrentGroup(); startLiveTimer(); initOneSignalForSession(); scheduleMatchPushes(); setTimeout(()=>window.scrollTo({top:0,behavior:'auto'}),20);
 }catch(e){loginMsg.className='status err'; loginMsg.textContent=e.message}}
-function logout(){if(liveTimer) clearInterval(liveTimer); stopRetameSync(); try{if(hcqRealtimeChannel&&supa) supa.removeChannel(hcqRealtimeChannel);}catch(e){} hcqRealtimeChannel=null; hcqRealtimeGroupId=''; session=null; app.classList.add('hidden'); loginScreen.classList.remove('hidden')}
+function logout(){if(liveTimer) clearInterval(liveTimer); session=null; app.classList.add('hidden'); loginScreen.classList.remove('hidden')}
 function isAdmin(){return !!session?.is_super_admin || state.members.some(m=>m.group_id===currentGroupId()&&m.participant_id===session?.id&&m.is_group_admin)}
 function forceHomeTab(){
   document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id==='inicio'));
@@ -1090,10 +1083,10 @@ async function switchSessionGroup(gid){
   session.group_id=gid;
   loginGroup.value=gid;
   localStorage.setItem('v300_last_group',gid);
-  subscribeGroupRealtime();
   adminTab.style.display=isAdmin()?'block':'none';
   fillDays();
   await refreshAll();
+  setupRealtimeForCurrentGroup();
   renderAll();
   initOneSignalForSession(false);
   scheduleMatchPushes();
@@ -1953,7 +1946,7 @@ function triviaRoomCard(g){
     const rows=[...(g.players||[])].sort((a,b)=>(b.score||0)-(a.score||0)).map((p,i)=>`<div class="trivia-score-row"><span>${i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.'} ${esc(p.name)}</span><b>${p.score||0} pts</b></div>`).join('');
     body=`<div class="status ok">Trivia terminada</div><div class="trivia-score">${rows}</div>`;
   }
-  return `<div class="trivia-room"><div class="retame-head"><div><div class="retame-title">⚡ Trivia Multijugador</div><div class="meta">Creada por ${esc(g.creatorName)} · ${fmtDateTime(g.createdAt)} · ⚡ tiempo real</div></div><span class="retame-status">${g.status==='waiting'?'Sala de espera':g.status==='playing'?'En juego':'Finalizada'}</span></div>${retameScopeBadge(g)}${body}</div>`;
+  return `<div class="trivia-room"><div class="retame-head"><div><div class="retame-title">⚡ Trivia Multijugador</div><div class="meta">Creada por ${esc(g.creatorName)} · ${fmtDateTime(g.createdAt)} · 🔄 sync auto cada 3s</div></div><span class="retame-status">${g.status==='waiting'?'Sala de espera':g.status==='playing'?'En juego':'Finalizada'}</span></div>${retameScopeBadge(g)}${body}</div>`;
 }
 
 async function createTriviaFlash(){const idx=+(document.getElementById('triviaQuestionSelect')?.value||0); const t=RETAME_TRIVIA[idx]||RETAME_TRIVIA[0]; const item={id:'g_'+Date.now()+'_'+Math.random().toString(36).slice(2),type:'trivia',creatorId:session.id,creatorName:session.name,question:t.q,options:t.opts,correctAnswer:t.a,status:'open',answers:[],createdAt:new Date().toISOString()}; await saveRetameGames([item,...retameGamesList()].slice(0,200)); notifyGroup('retame','⚡ Trivia Flash disponible',t.q).catch(()=>{}); renderRetame();}
@@ -2048,14 +2041,14 @@ async function retameAutoSyncTick(force=false){
 }
 function startRetameSync(){
   if(retameSyncTimer) clearInterval(retameSyncTimer);
-  retameSyncTimer=setInterval(()=>retameAutoSyncTick(false),15000);
+  retameSyncTimer=setInterval(()=>retameAutoSyncTick(false),3000);
 }
 function stopRetameSync(){ if(retameSyncTimer){ clearInterval(retameSyncTimer); retameSyncTimer=null; } }
 let retameLocalCountdownTimer=null;
 function startLiveTimer(){
   if(liveTimer) clearInterval(liveTimer);
   // V313.28: la actualización automática del API Football se hace en Netlify Functions, no desde el celular/admin.
-  checkOpenAppNotifications(); lastChatPresenceWrite=0; updateChatPresence(); scheduleMatchPushes(); startRetameSync();
+  setupRealtimeForCurrentGroup(); checkOpenAppNotifications(); lastChatPresenceWrite=0; updateChatPresence(); scheduleMatchPushes(); startRetameSync();
   liveTimer=setInterval(()=>{
     checkOpenAppNotifications(); updateChatPresence(); scheduleMatchPushes();
   },120000);
@@ -2063,7 +2056,7 @@ function startLiveTimer(){
 
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('./sw.js?v=31511-realtime',{scope:'./'}).then(reg=>{
+    navigator.serviceWorker.register('./sw.js?v=31512-realtime-broadcast',{scope:'./'}).then(reg=>{
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
       reg.addEventListener('updatefound',()=>{
         const nw=reg.installing;
@@ -2072,7 +2065,7 @@ if('serviceWorker' in navigator){
     }).catch(()=>{});
     navigator.serviceWorker.addEventListener('message',event=>{
       if(event.data?.type==='APP_UPDATED'){
-        try{ localStorage.setItem('hcq_last_sw_update',event.data.version||'315.11'); }catch(e){}
+        try{ localStorage.setItem('hcq_last_sw_update',event.data.version||'315.12'); }catch(e){}
       }
     });
   });
