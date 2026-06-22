@@ -1,14 +1,14 @@
-const APP_VERSION='315.0';
-const CACHE='hcq-v314-9-retame-completo';
+const APP_VERSION='315.3';
+const CACHE='hcq-v315-3-nav-submenus-compare';
 const ASSETS=[
-  './?v=3150-trivia-multijugador',
-  './index.html?v=3150-trivia-multijugador',
-  './manifest.webmanifest?v=3150-trivia-multijugador',
-  './icon-192-v31333-debug-api.png?v=3150-trivia-multijugador',
-  './icon-512-v31333-debug-api.png?v=3150-trivia-multijugador',
-  './apple-touch-icon-v31333-debug-api.png?v=3150-trivia-multijugador',
-  './favicon-v31333-debug-api.ico?v=3150-trivia-multijugador',
-  './logo-hcq-login-v31317.png?v=3150-trivia-multijugador'
+  './?v=3153-nav-submenus-compare',
+  './index.html?v=3153-nav-submenus-compare',
+  './manifest.webmanifest?v=3153-nav-submenus-compare',
+  './icon-192-v31333-debug-api.png?v=3153-nav-submenus-compare',
+  './icon-512-v31333-debug-api.png?v=3153-nav-submenus-compare',
+  './apple-touch-icon-v31333-debug-api.png?v=3153-nav-submenus-compare',
+  './favicon-v31333-debug-api.ico?v=3153-nav-submenus-compare',
+  './logo-hcq-login-v31317.png?v=3153-nav-submenus-compare'
 ];
 
 self.addEventListener('install',event=>{
@@ -36,7 +36,7 @@ self.addEventListener('fetch',event=>{
   const isFreshAsset=url.pathname.endsWith('/sw.js')||url.pathname.endsWith('/manifest.webmanifest')||/icon-|apple-touch-icon|favicon/.test(url.pathname);
   const isFlag=url.hostname==='flagcdn.com';
   if(isAppShell||isFreshAsset){
-    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html?v=3150-trivia-multijugador'))));
+    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html?v=3153-nav-submenus-compare'))));
     return;
   }
   if(isFlag){
