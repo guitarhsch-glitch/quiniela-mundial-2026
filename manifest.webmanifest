@@ -1,7 +1,7 @@
 {
   "name": "HCQ - Hattrick Club Quinielas",
   "short_name": "HCQ",
-  "description": "App premium de quinielas multigrupo HCQ V315.4 con submenús unificados.",
+  "description": "App premium de quinielas multigrupo HCQ V315.5 con flujo automático de pronósticos.",
   "id": "./?app=hcq&v=3154-all-submenus",
   "start_url": "./?v=3154-all-submenus",
   "scope": "./",
