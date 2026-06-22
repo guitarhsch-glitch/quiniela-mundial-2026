@@ -1,6 +1,4 @@
 
-
-
 (function(){
   const img=new Image();
   img.src='logo-hcq-login-v31317.png?v=31328-ux-lag';
@@ -212,9 +210,9 @@ function lockReason(m){if(hasRealResult(m)) return 'Este partido ya tiene result
 function matchCard(m,inner=''){let r=resFor(m.id); return `<div class="match"><div class="teams"><div class="team">${teamLabel(m.home)}</div><div class="mid">${fmtDate(m.date)}<br>${esc(m.group||m.round||'')}</div><div class="team">${teamLabel(m.away)}</div></div>${r?`<div class="status ok">Resultado real: <b>${r.home_score} - ${r.away_score}</b></div>`:''}${inner}</div>`}
 function nextPredInputId(list,i,which){if(which==='home') return 'pa_'+list[i].id; const n=list[i+1]; return n?'ph_'+n.id:null}
 let activePredInput=null;
-function clearPredFocus(){document.querySelectorAll('.pred-score').forEach(x=>x.classList.remove('active-score')); document.querySelectorAll('.pred-save').forEach(x=>x.classList.remove('active-save'));}
+function clearPredFocus(){document.querySelectorAll('.pred-score').forEach(x=>x.classList.remove('active-score')); document.querySelectorAll('.pred-save').forEach(x=>{x.classList.remove('active-save'); if(x.dataset.normalText) x.textContent=x.dataset.normalText;});}
 function setActivePredInput(id){const el=document.getElementById(id); if(!el || el.disabled) return; clearPredFocus(); el.classList.add('active-score'); activePredInput=id; setTimeout(()=>el.closest('.match')?.scrollIntoView({block:'center',behavior:'smooth'}),30);}
-function setActivePredSave(mid){const el=document.getElementById('ps_'+mid); if(!el || el.disabled) return; clearPredFocus(); el.classList.add('active-save'); activePredInput='ps_'+mid; setTimeout(()=>el.closest('.match')?.scrollIntoView({block:'center',behavior:'smooth'}),30);}
+function setActivePredSave(mid){const el=document.getElementById('ps_'+mid); if(!el || el.disabled) return; if(!el.dataset.normalText) el.dataset.normalText=el.textContent||'Guardar'; clearPredFocus(); el.dataset.normalText=el.dataset.normalText||'Guardar'; el.textContent='⚽ GUARDAR PRONÓSTICO'; el.classList.add('active-save'); activePredInput='ps_'+mid; setTimeout(()=>el.closest('.match')?.scrollIntoView({block:'center',behavior:'smooth'}),30);}
 function predMatchIdsOnScreen(){return [...document.querySelectorAll('.pred-score[id^="ph_"]')].map(x=>x.id.slice(3));}
 function nextPredMatchId(mid){const ids=predMatchIdsOnScreen(), idx=ids.indexOf(mid); return ids[idx+1]||null;}
 function nextPredTarget(id){if(!id||(!id.startsWith('ph_')&&!id.startsWith('pa_')&&!id.startsWith('ps_'))) return null; if(id.startsWith('ph_')) return 'pa_'+id.slice(3); if(id.startsWith('pa_')) return 'ps_'+id.slice(3); const next=nextPredMatchId(id.slice(3)); return next?'ph_'+next:null;}
@@ -318,11 +316,16 @@ function compareRows(pidA,pidB,phaseSel){
   return {same,different,aBetter,bBetter,ties,played:list.length};
 }
 function renderCompare(){
-  const sel=document.getElementById('comparePlayer'); if(!sel) return;
+  const sel=document.getElementById('comparePlayer');
+  const compareBox=document.getElementById('compareBox');
+  if(!sel||!compareBox||!session) return;
   const others=groupMembers().filter(p=>p.id!==session?.id);
+  const prev=sel.value;
   sel.innerHTML=compareOptionsHtml();
   if(!others.length){compareBox.innerHTML='<p class="muted">No hay otro participante para comparar.</p>'; return;}
-  const otherId=sel.value||others[0].id; if(!sel.value) sel.value=otherId;
+  const exists=others.some(p=>p.id===prev);
+  const otherId=exists?prev:others[0].id;
+  sel.value=otherId;
   const phaseSel=document.getElementById('comparePhase')?.value||'all';
   const other=groupMembers().find(p=>p.id===otherId)||others[0];
   const a=allPlayerMetrics(session.id,phaseSel), b=allPlayerMetrics(other.id,phaseSel), c=compareRows(session.id,other.id,phaseSel);
@@ -909,7 +912,7 @@ function pendingTodayPredictions(){
   });
 }
 
-/* ===== V315.1 Rétame ===== */
+/* ===== V315.5 Rétame ===== */
 function retameKey(){return 'retame_'+currentGroupId()}
 function retameList(){return settingValue(retameKey(),[])||[]}
 function saveRetameList(list){return saveSettingValue(retameKey(),list)}
@@ -935,162 +938,45 @@ function retameGamesKey(){return 'retame_games_'+currentGroupId()}
 function retameGamesList(){return settingValue(retameGamesKey(),[])||[]}
 function saveRetameGames(list){return saveSettingValue(retameGamesKey(),list)}
 const RETAME_TRIVIA=[
- {cat:'campeones',q:'¿Quién ganó el Mundial 2010?',a:'España',opts:['España','Holanda','Alemania','Brasil']},
- {cat:'campeones',q:'¿Qué selección ganó el Mundial 2022?',a:'Argentina',opts:['Argentina','Francia','Brasil','Croacia']},
- {cat:'campeones',q:'¿Quién fue campeón en Brasil 2014?',a:'Alemania',opts:['Alemania','Argentina','Brasil','España']},
- {cat:'records',q:'¿Cuál selección tiene más Copas del Mundo?',a:'Brasil',opts:['Brasil','Alemania','Italia','Argentina']},
- {cat:'campeones',q:'¿Quién ganó el Mundial 2018?',a:'Francia',opts:['Francia','Croacia','Bélgica','Inglaterra']},
- {cat:'historia',q:'¿En qué país se jugó el Mundial 1998?',a:'Francia',opts:['Francia','Italia','Alemania','España']},
- {cat:'historia',q:'¿En qué Mundial ocurrió el famoso 7-1 de Alemania a Brasil?',a:'Brasil 2014',opts:['Brasil 2014','Sudáfrica 2010','Rusia 2018','Alemania 2006']},
- {cat:'jugadores',q:'¿Quién fue elegido mejor jugador del Mundial 2022?',a:'Lionel Messi',opts:['Lionel Messi','Kylian Mbappé','Luka Modrić','Antoine Griezmann']},
- {cat:'jugadores',q:'¿Quién fue goleador del Mundial 2022?',a:'Kylian Mbappé',opts:['Kylian Mbappé','Lionel Messi','Olivier Giroud','Julián Álvarez']},
- {cat:'records',q:'¿Qué jugador tiene más goles en la historia de los Mundiales?',a:'Miroslav Klose',opts:['Miroslav Klose','Ronaldo Nazário','Gerd Müller','Lionel Messi']},
- {cat:'selecciones',q:'¿Qué selección es conocida como La Canarinha?',a:'Brasil',opts:['Brasil','México','Colombia','Uruguay']},
- {cat:'selecciones',q:'¿Qué selección es conocida como La Albiceleste?',a:'Argentina',opts:['Argentina','Uruguay','Paraguay','Chile']},
- {cat:'campeones',q:'¿Quién ganó el Mundial 2006?',a:'Italia',opts:['Italia','Francia','Alemania','Brasil']},
- {cat:'campeones',q:'¿Quién ganó el Mundial 2002?',a:'Brasil',opts:['Brasil','Alemania','Argentina','Italia']},
- {cat:'campeones',q:'¿Quién ganó el Mundial 1994?',a:'Brasil',opts:['Brasil','Italia','Alemania','Argentina']},
- {cat:'historia',q:'¿En qué país se jugó el Mundial 2010?',a:'Sudáfrica',opts:['Sudáfrica','Brasil','Alemania','Rusia']},
- {cat:'historia',q:'¿Cuál fue el primer país africano en organizar un Mundial?',a:'Sudáfrica',opts:['Sudáfrica','Marruecos','Egipto','Nigeria']},
- {cat:'historia',q:'¿Qué país organizó el Mundial 2006?',a:'Alemania',opts:['Alemania','Italia','Francia','Inglaterra']},
- {cat:'historia',q:'¿Qué país organizó el Mundial 2018?',a:'Rusia',opts:['Rusia','Qatar','Brasil','Alemania']},
- {cat:'historia',q:'¿Qué país organizó el Mundial 2022?',a:'Qatar',opts:['Qatar','Rusia','Estados Unidos','Japón']},
- {cat:'jugadores',q:'¿Quién anotó dos goles en la final del Mundial 1998 para Francia?',a:'Zinedine Zidane',opts:['Zinedine Zidane','Thierry Henry','Didier Deschamps','David Trezeguet']},
- {cat:'jugadores',q:'¿Quién fue el arquero argentino clave en los penales de la final 2022?',a:'Emiliano Martínez',opts:['Emiliano Martínez','Sergio Romero','Franco Armani','Gerónimo Rulli']},
- {cat:'jugadores',q:'¿Qué jugador uruguayo hizo una mano famosa ante Ghana en 2010?',a:'Luis Suárez',opts:['Luis Suárez','Diego Forlán','Edinson Cavani','Álvaro Recoba']},
- {cat:'records',q:'¿Qué selección ganó el Mundial dos veces seguidas en 1934 y 1938?',a:'Italia',opts:['Italia','Brasil','Uruguay','Alemania']},
- {cat:'records',q:'¿Qué selección ganó el Mundial dos veces seguidas en 1958 y 1962?',a:'Brasil',opts:['Brasil','Argentina','Italia','Alemania']},
- {cat:'records',q:'¿Qué país ganó el primer Mundial de la historia en 1930?',a:'Uruguay',opts:['Uruguay','Argentina','Brasil','Italia']},
- {cat:'records',q:'¿Contra quién jugó Uruguay la final del Mundial 1930?',a:'Argentina',opts:['Argentina','Brasil','Italia','Chile']},
- {cat:'selecciones',q:'¿Qué selección ganó el Mundial 1966?',a:'Inglaterra',opts:['Inglaterra','Alemania','Brasil','Portugal']},
- {cat:'selecciones',q:'¿Qué selección ganó el Mundial 1986?',a:'Argentina',opts:['Argentina','Alemania','Brasil','Italia']},
- {cat:'jugadores',q:'¿Quién hizo la “Mano de Dios”?',a:'Diego Maradona',opts:['Diego Maradona','Pelé','Messi','Ronaldo']},
- {cat:'jugadores',q:'¿Quién es conocido como O Rei?',a:'Pelé',opts:['Pelé','Ronaldo','Ronaldinho','Romário']},
- {cat:'records',q:'¿Qué selección tiene cuatro títulos mundiales junto con Italia?',a:'Alemania',opts:['Alemania','Argentina','Francia','Uruguay']},
- {cat:'campeones',q:'¿Quién ganó el Mundial 1990?',a:'Alemania',opts:['Alemania','Argentina','Italia','Inglaterra']},
- {cat:'campeones',q:'¿Quién ganó el Mundial 1982?',a:'Italia',opts:['Italia','Brasil','Alemania','Argentina']},
- {cat:'campeones',q:'¿Quién ganó el Mundial 1978?',a:'Argentina',opts:['Argentina','Países Bajos','Brasil','Italia']},
- {cat:'campeones',q:'¿Quién ganó el Mundial 1974?',a:'Alemania',opts:['Alemania','Países Bajos','Brasil','Polonia']},
- {cat:'campeones',q:'¿Quién ganó el Mundial 1970?',a:'Brasil',opts:['Brasil','Italia','Alemania','Uruguay']},
- {cat:'historia',q:'¿Dónde se jugó la final del Mundial 1986?',a:'México',opts:['México','Argentina','España','Italia']},
- {cat:'historia',q:'¿En qué país se jugó el Mundial 1982?',a:'España',opts:['España','México','Italia','Argentina']},
- {cat:'records',q:'¿Qué selección fue subcampeona en 2014?',a:'Argentina',opts:['Argentina','Brasil','Holanda','Francia']},
- {cat:'records',q:'¿Qué selección fue subcampeona en 2018?',a:'Croacia',opts:['Croacia','Bélgica','Inglaterra','Argentina']},
- {cat:'records',q:'¿Qué selección fue subcampeona en 2022?',a:'Francia',opts:['Francia','Croacia','Marruecos','Brasil']},
- {cat:'selecciones',q:'¿Qué selección africana llegó a semifinales en 2022?',a:'Marruecos',opts:['Marruecos','Senegal','Ghana','Camerún']},
- {cat:'selecciones',q:'¿Qué selección asiática eliminó a Alemania en fase de grupos 2018?',a:'Corea del Sur',opts:['Corea del Sur','Japón','Irán','Arabia Saudita']},
- {cat:'jugadores',q:'¿Qué francés hizo hat-trick en la final de 2022?',a:'Kylian Mbappé',opts:['Kylian Mbappé','Antoine Griezmann','Olivier Giroud','Karim Benzema']},
- {cat:'jugadores',q:'¿Qué croata ganó el Balón de Oro del Mundial 2018?',a:'Luka Modrić',opts:['Luka Modrić','Ivan Rakitić','Mario Mandžukić','Perišić']},
- {cat:'records',q:'¿Qué selección tiene dos títulos mundiales y ganó en 1930 y 1950?',a:'Uruguay',opts:['Uruguay','Argentina','Francia','Inglaterra']},
- {cat:'historia',q:'¿Qué Mundial fue organizado por Corea del Sur y Japón?',a:'2002',opts:['2002','1998','2006','2010']},
- {cat:'selecciones',q:'¿Qué selección se conoce como Les Bleus?',a:'Francia',opts:['Francia','Italia','Bélgica','Croacia']},
- {cat:'selecciones',q:'¿Qué selección se conoce como La Roja?',a:'España',opts:['España','Portugal','Chile','México']}
+ {q:'¿Quién ganó el Mundial 2010?',a:'España',opts:['España','Holanda','Alemania','Brasil']},
+ {q:'¿Qué selección ganó el Mundial 2022?',a:'Argentina',opts:['Argentina','Francia','Brasil','Croacia']},
+ {q:'¿Quién fue campeón en Brasil 2014?',a:'Alemania',opts:['Alemania','Argentina','Brasil','España']},
+ {q:'¿Cuál selección tiene más Copas del Mundo?',a:'Brasil',opts:['Brasil','Alemania','Italia','Argentina']},
+ {q:'¿Quién ganó el Mundial 2018?',a:'Francia',opts:['Francia','Croacia','Bélgica','Inglaterra']},
+ {q:'¿En qué país se jugó el Mundial 1998?',a:'Francia',opts:['Francia','Italia','Alemania','España']}
 ];
-function fillRetameGameForms(){try{const inviteBox=document.getElementById('triviaInviteList'); if(inviteBox){const members=groupMembers().filter(p=>p.id!==session.id); inviteBox.innerHTML=members.length?members.map(p=>`<label><input type="checkbox" class="trivia-invite" value="${esc(p.id)}"> ${esc(p.name)}</label>`).join(''):'<p class="muted">No hay otros participantes en este grupo.</p>';} const ms=retameMatchOptions(); const opts=ms.map(m=>`<option value="${esc(m.id)}">${esc(m.home)} vs ${esc(m.away)} · ${fmtDateTime(m.date)}</option>`).join(''); if(document.getElementById('expressMatch')) expressMatch.innerHTML=opts; if(document.getElementById('groupRetameMatch')) groupRetameMatch.innerHTML=opts;}catch(e){}}
+function fillRetameGameForms(){try{const inviteBox=document.getElementById('triviaInviteList'); if(inviteBox){const members=groupMembers().filter(p=>p.id!==session.id); inviteBox.innerHTML=members.length?members.map(p=>`<label><input type="checkbox" class="trivia-invite" value="${esc(p.id)}"><span class="trivia-invite-name">${esc(p.name)}</span></label>`).join(''):'<p class="muted">No hay otros participantes en este grupo.</p>';} const ms=retameMatchOptions(); const opts=ms.map(m=>`<option value="${esc(m.id)}">${esc(m.home)} vs ${esc(m.away)} · ${fmtDateTime(m.date)}</option>`).join(''); if(document.getElementById('expressMatch')) expressMatch.innerHTML=opts; if(document.getElementById('groupRetameMatch')) groupRetameMatch.innerHTML=opts;}catch(e){}}
 function retameGameOptions(g){const m=matches.find(x=>x.id===g.matchId); if(g.type==='trivia') return g.options||[]; if(g.type==='express'){ if(g.question&&g.question.includes('10 minutos')) return ['Sí','No']; if(g.question&&g.question.includes('penal')) return ['Sí','No']; if(g.question&&g.question.includes('amarilla')) return m?[m.home,m.away,'Nadie']:['Equipo A','Equipo B','Nadie']; return m?[m.home,m.away,'Nadie']:['Equipo A','Equipo B','Nadie']; } return m?[m.home,'Empate',m.away]:['Local','Empate','Visitante'];}
-function triviaPool(category){
-  const base=RETAME_TRIVIA.map((t,i)=>({...t,cat:t.cat||'aleatoria',id:i}));
-  let pool=base;
-  if(category&&category!=='aleatoria') pool=base.filter(q=>q.cat===category);
-  if(pool.length<10) pool=base;
-  return pool.sort(()=>Math.random()-.5).slice(0,10).map(q=>({q:q.q,opts:q.opts,a:q.a,cat:q.cat||'aleatoria'}));
-}
-function triviaModeLabel(mode){return mode==='round'?'⏱️ Cronometrada':'⚡ Velocidad'}
-function triviaQuestionEndsAt(g){return (g.questionStartedAt?new Date(g.questionStartedAt).getTime():Date.now()) + ((+g.seconds||10)*1000)}
-function triviaSecondsLeft(g){return Math.max(0,Math.ceil((triviaQuestionEndsAt(g)-Date.now())/1000))}
-function triviaQuestionRevealed(g){const key=String(g.current||0); return !!(g.revealed&&g.revealed[key])}
-async function createTriviaRoom(){
-  const invited=[...document.querySelectorAll('.trivia-invite:checked')].map(x=>x.value);
-  if(invited.length<1){triviaCreateMsg.textContent='Invita al menos a un participante.'; return;}
-  const members=groupMembers();
-  const players=[session.id,...invited].map(pid=>{const p=members.find(x=>x.id===pid)||{id:pid,name:pid}; return {pid:p.id,name:p.name,ready:p.id===session.id,score:0,correctFirst:0,correctTotal:0};});
-  const category=document.getElementById('triviaCategory')?.value||'aleatoria';
-  const mode=document.getElementById('triviaMode')?.value||'speed';
-  const item={id:'tr_'+Date.now()+'_'+Math.random().toString(36).slice(2),type:'trivia_room',mode,creatorId:session.id,creatorName:session.name,category,seconds:+(document.getElementById('triviaSeconds')?.value||10),status:'waiting',players,questions:triviaPool(category),current:0,answers:{},winners:[],revealed:{},createdAt:new Date().toISOString()};
-  await saveRetameGames([item,...retameGamesList()].slice(0,200));
-  document.getElementById('triviaCreateBox')?.classList.add('hidden');
-  notifyGroup('retame','⚡ Trivia multijugador',`${session.name} creó una sala de trivia`).catch(()=>{});
-  renderRetame();
-}
+function triviaPool(category){const base=RETAME_TRIVIA.map((t,i)=>({...t,cat:t.cat||'aleatoria',id:i})); let pool=base; if(category&&category!=='aleatoria') pool=base.filter(q=>q.cat===category); if(pool.length<10) pool=base; return pool.sort(()=>Math.random()-.5).slice(0,10).map(q=>({q:q.q,opts:q.opts,a:q.a,cat:q.cat||'aleatoria'}));}
+async function createTriviaRoom(){const invited=[...document.querySelectorAll('.trivia-invite:checked')].map(x=>x.value); if(invited.length<1){triviaCreateMsg.textContent='Invita al menos a un participante.'; return;} const members=groupMembers(); const players=[session.id,...invited].map(pid=>{const p=members.find(x=>x.id===pid)||{id:pid,name:pid}; return {pid:p.id,name:p.name,ready:p.id===session.id,score:0,correctFirst:0};}); const category=document.getElementById('triviaCategory')?.value||'aleatoria'; const item={id:'tr_'+Date.now()+'_'+Math.random().toString(36).slice(2),type:'trivia_room',creatorId:session.id,creatorName:session.name,category,seconds:+(document.getElementById('triviaSeconds')?.value||15),status:'waiting',players,questions:triviaPool(category),current:0,answers:{},winners:[],createdAt:new Date().toISOString()}; await saveRetameGames([item,...retameGamesList()].slice(0,200)); document.getElementById('triviaCreateBox')?.classList.add('hidden'); notifyGroup('retame','⚡ Trivia multijugador',`${session.name} creó una sala de trivia`).catch(()=>{}); renderRetame();}
 async function triviaSetReady(id){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.type!=='trivia_room'||g.status!=='waiting') return g; return {...g,players:(g.players||[]).map(p=>p.pid===session.id?{...p,ready:true}:p)}}); await saveRetameGames(updated); renderRetame();}
-async function startTriviaRoom(id){
-  const list=retameGamesList(); const g=list.find(x=>x.id===id);
-  if(!g||g.creatorId!==session.id) return alert('Solo el creador puede iniciar.');
-  if(!(g.players||[]).every(p=>p.ready)) return alert('Todavía no están todos listos.');
-  await saveRetameGames(list.map(x=>x.id===id?{...x,status:'playing',startedAt:new Date().toISOString(),questionStartedAt:new Date().toISOString(),current:0}:x));
-  renderRetame();
-}
-async function answerTriviaRoom(id,answer){
-  const list=retameGamesList();
-  const updated=list.map(g=>{
-    if(g.id!==id||g.type!=='trivia_room'||g.status!=='playing') return g;
-    const mode=g.mode||'speed';
-    const key=String(g.current||0);
-    if(mode==='round' && (triviaQuestionRevealed(g)||triviaSecondsLeft(g)<=0)) return g;
-    const answers={...(g.answers||{})}; const arr=[...(answers[key]||[])];
-    if(arr.some(a=>a.pid===session.id)) return g;
-    const q=(g.questions||[])[g.current||0]; const correct=String(answer)===String(q?.a);
-    arr.push({pid:session.id,name:session.name,answer,correct,at:new Date().toISOString()}); answers[key]=arr;
-    let players=[...(g.players||[])]; let winners=[...(g.winners||[])];
-    if(mode==='speed' && correct && !arr.slice(0,-1).some(a=>a.correct)){
-      players=players.map(p=>p.pid===session.id?{...p,score:(p.score||0)+3,correctFirst:(p.correctFirst||0)+1,correctTotal:(p.correctTotal||0)+1}:p);
-      winners.push({q:g.current||0,pid:session.id,name:session.name,answer,at:new Date().toISOString()});
-    }
-    return {...g,answers,players,winners};
-  });
-  await saveRetameGames(updated); renderRetame();
-}
-async function revealTriviaQuestion(id){
-  const list=retameGamesList();
-  const updated=list.map(g=>{
-    if(g.id!==id||g.type!=='trivia_room'||g.status!=='playing') return g;
-    if((g.mode||'speed')!=='round') return g;
-    const key=String(g.current||0); if(g.revealed&&g.revealed[key]) return g;
-    const arr=((g.answers||{})[key]||[]);
-    const correctIds=arr.filter(a=>a.correct).map(a=>a.pid);
-    const players=(g.players||[]).map(p=>correctIds.includes(p.pid)?{...p,score:(p.score||0)+1,correctTotal:(p.correctTotal||0)+1}:p);
-    const revealed={...(g.revealed||{}),[key]:true};
-    return {...g,players,revealed};
-  });
-  await saveRetameGames(updated); renderRetame();
-}
-async function nextTriviaQuestion(id){
-  const list=retameGamesList();
-  const updated=list.map(g=>{
-    if(g.id!==id||g.type!=='trivia_room'||g.creatorId!==session.id) return g;
-    const next=(g.current||0)+1;
-    if(next>=10) return {...g,status:'closed',closedAt:new Date().toISOString()};
-    return {...g,current:next,questionStartedAt:new Date().toISOString()};
-  });
-  await saveRetameGames(updated); renderRetame();
-}
+async function startTriviaRoom(id){const list=retameGamesList(); const g=list.find(x=>x.id===id); if(!g||g.creatorId!==session.id) return alert('Solo el creador puede iniciar.'); if(!(g.players||[]).every(p=>p.ready)) return alert('Todavía no están todos listos.'); await saveRetameGames(list.map(x=>x.id===id?{...x,status:'playing',startedAt:new Date().toISOString(),current:0}:x)); renderRetame();}
+async function answerTriviaRoom(id,answer){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.type!=='trivia_room'||g.status!=='playing') return g; const key=String(g.current||0); const answers={...(g.answers||{})}; const arr=[...(answers[key]||[])]; if(arr.some(a=>a.pid===session.id)) return g; const q=(g.questions||[])[g.current||0]; const correct=String(answer)===String(q?.a); arr.push({pid:session.id,name:session.name,answer,correct,at:new Date().toISOString()}); answers[key]=arr; let players=[...(g.players||[])]; let winners=[...(g.winners||[])]; if(correct && !arr.slice(0,-1).some(a=>a.correct)){players=players.map(p=>p.pid===session.id?{...p,score:(p.score||0)+3,correctFirst:(p.correctFirst||0)+1}:p); winners.push({q:g.current||0,pid:session.id,name:session.name,answer,at:new Date().toISOString()});} return {...g,answers,players,winners};}); await saveRetameGames(updated); renderRetame();}
+async function nextTriviaQuestion(id){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.type!=='trivia_room'||g.creatorId!==session.id) return g; const next=(g.current||0)+1; if(next>=10) return {...g,status:'closed',closedAt:new Date().toISOString()}; return {...g,current:next};}); await saveRetameGames(updated); renderRetame();}
 async function cancelTriviaRoom(id){const list=retameGamesList(); const g=list.find(x=>x.id===id); if(!g||g.creatorId!==session.id) return alert('Solo el creador puede cancelar.'); await saveRetameGames(list.map(x=>x.id===id?{...x,status:'cancelled',closedAt:new Date().toISOString()}:x)); renderRetame();}
 function triviaRoomCard(g){
   const mine=(g.players||[]).find(p=>p.pid===session.id);
   const isCreator=g.creatorId===session.id;
   const readyCount=(g.players||[]).filter(p=>p.ready).length;
   const players=(g.players||[]).map(p=>`<span class="trivia-player ${p.ready?'ready':'wait'}">${p.ready?'✅':'⏳'} ${esc(p.name)} · ${p.score||0} pts</span>`).join('');
-  const q=(g.questions||[])[g.current||0]; const key=String(g.current||0);
+  const q=(g.questions||[])[g.current||0];
+  const key=String(g.current||0);
   const myAns=((g.answers||{})[key]||[]).find(a=>a.pid===session.id);
   const allReady=(g.players||[]).length>0&&(g.players||[]).every(p=>p.ready);
-  const mode=g.mode||'speed'; const revealed=triviaQuestionRevealed(g); const left=triviaSecondsLeft(g);
   let body='';
   if(g.status==='waiting'){
     const readyBtn=(mine&&!mine.ready)?`<button class="good" onclick="triviaSetReady('${g.id}')">Estoy listo ✅</button>`:'';
     const creatorBtns=isCreator?` <button class="primary" onclick="startTriviaRoom('${g.id}')" ${allReady?'':'disabled'}>Iniciar Trivia 🔥</button> <button class="danger" onclick="cancelTriviaRoom('${g.id}')">Cancelar</button>`:'';
-    body=`<div class="trivia-progress"><span class="trivia-mode-pill">${triviaModeLabel(mode)}</span> · Sala de espera · ${readyCount}/${(g.players||[]).length} listos · ${g.questions?.length||10} preguntas</div><div class="players">${players}</div>${readyBtn}${creatorBtns}`;
+    body=`<div class="trivia-progress">Sala de espera · ${readyCount}/${(g.players||[]).length} listos · ${g.questions?.length||10} preguntas</div><div class="players">${players}</div>${readyBtn}${creatorBtns}`;
   } else if(g.status==='playing'){
-    const disabled = myAns || (mode==='round' && (revealed||left<=0));
-    const opts=(q?.opts||[]).map(o=>`<button ${disabled?'disabled':''} onclick="answerTriviaRoom('${g.id}','${esc(o)}')">${esc(o)}</button>`).join('');
-    const answers=((g.answers||{})[key]||[]).map((a,i)=>`<div class="retame-answer-row"><span>${i+1}. ${esc(a.name)}: <b>${mode==='round'&&!revealed?'Respuesta enviada':esc(a.answer)}</b></span><span>${a.correct?(revealed||mode==='speed'?'<span class="trivia-winner">Correcto</span>':'<span class="retame-chip">Pendiente</span>'):'<span class="retame-wrong">Incorrecto</span>'}</span></div>`).join('');
+    const opts=(q?.opts||[]).map(o=>`<button ${myAns?'disabled':''} onclick="answerTriviaRoom('${g.id}','${esc(o)}')">${esc(o)}</button>`).join('');
+    const answers=((g.answers||{})[key]||[]).map((a,i)=>`<div class="retame-answer-row"><span>${i+1}. ${esc(a.name)}: <b>${esc(a.answer)}</b></span><span>${a.correct?'<span class="trivia-winner">Correcto</span>':'<span class="retame-wrong">Incorrecto</span>'}</span></div>`).join('');
     const winner=(g.winners||[]).find(w=>w.q===(g.current||0));
-    const roundCorrect=((g.answers||{})[key]||[]).filter(a=>a.correct).map(a=>a.name);
-    const revealBox=(mode==='round'&&(revealed||left<=0))?`<div class="trivia-reveal">✅ Respuesta correcta: <b>${esc(q?.a||'')}</b><br>Acertaron: ${roundCorrect.length?roundCorrect.map(esc).join(', '):'Nadie'}</div>`:'';
-    const creatorControls=isCreator?`<div class="retame-actions">${mode==='round'&&!revealed?`<button class="good" onclick="revealTriviaQuestion('${g.id}')">Revelar respuesta ✅</button>`:''}<button class="primary" onclick="nextTriviaQuestion('${g.id}')">${(g.current||0)>=9?'Finalizar trivia':'Siguiente pregunta'} ➜</button><button class="danger" onclick="cancelTriviaRoom('${g.id}')">Cancelar</button></div>`:'';
-    body=`<div class="trivia-progress"><span class="trivia-mode-pill">${triviaModeLabel(mode)}</span> · Pregunta ${(g.current||0)+1}/10 · Categoría ${esc(g.category||'aleatoria')} ${mode==='round'?`<span class="trivia-timer">⏱️ ${left}s</span>`:`· ${g.seconds||10}s por pregunta`}</div><div class="players">${players}</div><div class="trivia-question"><b>${esc(q?.q||'Pregunta')}</b><div class="trivia-options">${opts}</div>${myAns?'<div class="status ok">Tu respuesta fue registrada.</div>':''}${winner?`<div class="status ok">Ganó la pregunta: ${esc(winner.name)}</div>`:''}${revealBox}</div><div>${answers||'<p class="muted">Aún no hay respuestas.</p>'}</div>${creatorControls}`;
+    const creatorNext=isCreator?`<div class="retame-actions"><button class="primary" onclick="nextTriviaQuestion('${g.id}')">${(g.current||0)>=9?'Finalizar trivia':'Siguiente pregunta'} ➜</button><button class="danger" onclick="cancelTriviaRoom('${g.id}')">Cancelar</button></div>`:'';
+    body=`<div class="trivia-progress">Pregunta ${(g.current||0)+1}/10 · ${g.seconds||15}s por pregunta · Categoría ${esc(g.category||'aleatoria')}</div><div class="players">${players}</div><div class="trivia-question"><b>${esc(q?.q||'Pregunta')}</b><div class="trivia-options">${opts}</div>${myAns?'<div class="status ok">Tu respuesta fue registrada.</div>':''}${winner?`<div class="status ok">Ganó la pregunta: ${esc(winner.name)}</div>`:''}</div><div>${answers||'<p class="muted">Aún no hay respuestas.</p>'}</div>${creatorNext}`;
   } else {
-    const rows=[...(g.players||[])].sort((a,b)=>(b.score||0)-(a.score||0)).map((p,i)=>`<div class="trivia-score-row"><span>${i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.'} ${esc(p.name)}</span><b>${p.score||0} pts · ${p.correctTotal||0} correctas</b></div>`).join('');
-    body=`<div class="status ok">Trivia terminada · ${triviaModeLabel(mode)}</div><div class="trivia-score">${rows}</div>`;
+    const rows=[...(g.players||[])].sort((a,b)=>(b.score||0)-(a.score||0)).map((p,i)=>`<div class="trivia-score-row"><span>${i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.'} ${esc(p.name)}</span><b>${p.score||0} pts</b></div>`).join('');
+    body=`<div class="status ok">Trivia terminada</div><div class="trivia-score">${rows}</div>`;
   }
   return `<div class="trivia-room"><div class="retame-head"><div><div class="retame-title">⚡ Trivia Multijugador</div><div class="meta">Creada por ${esc(g.creatorName)} · ${fmtDateTime(g.createdAt)}</div></div><span class="retame-status">${g.status==='waiting'?'Sala de espera':g.status==='playing'?'En juego':'Finalizada'}</span></div>${body}</div>`;
 }
@@ -1179,7 +1065,7 @@ let liveTimer=null; function startLiveTimer(){
 
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('./sw.js?v=3151-trivia-doble-modo',{scope:'./'}).then(reg=>{
+    navigator.serviceWorker.register('./sw.js?v=3154-all-submenus',{scope:'./'}).then(reg=>{
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
       reg.addEventListener('updatefound',()=>{
         const nw=reg.installing;
@@ -1188,7 +1074,7 @@ if('serviceWorker' in navigator){
     }).catch(()=>{});
     navigator.serviceWorker.addEventListener('message',event=>{
       if(event.data?.type==='APP_UPDATED'){
-        try{ localStorage.setItem('hcq_last_sw_update',event.data.version||'315.0'); }catch(e){}
+        try{ localStorage.setItem('hcq_last_sw_update',event.data.version||'315.6'); }catch(e){}
       }
     });
   });
