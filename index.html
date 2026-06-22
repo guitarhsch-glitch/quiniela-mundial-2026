@@ -829,7 +829,7 @@ nav button.active::after{
   <div id="loginMsg" class="status">Cargando grupos...</div>
  </div>
 </div>
-<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V315.8 HCQ · <span id="cloudState">Conectando...</span><span class="perf-note">V315.8</span></div><div class="top-group-switch" id="topGroupSwitchBox"><label>Grupo</label><select id="topGroupSwitch" onchange="switchSessionGroup(this.value)"></select></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
+<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V315.11 HCQ · <span id="cloudState">Conectando...</span><span class="perf-note">V315.11 realtime</span></div><div class="top-group-switch" id="topGroupSwitchBox"><label>Grupo</label><select id="topGroupSwitch" onchange="switchSessionGroup(this.value)"></select></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
 <div class="wrap">
 <section id="inicio" class="section active"><div class="card live-priority-card"><h2>🔴 Partido en vivo</h2><div id="liveMatchBox"></div></div><div class="card"><h2>📋 Partido anterior</h2><div id="previousMatchBox"></div></div><div class="card"><h2>⏳ Próximo partido</h2><div id="nextMatchBox"></div></div><div class="card"><h2>🏟️ Panel general</h2><p class="muted">Grupo actual: <b id="currentGroupName"></b></p><div id="homeGroupSwitchBox" class="hidden" style="margin:10px 0"><label>Cambiar grupo</label><select id="homeGroupSwitch" onchange="switchSessionGroup(this.value)"></select><p class="small">Puedes cambiar de grupo sin cerrar sesión.</p></div><div class="grid3"><div class="status">Participantes<br><b id="statPlayers">0</b></div><div class="status">Bolsa<br><b id="statPool">Q0</b></div><div class="status">Líder<br><b id="statLeader">-</b></div></div></div><div class="card"><h2>🥇 Top 3 del grupo</h2><div id="homePlayers" class="players"></div></div><div class="card"><h2>🔔 Alertas y avisos</h2><div id="homeAlerts"></div></div><div class="card"><h2>🎉 Ganadores</h2><div id="winnerBox"></div></div></section>
 <section id="quiniela" class="section"><div class="card"><h2>⚽ Quiniela</h2><div class="module-tabs"><button class="active" data-qtab="pronosticos" onclick="setQuinielaTab('pronosticos')">🎯 Pronósticos</button><button data-qtab="ver" onclick="setQuinielaTab('ver')">👥 Ver pronósticos</button><button data-qtab="campeon" onclick="setQuinielaTab('campeon')">👑 Campeón</button></div></div><div id="qtab-pronosticos" class="q-panel active"><div class="card"><h2>🎯 Mis pronósticos</h2><div class="grid2"><div><label>Fase</label><select id="predPhase" onchange="fillDays();renderPred()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="predDay" onchange="renderPred()"></select></div></div><div id="predList"></div></div></div><div id="qtab-ver" class="q-panel"><div class="card"><h2>👥 Pronósticos de todos</h2><div class="grid2"><div><label>Fase</label><select id="allPhase" onchange="fillDays();renderAllPreds()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="allDay" onchange="renderAllPreds()"></select></div></div><div id="allBox"></div></div></div><div id="qtab-campeon" class="q-panel"><div class="card"><h2>👑 Pronóstico de campeón</h2><p class="muted">Esta elección cuenta solo para la quiniela de eliminatorias. Si aciertas el campeón, suma <b>10 puntos extra</b>.</p><div id="championBox"></div></div></div></section>
@@ -926,6 +926,8 @@ let supa=null, session=null, state={groups:[],participants:[],members:[],predict
 let refreshInFlight=null, refreshQueued=false, refreshRenderTimer=null, lastRefreshAt=0;
 let lastChatPresenceWrite=0;
 let configLoadedForGroup='';
+let hcqRealtimeChannel=null, hcqDbChannel=null, hcqRealtimeGroupId='';
+let hcqLocalEventId=0;
 function getCfg(){return {url:localStorage.getItem('v300_url')||DEFAULT_URL,key:localStorage.getItem('v300_key')||EMBED_KEY}}
 function saveConfig(){localStorage.setItem('v300_url',cfgUrl.value.trim());localStorage.setItem('v300_key',cfgKey.value.trim());location.reload()}
 function initClient(){const c=getCfg(); cfgUrl.value=c.url; if(c.key) cfgKey.value=c.key; if(!c.key){configBox.classList.remove('hidden'); loginMsg.className='status err'; loginMsg.textContent='Pega la clave publicable de Supabase para conectar.'; return false} supa=window.supabase.createClient(c.url,c.key); return true}
@@ -961,13 +963,76 @@ async function refreshAll(){
   })();
   return refreshInFlight;
 }
+function realtimeRelevantKey(key){
+  const gid=currentGroupId();
+  return key==='retame_'+gid || key==='retame_games_'+gid || key==='chat_'+gid || key==='chat_presence_'+gid || key==='chat_typing_'+gid;
+}
+function applyRealtimeSettingRow(row, source='db'){
+  try{
+    if(!row||!row.key) return false;
+    const i=state.settings.findIndex(x=>x.key===row.key);
+    if(row.__deleted){ if(i>=0) state.settings.splice(i,1); }
+    else if(i>=0) state.settings[i]={...state.settings[i],...row};
+    else state.settings.push(row);
+    if(!session) return true;
+    if(realtimeRelevantKey(row.key)){
+      if(row.key.startsWith('chat_')) renderChat();
+      if(row.key.startsWith('retame_')) renderRetame();
+      updateNavBadges();
+      cloudState.textContent='Online · tiempo real';
+      cloudState.style.color='#bbf7d0';
+    }
+    return true;
+  }catch(e){return false}
+}
+function renderRealtimeNotice(kind){
+  try{
+    const box=document.getElementById('retameTriviaBox');
+    if(kind==='retame' && box && document.getElementById('retame')?.classList.contains('active')){
+      // renderRetame ya actualiza la pantalla; esto deja una señal discreta de que llegó en vivo.
+      cloudState.textContent='Online · tiempo real';
+    }
+  }catch(e){}
+}
+async function broadcastHcqSetting(key,value){
+  try{
+    if(!hcqRealtimeChannel||!session||!realtimeRelevantKey(key)) return;
+    await hcqRealtimeChannel.send({type:'broadcast',event:'setting-change',payload:{key,value,updated_at:new Date().toISOString(),from:session.id,nonce:(Date.now()+'_'+(++hcqLocalEventId))}});
+  }catch(e){}
+}
 function subscribe(){
   if(!supa) return;
+  try{ if(hcqDbChannel) supa.removeChannel(hcqDbChannel); }catch(e){}
   let t=null;
-  supa.channel('v31328-main').on('postgres_changes',{event:'*',schema:'public'},()=>{
-    clearTimeout(t);
-    t=setTimeout(()=>refreshAll(),1200);
-  }).subscribe();
+  hcqDbChannel=supa.channel('hcq-db-v31511')
+    .on('postgres_changes',{event:'*',schema:'public',table:'settings'},payload=>{
+      const row=payload.eventType==='DELETE'?{...(payload.old||{}),__deleted:true}:(payload.new||{});
+      if(row&&row.key&&realtimeRelevantKey(row.key)){ applyRealtimeSettingRow(row,'db'); }
+      else { clearTimeout(t); t=setTimeout(()=>refreshAll(),450); }
+    })
+    .on('postgres_changes',{event:'*',schema:'public',table:'predictions'},()=>{ clearTimeout(t); t=setTimeout(()=>refreshAll(),500); })
+    .on('postgres_changes',{event:'*',schema:'public',table:'results'},()=>{ clearTimeout(t); t=setTimeout(()=>refreshAll(),500); })
+    .on('postgres_changes',{event:'*',schema:'public',table:'participants'},()=>{ clearTimeout(t); t=setTimeout(()=>refreshAll(),500); })
+    .on('postgres_changes',{event:'*',schema:'public',table:'group_members'},()=>{ clearTimeout(t); t=setTimeout(()=>refreshAll(),500); })
+    .subscribe();
+  subscribeGroupRealtime();
+}
+function subscribeGroupRealtime(){
+  if(!supa||!session) return;
+  const gid=currentGroupId();
+  if(hcqRealtimeChannel && hcqRealtimeGroupId===gid) return;
+  try{ if(hcqRealtimeChannel) supa.removeChannel(hcqRealtimeChannel); }catch(e){}
+  hcqRealtimeGroupId=gid;
+  hcqRealtimeChannel=supa.channel('hcq-live-'+gid,{config:{broadcast:{self:false},presence:{key:session.id}}})
+    .on('broadcast',{event:'setting-change'},payload=>{
+      const p=payload.payload||{};
+      if(!p.key || !realtimeRelevantKey(p.key)) return;
+      applyRealtimeSettingRow({key:p.key,value:p.value,updated_at:p.updated_at||new Date().toISOString()},'broadcast');
+      renderRealtimeNotice(p.key.startsWith('retame_')?'retame':'chat');
+    })
+    .subscribe(status=>{
+      if(status==='SUBSCRIBED'){ cloudState.textContent='Online · tiempo real'; cloudState.style.color='#bbf7d0'; }
+    });
 }
 function fillLoginGroups(preserveValue){
   const selected = preserveValue || loginGroup.value || localStorage.getItem('v300_last_group') || '';
@@ -988,6 +1053,7 @@ async function saveSettingValue(key,value){
   await q(supa.from('settings').upsert(row));
   const i=state.settings.findIndex(x=>x.key===key);
   if(i>=0) state.settings[i]=row; else state.settings.push(row);
+  broadcastHcqSetting(key,value).catch(()=>{});
 }
 function fmtDateTime(d){try{return new Intl.DateTimeFormat('es-GT',{dateStyle:'medium',timeStyle:'short'}).format(new Date(d))}catch(e){return new Date(d).toLocaleString()}}
 
@@ -1003,9 +1069,9 @@ async function login(){try{
   if(!user.is_super_admin && !state.members.some(m=>m.participant_id===user.id&&m.group_id===gid)) throw new Error('Este usuario no pertenece a este grupo');
   session={...user,group_id:gid};
   localStorage.setItem('v300_last_group', gid);
-  loginScreen.classList.add('hidden'); app.classList.remove('hidden'); adminTab.style.display=isAdmin()?'block':'none'; fillDays(); forceHomeTab(); renderAll(); startLiveTimer(); initOneSignalForSession(); scheduleMatchPushes(); setTimeout(()=>window.scrollTo({top:0,behavior:'auto'}),20);
+  loginScreen.classList.add('hidden'); app.classList.remove('hidden'); adminTab.style.display=isAdmin()?'block':'none'; fillDays(); forceHomeTab(); renderAll(); subscribeGroupRealtime(); startLiveTimer(); initOneSignalForSession(); scheduleMatchPushes(); setTimeout(()=>window.scrollTo({top:0,behavior:'auto'}),20);
 }catch(e){loginMsg.className='status err'; loginMsg.textContent=e.message}}
-function logout(){if(liveTimer) clearInterval(liveTimer); session=null; app.classList.add('hidden'); loginScreen.classList.remove('hidden')}
+function logout(){if(liveTimer) clearInterval(liveTimer); stopRetameSync(); try{if(hcqRealtimeChannel&&supa) supa.removeChannel(hcqRealtimeChannel);}catch(e){} hcqRealtimeChannel=null; hcqRealtimeGroupId=''; session=null; app.classList.add('hidden'); loginScreen.classList.remove('hidden')}
 function isAdmin(){return !!session?.is_super_admin || state.members.some(m=>m.group_id===currentGroupId()&&m.participant_id===session?.id&&m.is_group_admin)}
 function forceHomeTab(){
   document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id==='inicio'));
@@ -1024,6 +1090,7 @@ async function switchSessionGroup(gid){
   session.group_id=gid;
   loginGroup.value=gid;
   localStorage.setItem('v300_last_group',gid);
+  subscribeGroupRealtime();
   adminTab.style.display=isAdmin()?'block':'none';
   fillDays();
   await refreshAll();
@@ -1856,12 +1923,12 @@ function fillRetameGameForms(){try{['retame','trivia','express','group'].forEach
 function retameGameOptions(g){const m=matches.find(x=>x.id===g.matchId); if(g.type==='trivia') return g.options||[]; if(g.type==='express'){ if(g.question&&g.question.includes('10 minutos')) return ['Sí','No']; if(g.question&&g.question.includes('penal')) return ['Sí','No']; if(g.question&&g.question.includes('amarilla')) return m?[m.home,m.away,'Nadie']:['Equipo A','Equipo B','Nadie']; return m?[m.home,m.away,'Nadie']:['Equipo A','Equipo B','Nadie']; } return m?[m.home,'Empate',m.away]:['Local','Empate','Visitante'];}
 function triviaPool(category){const base=RETAME_TRIVIA.map((t,i)=>({...t,cat:t.cat||'aleatoria',id:i})); let pool=base; if(category&&category!=='aleatoria') pool=base.filter(q=>q.cat===category); if(pool.length<10) pool=base; return pool.sort(()=>Math.random()-.5).slice(0,10).map(q=>({q:q.q,opts:q.opts,a:q.a,cat:q.cat||'aleatoria'}));}
 async function createTriviaRoom(){const scope=retameScopeValue('trivia'); if(scope.accessType==='direct'&&!scope.targetId){triviaCreateMsg.textContent='Elige a quién vas a retar directamente.'; return;} const invited=[...document.querySelectorAll('.trivia-invite:checked')].map(x=>x.value); const members=groupMembers(); let ids=[session.id]; if(scope.accessType==='direct') ids.push(scope.targetId); ids=[...new Set([...ids,...invited])]; if(scope.accessType==='open'&&ids.length<1) ids=[session.id]; const players=ids.map(pid=>{const p=members.find(x=>x.id===pid)||{id:pid,name:pid}; return {pid:p.id,name:p.name,ready:p.id===session.id,score:0,correctFirst:0};}); const category=document.getElementById('triviaCategory')?.value||'aleatoria'; const item={id:'tr_'+Date.now()+'_'+Math.random().toString(36).slice(2),type:'trivia_room',creatorId:session.id,creatorName:session.name,accessType:scope.accessType,targetId:scope.targetId,targetName:scope.targetName,category,seconds:+(document.getElementById('triviaSeconds')?.value||15),status:'waiting',players,questions:triviaPool(category),current:0,answers:{},winners:[],createdAt:new Date().toISOString()}; await saveRetameGames([item,...retameGamesList()].slice(0,200)); document.getElementById('triviaCreateBox')?.classList.add('hidden'); notifyGroup('retame',scope.accessType==='direct'?'🎯 Trivia directa':'⚡ Trivia abierta',`${session.name} creó una sala de trivia`).catch(()=>{}); renderRetame();}
-async function joinTriviaRoom(id){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.type!=='trivia_room'||g.status!=='waiting') return g; if((g.accessType||'open')==='direct'&&g.targetId!==session.id) return g; if((g.players||[]).some(p=>p.pid===session.id)||g.creatorId===session.id) return g; return {...g,players:[...(g.players||[]),{pid:session.id,name:session.name,ready:false,score:0,correctFirst:0}]};}); await saveRetameGames(updated); renderRetame();}
-async function triviaSetReady(id){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.type!=='trivia_room'||g.status!=='waiting') return g; return {...g,players:(g.players||[]).map(p=>p.pid===session.id?{...p,ready:true}:p)}}); await saveRetameGames(updated); renderRetame();}
-async function startTriviaRoom(id){const list=retameGamesList(); const g=list.find(x=>x.id===id); if(!g||g.creatorId!==session.id) return alert('Solo el creador puede iniciar.'); if(!(g.players||[]).every(p=>p.ready)) return alert('Todavía no están todos listos.'); await saveRetameGames(list.map(x=>x.id===id?{...x,status:'playing',startedAt:new Date().toISOString(),current:0}:x)); renderRetame();}
-async function answerTriviaRoom(id,answer){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.type!=='trivia_room'||g.status!=='playing') return g; const key=String(g.current||0); const answers={...(g.answers||{})}; const arr=[...(answers[key]||[])]; if(arr.some(a=>a.pid===session.id)) return g; const q=(g.questions||[])[g.current||0]; const correct=String(answer)===String(q?.a); arr.push({pid:session.id,name:session.name,answer,correct,at:new Date().toISOString()}); answers[key]=arr; let players=[...(g.players||[])]; let winners=[...(g.winners||[])]; if(correct && !arr.slice(0,-1).some(a=>a.correct)){players=players.map(p=>p.pid===session.id?{...p,score:(p.score||0)+3,correctFirst:(p.correctFirst||0)+1}:p); winners.push({q:g.current||0,pid:session.id,name:session.name,answer,at:new Date().toISOString()});} return {...g,answers,players,winners};}); await saveRetameGames(updated); renderRetame();}
-async function nextTriviaQuestion(id){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.type!=='trivia_room'||g.creatorId!==session.id) return g; const next=(g.current||0)+1; if(next>=10) return {...g,status:'closed',closedAt:new Date().toISOString()}; return {...g,current:next};}); await saveRetameGames(updated); renderRetame();}
-async function cancelTriviaRoom(id){const list=retameGamesList(); const g=list.find(x=>x.id===id); if(!g||g.creatorId!==session.id) return alert('Solo el creador puede cancelar.'); await saveRetameGames(list.map(x=>x.id===id?{...x,status:'cancelled',closedAt:new Date().toISOString()}:x)); renderRetame();}
+async function joinTriviaRoom(id){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.type!=='trivia_room'||g.status!=='waiting') return g; if((g.accessType||'open')==='direct'&&g.targetId!==session.id) return g; if((g.players||[]).some(p=>p.pid===session.id)||g.creatorId===session.id) return g; return {...g,players:[...(g.players||[]),{pid:session.id,name:session.name,ready:false,score:0,correctFirst:0}]};}); await saveRetameGames(updated); renderRetame(); retameAutoSyncTick(true).catch(()=>{});}
+async function triviaSetReady(id){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.type!=='trivia_room'||g.status!=='waiting') return g; return {...g,players:(g.players||[]).map(p=>p.pid===session.id?{...p,ready:true}:p)}}); await saveRetameGames(updated); renderRetame(); retameAutoSyncTick(true).catch(()=>{});}
+async function startTriviaRoom(id){const list=retameGamesList(); const g=list.find(x=>x.id===id); if(!g||g.creatorId!==session.id) return alert('Solo el creador puede iniciar.'); if(!(g.players||[]).every(p=>p.ready)) return alert('Todavía no están todos listos.'); await saveRetameGames(list.map(x=>x.id===id?{...x,status:'playing',startedAt:new Date().toISOString(),current:0,lastActionAt:new Date().toISOString()}:x)); renderRetame(); retameAutoSyncTick(true).catch(()=>{});}
+async function answerTriviaRoom(id,answer){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.type!=='trivia_room'||g.status!=='playing') return g; const key=String(g.current||0); const answers={...(g.answers||{})}; const arr=[...(answers[key]||[])]; if(arr.some(a=>a.pid===session.id)) return g; const q=(g.questions||[])[g.current||0]; const correct=String(answer)===String(q?.a); arr.push({pid:session.id,name:session.name,answer,correct,at:new Date().toISOString()}); answers[key]=arr; let players=[...(g.players||[])]; let winners=[...(g.winners||[])]; if(correct && !arr.slice(0,-1).some(a=>a.correct)){players=players.map(p=>p.pid===session.id?{...p,score:(p.score||0)+3,correctFirst:(p.correctFirst||0)+1}:p); winners.push({q:g.current||0,pid:session.id,name:session.name,answer,at:new Date().toISOString()});} return {...g,answers,players,winners};}); await saveRetameGames(updated); renderRetame(); retameAutoSyncTick(true).catch(()=>{});}
+async function nextTriviaQuestion(id){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.type!=='trivia_room'||g.creatorId!==session.id) return g; const next=(g.current||0)+1; if(next>=10) return {...g,status:'closed',closedAt:new Date().toISOString()}; return {...g,current:next};}); await saveRetameGames(updated); renderRetame(); retameAutoSyncTick(true).catch(()=>{});}
+async function cancelTriviaRoom(id){const list=retameGamesList(); const g=list.find(x=>x.id===id); if(!g||g.creatorId!==session.id) return alert('Solo el creador puede cancelar.'); await saveRetameGames(list.map(x=>x.id===id?{...x,status:'cancelled',closedAt:new Date().toISOString(),lastActionAt:new Date().toISOString()}:x)); renderRetame(); retameAutoSyncTick(true).catch(()=>{});}
 function triviaRoomCard(g){
   const mine=(g.players||[]).find(p=>p.pid===session.id);
   const isCreator=g.creatorId===session.id;
@@ -1886,15 +1953,15 @@ function triviaRoomCard(g){
     const rows=[...(g.players||[])].sort((a,b)=>(b.score||0)-(a.score||0)).map((p,i)=>`<div class="trivia-score-row"><span>${i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.'} ${esc(p.name)}</span><b>${p.score||0} pts</b></div>`).join('');
     body=`<div class="status ok">Trivia terminada</div><div class="trivia-score">${rows}</div>`;
   }
-  return `<div class="trivia-room"><div class="retame-head"><div><div class="retame-title">⚡ Trivia Multijugador</div><div class="meta">Creada por ${esc(g.creatorName)} · ${fmtDateTime(g.createdAt)}</div></div><span class="retame-status">${g.status==='waiting'?'Sala de espera':g.status==='playing'?'En juego':'Finalizada'}</span></div>${retameScopeBadge(g)}${body}</div>`;
+  return `<div class="trivia-room"><div class="retame-head"><div><div class="retame-title">⚡ Trivia Multijugador</div><div class="meta">Creada por ${esc(g.creatorName)} · ${fmtDateTime(g.createdAt)} · ⚡ tiempo real</div></div><span class="retame-status">${g.status==='waiting'?'Sala de espera':g.status==='playing'?'En juego':'Finalizada'}</span></div>${retameScopeBadge(g)}${body}</div>`;
 }
 
 async function createTriviaFlash(){const idx=+(document.getElementById('triviaQuestionSelect')?.value||0); const t=RETAME_TRIVIA[idx]||RETAME_TRIVIA[0]; const item={id:'g_'+Date.now()+'_'+Math.random().toString(36).slice(2),type:'trivia',creatorId:session.id,creatorName:session.name,question:t.q,options:t.opts,correctAnswer:t.a,status:'open',answers:[],createdAt:new Date().toISOString()}; await saveRetameGames([item,...retameGamesList()].slice(0,200)); notifyGroup('retame','⚡ Trivia Flash disponible',t.q).catch(()=>{}); renderRetame();}
 async function createExpressChallenge(){const m=matches.find(x=>x.id===expressMatch.value); if(!m) return alert('Selecciona un partido.'); const scope=retameScopeValue('express'); if(scope.accessType==='direct'&&!scope.targetId) return alert('Elige a quién vas a retar directamente.'); const item={id:'g_'+Date.now()+'_'+Math.random().toString(36).slice(2),type:'express',creatorId:session.id,creatorName:session.name,accessType:scope.accessType,targetId:scope.targetId,targetName:scope.targetName,matchId:m.id,question:expressQuestion.value,status:'open',answers:[],createdAt:new Date().toISOString()}; await saveRetameGames([item,...retameGamesList()].slice(0,200)); notifyGroup('retame',scope.accessType==='direct'?'🎯 Reto Express directo':'⚽ Reto Express abierto',`${m.home} vs ${m.away}`).catch(()=>{}); renderRetame();}
 async function createGroupChallenge(){const m=matches.find(x=>x.id===groupRetameMatch.value); if(!m) return alert('Selecciona un partido.'); const scope=retameScopeValue('group'); if(scope.accessType==='direct'&&!scope.targetId) return alert('Elige a quién vas a retar directamente.'); const item={id:'g_'+Date.now()+'_'+Math.random().toString(36).slice(2),type:'grupal',creatorId:session.id,creatorName:session.name,accessType:scope.accessType,targetId:scope.targetId,targetName:scope.targetName,matchId:m.id,question:(groupRetameQuestion.value||'¿Quién gana el partido?').trim(),status:'open',answers:[],createdAt:new Date().toISOString()}; await saveRetameGames([item,...retameGamesList()].slice(0,200)); notifyGroup('retame',scope.accessType==='direct'?'🎯 Reto grupal directo':'👥 Reto grupal abierto',`${m.home} vs ${m.away}`).catch(()=>{}); renderRetame();}
-async function answerRetameGame(id,answer){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.status!=='open') return g; if((g.accessType||'open')==='direct'&&g.targetId!==session.id&&g.creatorId!==session.id) return g; if((g.answers||[]).some(a=>a.pid===session.id)) return g; const ans={pid:session.id,name:session.name,answer,at:new Date().toISOString()}; const answers=[...(g.answers||[]),ans]; if(g.type==='trivia' && String(answer)===String(g.correctAnswer)){return {...g,answers:[...answers.slice(0,-1),{...ans,correct:true}],status:'closed',winnerId:session.id,winnerName:session.name,closedAt:new Date().toISOString(),winningAnswer:answer};} return {...g,answers};}); await saveRetameGames(updated); renderRetame();}
-async function closeRetameGame(id,winningAnswer){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.creatorId!==session.id) return g; const winners=(g.answers||[]).filter(a=>String(a.answer)===String(winningAnswer)).map(a=>a.pid); return {...g,status:'closed',winningAnswer,winners,closedAt:new Date().toISOString()};}); await saveRetameGames(updated); renderRetame();}
-async function cancelRetameGame(id){const list=retameGamesList(); const g=list.find(x=>x.id===id); if(!g||g.creatorId!==session.id) return alert('Solo el creador puede cancelar.'); await saveRetameGames(list.map(x=>x.id===id?{...x,status:'cancelled',closedAt:new Date().toISOString()}:x)); renderRetame();}
+async function answerRetameGame(id,answer){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.status!=='open') return g; if((g.accessType||'open')==='direct'&&g.targetId!==session.id&&g.creatorId!==session.id) return g; if((g.answers||[]).some(a=>a.pid===session.id)) return g; const ans={pid:session.id,name:session.name,answer,at:new Date().toISOString()}; const answers=[...(g.answers||[]),ans]; if(g.type==='trivia' && String(answer)===String(g.correctAnswer)){return {...g,answers:[...answers.slice(0,-1),{...ans,correct:true}],status:'closed',winnerId:session.id,winnerName:session.name,closedAt:new Date().toISOString(),winningAnswer:answer};} return {...g,answers};}); await saveRetameGames(updated); renderRetame(); retameAutoSyncTick(true).catch(()=>{});}
+async function closeRetameGame(id,winningAnswer){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.creatorId!==session.id) return g; const winners=(g.answers||[]).filter(a=>String(a.answer)===String(winningAnswer)).map(a=>a.pid); return {...g,status:'closed',winningAnswer,winners,closedAt:new Date().toISOString()};}); await saveRetameGames(updated); renderRetame(); retameAutoSyncTick(true).catch(()=>{});}
+async function cancelRetameGame(id){const list=retameGamesList(); const g=list.find(x=>x.id===id); if(!g||g.creatorId!==session.id) return alert('Solo el creador puede cancelar.'); await saveRetameGames(list.map(x=>x.id===id?{...x,status:'cancelled',closedAt:new Date().toISOString(),lastActionAt:new Date().toISOString()}:x)); renderRetame(); retameAutoSyncTick(true).catch(()=>{});}
 function retameGameCard(g){const m=matches.find(x=>x.id===g.matchId)||{}; const opts=retameGameOptions(g); const mine=(g.answers||[]).find(a=>a.pid===session.id); const isCreator=g.creatorId===session.id; const title={trivia:'⚡ Trivia Flash',express:'⚽ Reto Express',grupal:'👥 Reto Grupal'}[g.type]||'🔥 Juego'; const match=m.home?` · ${esc(m.home)} vs ${esc(m.away)}`:''; const canAnswer=g.status==='open'&&!mine&&g.creatorId!==session.id&&((g.accessType||'open')!=='direct'||g.targetId===session.id); const buttons=canAnswer?`<div class="retame-game-options">${opts.map(o=>`<button onclick="answerRetameGame('${g.id}','${esc(o)}')">${esc(o)}</button>`).join('')}</div>`:(mine?`<span class="retame-chip">Tu respuesta: ${esc(mine.answer)}</span>`:''); const close=(isCreator&&g.status==='open'&&g.type!=='trivia')?`<div class="retame-game-options"><b>Cerrar con:</b>${opts.map(o=>`<button class="good" onclick="closeRetameGame('${g.id}','${esc(o)}')">${esc(o)}</button>`).join('')}<button class="danger" onclick="cancelRetameGame('${g.id}')">Cancelar</button></div>`:(isCreator&&g.status==='open'?`<button class="danger" onclick="cancelRetameGame('${g.id}')">Cancelar</button>`:''); const rows=(g.answers||[]).map(a=>`<div class="retame-answer-row"><span>${esc(a.name)}: <b>${esc(a.answer)}</b></span><span>${g.type==='trivia'?(a.correct?'<span class="retame-correct">Correcto</span>':''):(g.status==='closed'&&String(a.answer)===String(g.winningAnswer)?'<span class="retame-correct">Ganó</span>':'')}</span></div>`).join(''); const result=g.status==='closed'?`<div class="status ok">Ganador${(g.winners||[]).length>1?'es':''}: ${g.winnerName?esc(g.winnerName):((g.winners||[]).length?(g.winners||[]).map(pid=>esc(groupMembers().find(p=>p.id===pid)?.name||pid)).join(', '):'Sin ganador')}</div>`:''; return `<div class="retame-game-card"><h3>${title}</h3><div class="meta">${esc(g.creatorName)}${match} · ${fmtDateTime(g.createdAt)} ${g.status==='open'?'<span class="retame-live-pill">Abierto</span>':'<span class="retame-status">Cerrado</span>'}</div>${retameScopeBadge(g)}<p><b>${esc(g.question)}</b></p>${buttons}${close}${result}<div style="margin-top:10px">${rows||'<p class="muted">Aún no hay respuestas.</p>'}</div></div>`;}
 function retameGameScoreRows(games){const score={}; groupMembers().forEach(p=>score[p.id]={p,w:0,l:0,pts:0}); games.filter(g=>g.status==='closed').forEach(g=>{if(g.type==='trivia_room'){const best=[...(g.players||[])].sort((a,b)=>(b.score||0)-(a.score||0))[0]; if(best&&score[best.pid]){score[best.pid].w++; score[best.pid].pts+=(best.score||0);} return;} const winners=g.winnerId?[g.winnerId]:(g.winners||[]); winners.forEach(pid=>{if(score[pid]){score[pid].w++; score[pid].pts+=(g.type==='trivia'?5:3);}});}); return score;}
 
@@ -1962,10 +2029,33 @@ function renderAll(){
 }
 let lastNotifyKey='';
 function checkOpenAppNotifications(){try{if(!('Notification' in window)||Notification.permission!=='granted'||!session) return; const now=Date.now(); const soon=matches.filter(m=>{const ms=new Date(m.date).getTime()-now; return ms>0 && ms<30*60000;}); const key=soon.map(m=>m.id).join(',')+'|'+liveMatches().map(m=>m.id+statusBase(resFor(m.id)?.status)).join(','); if(key && key!==lastNotifyKey){lastNotifyKey=key; if(soon[0]) new Notification('⏰ Pronósticos por cerrar',{body:`${soon[0].home} vs ${soon[0].away} inicia pronto.`}); const lv=liveMatches()[0]; if(lv) new Notification('🔴 Partido en vivo',{body:`${lv.home} vs ${lv.away} · ${statusBase(resFor(lv.id)?.status)||''}`});}}catch(e){}}
-let liveTimer=null; function startLiveTimer(){
+let liveTimer=null, retameSyncTimer=null, retameSyncBusy=false;
+function retameHasLiveRooms(){
+  try{
+    if(!session) return false;
+    return retameGamesList().some(g=>g&&g.type==='trivia_room'&&retameVisibleToMe(g)&&['waiting','playing'].includes(g.status));
+  }catch(e){return false}
+}
+async function retameAutoSyncTick(force=false){
+  try{
+    if(!session||!supa||retameSyncBusy) return;
+    const retameActive=document.getElementById('retame')?.classList.contains('active');
+    if(!force && !retameActive && !retameHasLiveRooms()) return;
+    retameSyncBusy=true;
+    await refreshAll();
+  }catch(e){}
+  finally{retameSyncBusy=false;}
+}
+function startRetameSync(){
+  if(retameSyncTimer) clearInterval(retameSyncTimer);
+  retameSyncTimer=setInterval(()=>retameAutoSyncTick(false),15000);
+}
+function stopRetameSync(){ if(retameSyncTimer){ clearInterval(retameSyncTimer); retameSyncTimer=null; } }
+let retameLocalCountdownTimer=null;
+function startLiveTimer(){
   if(liveTimer) clearInterval(liveTimer);
   // V313.28: la actualización automática del API Football se hace en Netlify Functions, no desde el celular/admin.
-  checkOpenAppNotifications(); lastChatPresenceWrite=0; updateChatPresence(); scheduleMatchPushes();
+  checkOpenAppNotifications(); lastChatPresenceWrite=0; updateChatPresence(); scheduleMatchPushes(); startRetameSync();
   liveTimer=setInterval(()=>{
     checkOpenAppNotifications(); updateChatPresence(); scheduleMatchPushes();
   },120000);
@@ -1973,7 +2063,7 @@ let liveTimer=null; function startLiveTimer(){
 
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('./sw.js?v=3154-all-submenus',{scope:'./'}).then(reg=>{
+    navigator.serviceWorker.register('./sw.js?v=31511-realtime',{scope:'./'}).then(reg=>{
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
       reg.addEventListener('updatefound',()=>{
         const nw=reg.installing;
@@ -1982,7 +2072,7 @@ if('serviceWorker' in navigator){
     }).catch(()=>{});
     navigator.serviceWorker.addEventListener('message',event=>{
       if(event.data?.type==='APP_UPDATED'){
-        try{ localStorage.setItem('hcq_last_sw_update',event.data.version||'315.6'); }catch(e){}
+        try{ localStorage.setItem('hcq_last_sw_update',event.data.version||'315.11'); }catch(e){}
       }
     });
   });
