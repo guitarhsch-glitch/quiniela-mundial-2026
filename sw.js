@@ -1,14 +1,14 @@
-const APP_VERSION='316.3';
-const CACHE='hcq-v316-3-eliminatorias-campeon';
+const APP_VERSION='316.4';
+const CACHE='hcq-v316-4-clasificado-guardar';
 const ASSETS=[
-  './?v=3163-eliminatorias-campeon',
-  './index.html?v=3163-eliminatorias-campeon',
-  './manifest.webmanifest?v=3163-eliminatorias-campeon',
-  './icon-192-v31333-debug-api.png?v=3163-eliminatorias-campeon',
-  './icon-512-v31333-debug-api.png?v=3163-eliminatorias-campeon',
-  './apple-touch-icon-v31333-debug-api.png?v=3163-eliminatorias-campeon',
-  './favicon-v31333-debug-api.ico?v=3163-eliminatorias-campeon',
-  './logo-hcq-login-v31317.png?v=3163-eliminatorias-campeon'
+  './?v=3164-clasificado-guardar',
+  './index.html?v=3164-clasificado-guardar',
+  './manifest.webmanifest?v=3164-clasificado-guardar',
+  './icon-192-v31333-debug-api.png?v=3164-clasificado-guardar',
+  './icon-512-v31333-debug-api.png?v=3164-clasificado-guardar',
+  './apple-touch-icon-v31333-debug-api.png?v=3164-clasificado-guardar',
+  './favicon-v31333-debug-api.ico?v=3164-clasificado-guardar',
+  './logo-hcq-login-v31317.png?v=3164-clasificado-guardar'
 ];
 
 self.addEventListener('install',event=>{
@@ -36,7 +36,7 @@ self.addEventListener('fetch',event=>{
   const isFreshAsset=url.pathname.endsWith('/sw.js')||url.pathname.endsWith('/manifest.webmanifest')||/icon-|apple-touch-icon|favicon/.test(url.pathname);
   const isFlag=url.hostname==='flagcdn.com';
   if(isAppShell||isFreshAsset){
-    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html?v=3163-eliminatorias-campeon'))));
+    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html?v=3164-clasificado-guardar'))));
     return;
   }
   if(isFlag){
