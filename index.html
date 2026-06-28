@@ -805,6 +805,33 @@ nav button.active::after{
 .confetti-strip{font-size:22px;animation:confettiFloat 2.2s ease-in-out infinite}
 .bracket-head{border:2px solid #bfdbfe;background:linear-gradient(135deg,#eff6ff,#fff)}
 .winner-final{position:relative;overflow:hidden}
+
+/* ===== V316.1 FIX: contraste banner ganador + reglas visibles ===== */
+.winner-card,.winner-card.winner-final{
+  background:linear-gradient(135deg,#061326 0%,#0b1f3f 48%,#3b2a00 100%)!important;
+  border:2px solid #f8c547!important;
+  color:#ffffff!important;
+  box-shadow:0 18px 42px rgba(0,0,0,.35),0 0 0 3px rgba(248,197,71,.14)!important;
+}
+.winner-card div,.winner-card span,.winner-card b,.winner-card .small{color:#ffffff!important;text-shadow:0 2px 8px rgba(0,0,0,.65)!important}
+.winner-card .winner-name{
+  display:block;
+  margin:8px 0;
+  padding:10px 12px;
+  border-radius:16px;
+  background:#fff7cc!important;
+  border:2px solid #ffffff!important;
+  color:#061326!important;
+  font-size:28px!important;
+  font-weight:1000!important;
+  letter-spacing:.04em;
+  text-align:center;
+  text-shadow:none!important;
+  box-shadow:0 12px 24px rgba(0,0,0,.25)!important;
+}
+#reglas .card{background:#ffffff!important;color:#061326!important;border:1px solid #d6a900!important}
+#reglas h2,#reglas h3,#reglas p,#reglas li,#reglas b{color:#061326!important}
+#reglas h2,#reglas h3{color:#6b4d00!important}
 @keyframes cupPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08) rotate(-2deg)}}
 @keyframes confettiFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 body.dark .champion-hero{background:linear-gradient(135deg,rgba(248,197,71,.30),rgba(11,27,53,.98));color:#fff;border-color:#f8c547}
@@ -844,53 +871,49 @@ body.dark .champion-hero h1{color:#fff} body.dark .champion-name{color:#f8c547}
 <section id="reglas" class="section">
   <div class="card">
     <h2>📜 Reglas oficiales de la quiniela</h2>
-    <p><b>Esta quiniela se divide en 2 competencias independientes:</b> una para la fase de grupos y otra para eliminatorias. Cada grupo de participantes tiene sus propios rankings.</p>
+    <p><b>La quiniela mantiene el mismo sistema de puntos en fase de grupos y eliminatorias.</b> La única diferencia en eliminatorias es el pronóstico de campeón, que suma <b>+10 puntos extra</b> si se acierta.</p>
 
-    <h3>🏆 1) Quiniela fase de grupos</h3>
-    <p>Incluye todos los partidos de la fase de grupos.</p>
-    <p><b>Puntaje por partido:</b></p>
+    <h3>🏆 Fase de grupos</h3>
     <ul>
       <li>✅ <b>1 punto</b> por acertar ganador o empate.</li>
       <li>🎯 <b>4 puntos en total</b> si acierta ganador/empate y marcador exacto.</li>
+      <li><b>Máximo por partido:</b> 4 puntos.</li>
+      <li>Gana la fase de grupos quien acumule más puntos al finalizar todos los partidos de grupos.</li>
     </ul>
-    <p><b>Máximo por partido:</b> 4 puntos.</p>
-    <p><b>Ganador:</b> gana esta quiniela quien acumule más puntos al finalizar la fase de grupos.</p>
 
-    <h3>👑 2) Quiniela eliminatorias</h3>
-    <p>Incluye todos los partidos desde el inicio de eliminatorias hasta la final.</p>
-    <p><b>Puntaje por partido:</b></p>
+    <h3>🔥 Eliminatorias</h3>
     <ul>
       <li>✅ <b>1 punto</b> por acertar ganador o empate.</li>
       <li>🎯 <b>4 puntos en total</b> si acierta ganador/empate y marcador exacto.</li>
+      <li><b>Máximo por partido:</b> 4 puntos.</li>
+      <li>El campo <b>Clasifica</b> sirve para actualizar las llaves y registrar quién avanza, pero no cambia la regla base de puntos por marcador.</li>
     </ul>
-    <p><b>Máximo por partido:</b> 4 puntos.</p>
 
-    <h3>👑 Pronóstico de campeón</h3>
+    <h3>👑 Campeón del Mundial</h3>
     <ul>
       <li>Cada participante debe elegir su campeón antes del inicio del primer partido de eliminatorias.</li>
+      <li>Acertar el campeón suma <b>+10 puntos extra</b>.</li>
+      <li>Los 10 puntos del campeón se suman únicamente al <b>Ranking de Eliminatorias</b>.</li>
       <li>Antes del cierre, cada participante solo puede ver su propio campeón.</li>
       <li>Los campeones de los demás se liberan para todos al iniciar el primer partido de eliminatorias; antes de eso, ni el administrador puede verlos.</li>
-      <li>Al iniciar el primer partido de eliminatorias, el pronóstico de campeón se bloquea automáticamente.</li>
-      <li>Después del bloqueo, todos los participantes pueden ver los campeones elegidos por todos.</li>
-      <li>Acertar el campeón suma <b>10 puntos extra</b>.</li>
-      <li>Los 10 puntos del campeón se suman únicamente al <b>Ranking de Eliminatorias</b>.</li>
     </ul>
 
-    <h3>🔒 Bloqueo de pronósticos</h3>
+    <h3>🔒 Bloqueo y privacidad</h3>
     <ul>
-      <li>Los participantes solo pueden agregar o modificar pronósticos antes de que inicie cada partido.</li><li>Los pronósticos de todos permanecen ocultos para todos, incluyendo administradores, hasta que el partido inicia y queda bloqueado.</li><li>Antes del inicio, la pantalla de Todos solo muestra si cada participante ya guardó su pronóstico, sin mostrar marcador ni clasificado.</li>
+      <li>Los participantes solo pueden agregar o modificar pronósticos antes de que inicie cada partido.</li>
+      <li>Los pronósticos de todos permanecen ocultos para todos, incluyendo administradores, hasta que el partido inicia y queda bloqueado.</li>
+      <li>Antes del inicio, la pantalla de Todos solo muestra si cada participante ya guardó su pronóstico, sin mostrar marcador.</li>
       <li>Un partido iniciado, pasado o con resultado real cargado queda bloqueado.</li>
-      <li>Las correcciones especiales se realizan únicamente desde la pestaña Admin.</li>
     </ul>
 
     <h3>📊 Rankings</h3>
     <ul>
       <li><b>Ranking fase de grupos:</b> solo suma puntos de partidos de fase de grupos.</li>
-      <li><b>Ranking eliminatorias:</b> suma puntos de partidos de eliminatorias y el bono de campeón (+10) si aplica.</li>
+      <li><b>Ranking eliminatorias:</b> suma puntos de eliminatorias y el bono de campeón (+10) si aplica.</li>
     </ul>
   </div>
 </section>
-</div><nav><button class="active" data-sec="inicio">🏠<br>Inicio</button><button data-sec="quiniela">⚽<br>Quiniela</button><button data-sec="ranking">🏆<br>Ranking</button><button data-sec="mundial">🌎<br>Mundial</button><button data-sec="retame">🔥<br>Rétame</button><button data-sec="chat">💬<br>Chat</button><button data-sec="perfil">👤<br>Perfil</button><button data-sec="admin" id="adminTab">⚙️<br>Admin</button></nav></div>
+</div><nav><button class="active" data-sec="inicio">🏠<br>Inicio</button><button data-sec="quiniela">⚽<br>Quiniela</button><button data-sec="ranking">🏆<br>Ranking</button><button data-sec="mundial">🌎<br>Mundial</button><button data-sec="retame">🔥<br>Rétame</button><button data-sec="chat">💬<br>Chat</button><button data-sec="perfil">👤<br>Perfil</button><button data-sec="reglas">📜<br>Reglas</button><button data-sec="admin" id="adminTab">⚙️<br>Admin</button></nav></div>
 <script>
 
 
@@ -1152,7 +1175,7 @@ async function saveChampionPick(){try{if(championLocked() && !isAdmin()) return 
 async function clearChampionPick(){try{if(championLocked() && !isAdmin()) return alert('El pronóstico de campeón ya está bloqueado.'); await q(supa.from('settings').delete().eq('key',championKey(session.id))); state.settings=state.settings.filter(x=>x.key!==championKey(session.id)); await refreshAll();}catch(e){alert('Error: '+e.message)}}
 async function saveOfficialChampion(){try{if(!isAdmin()) return alert('Solo administrador.'); const v=officialChampionSelect.value; await saveSettingValue('official_champion_'+currentGroupId(),v||null); await saveRankingSnapshot(); await refreshAll();}catch(e){alert('Error: '+e.message)}}
 function renderChampion(){if(!document.getElementById('championBox')||!session) return; const teams=championTeams(), pick=championPick(session.id)||'', locked=championLocked(), off=officialChampion()||''; const visible=locked; championBox.innerHTML=`<div class="champion-card"><h3>🏆 Tu campeón de eliminatorias</h3><p class="muted">Debe guardarse antes del primer partido de eliminatorias: <b>${fmtDateTime(firstKnockoutDate())}</b>.</p><label>Selecciona campeón</label><select id="championSelect" ${locked&&!isAdmin()?'disabled':''}><option value="">Seleccionar...</option>${teams.map(t=>`<option value="${esc(t)}" ${teamKey(t)===teamKey(pick)?'selected':''}>${teamLabel(t)}</option>`).join('')}</select><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveChampionPick()" ${locked&&!isAdmin()?'disabled':''}>Guardar campeón</button><button onclick="clearChampionPick()" ${locked&&!isAdmin()?'disabled':''}>Limpiar</button></div>${pick?`<div class="open-note">Tu pronóstico: <span class="champion-pick">${teamLabel(pick)}</span></div>`:'<div class="status">Aún no has guardado campeón.</div>'}${locked?'<div class="locked-note">🔒 Pronóstico de campeón bloqueado.</div>':'<div class="open-note">✅ Todavía puedes cambiar tu campeón.</div>'}<div id="champMsg" class="status"></div></div>${isAdmin()?`<div class="card"><h3>⚙️ Admin · Campeón oficial</h3><p class="muted">Cuando termine la final, selecciona aquí el campeón oficial para sumar automáticamente los 10 puntos en el ranking de eliminatorias.</p><select id="officialChampionSelect"><option value="">Sin campeón oficial</option>${teams.map(t=>`<option value="${esc(t)}" ${teamKey(t)===teamKey(off)?'selected':''}>${teamLabel(t)}</option>`).join('')}</select><button class="good" onclick="saveOfficialChampion()" style="margin-top:10px">Guardar campeón oficial</button>${off?`<div class="open-note">Campeón oficial actual: <b>${teamLabel(off)}</b></div>`:''}</div>`:''}<div class="card"><h3>👥 Pronósticos de campeón del grupo</h3>${visible?`<div class="champion-list">${groupMembers().map(p=>{const cp=championPick(p.id); const bonus=championBonus(p.id); return `<div class="champion-row"><b>${esc(p.name)}</b><span>${cp?teamLabel(cp):'Pendiente'} ${bonus?'<span class="bonus-pill">+10 pts</span>':''}</span></div>`}).join('')}</div>`:'<p class="muted">Los campeones de los demás estarán ocultos hasta que se cierre el plazo de eliminatorias.</p>'}</div>`}
-function pointsFor(p,m){let r=resFor(m.id); if(!r||r.home_score===null||r.away_score===null||!p||p.home_score===null||p.away_score===null)return 0; let pts=0; const sign=(h,a)=>h>a?'H':h<a?'A':'E'; if(sign(+p.home_score,+p.away_score)===sign(+r.home_score,+r.away_score)) pts+=1; if(+p.home_score===+r.home_score && +p.away_score===+r.away_score) pts=4; if(m.phase==='knockout' && p.qualifier && r.qualifier && teamKey(p.qualifier)===teamKey(r.qualifier)) pts+=1; return pts}
+function pointsFor(p,m){let r=resFor(m.id); if(!r||r.home_score===null||r.away_score===null||!p||p.home_score===null||p.away_score===null)return 0; let pts=0; const sign=(h,a)=>h>a?'H':h<a?'A':'E'; if(sign(+p.home_score,+p.away_score)===sign(+r.home_score,+r.away_score)) pts+=1; if(+p.home_score===+r.home_score && +p.away_score===+r.away_score) pts=4; return pts}
 function ranking(phase=null){const list=phase?matches.filter(m=>m.phase===phase):matches; return groupMembers().map(p=>{let pts=0, exact=0, played=0; list.forEach(m=>{let pr=predFor(p.id,m.id); let r=resFor(m.id); if(r&&r.home_score!==null&&r.away_score!==null) played++; pts+=pointsFor(pr,m); if(pr&&r&&+pr.home_score===+r.home_score&&+pr.away_score===+r.away_score) exact++;}); let champBonus=(phase==='knockout')?championBonus(p.id):0; pts+=champBonus; return {p,pts,exact,played,champBonus}}).sort((a,b)=>b.pts-a.pts||b.champBonus-a.champBonus||b.exact-a.exact)}
 function previousPositions(phase){const h=settingValue('history_'+currentGroupId(),[])||[]; const last=h.length?h[h.length-1]:null; const arr=last?(phase==='groups'?last.groups:last.knockout)||[]:[]; const pos={}; arr.forEach((x,i)=>pos[x.id]=i+1); return pos;}
 function moveBadge(pid,pos,phase){const prev=previousPositions(phase)[pid]; if(!prev) return '<span class="move-same">Nuevo</span>'; const diff=prev-pos; if(diff>0) return `<span class="move-up">↑${diff}</span>`; if(diff<0) return `<span class="move-down">↓${Math.abs(diff)}</span>`; return '<span class="move-same">—</span>';}
