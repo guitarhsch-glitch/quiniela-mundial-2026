@@ -1,18 +1,18 @@
 {
   "name": "HCQ - Hattrick Club Quinielas",
   "short_name": "HCQ",
-  "description": "App premium de quinielas multigrupo HCQ V316.13 optimizada.",
-  "id": "./?app=hcq&v=31613-ranking-performance",
-  "start_url": "./?v=31613-ranking-performance",
+  "description": "App premium de quinielas multigrupo HCQ V316.14 optimizada.",
+  "id": "./?app=hcq&v=31614-render-performance",
+  "start_url": "./?v=31614-render-performance",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#050d1f",
   "theme_color": "#071a3f",
   "icons": [
-    {"src":"icon-192-v31333-debug-api.png?v=31613-ranking-performance","sizes":"192x192","type":"image/png","purpose":"any"},
-    {"src":"icon-192-v31333-debug-api.png?v=31613-ranking-performance","sizes":"192x192","type":"image/png","purpose":"maskable"},
-    {"src":"icon-512-v31333-debug-api.png?v=31613-ranking-performance","sizes":"512x512","type":"image/png","purpose":"any"},
-    {"src":"icon-512-v31333-debug-api.png?v=31613-ranking-performance","sizes":"512x512","type":"image/png","purpose":"maskable"}
+    {"src":"icon-192-v31333-debug-api.png?v=31614-render-performance","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"icon-192-v31333-debug-api.png?v=31614-render-performance","sizes":"192x192","type":"image/png","purpose":"maskable"},
+    {"src":"icon-512-v31333-debug-api.png?v=31614-render-performance","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"icon-512-v31333-debug-api.png?v=31614-render-performance","sizes":"512x512","type":"image/png","purpose":"maskable"}
   ]
 }
