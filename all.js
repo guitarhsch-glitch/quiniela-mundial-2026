@@ -85,6 +85,9 @@ function currentGroupId(){return session?.group_id||loginGroup.value||state.grou
 function currentGroup(){return state.groups.find(g=>g.id===currentGroupId())||state.groups[0]||{id:'',name:'Sin grupo',fee:0,currency:'GTQ'}}
 function settingValue(key, fallback=null){const row=state.settings.find(x=>x.key===key); return row&&row.value!==undefined?row.value:fallback}
 async function saveSettingValue(key,value){
+  // Protección extra: ningún admin puede guardar/cambiar el campeón elegido por otro participante.
+  // Solo se permite el champion propio; el campeón oficial usa la llave official_champion_*.
+  if(String(key||'').startsWith('champion_') && key!==championKey(session?.id)) throw new Error('No puedes modificar el campeón de otro participante.');
   const prev=settingValue(key,undefined);
   try{ if(JSON.stringify(prev)===JSON.stringify(value)) return; }catch(e){}
   const row={key,value,updated_at:new Date().toISOString()};
@@ -203,7 +206,17 @@ function preferredDay(phase){const ds=daysFor(phase), t=todayKey(); return ds.in
 function resetDayToToday(phaseId,dayId){let pe=document.getElementById(phaseId), de=document.getElementById(dayId); if(pe&&de) de.value=preferredDay(pe.value);}
 function fillDays(){[['predPhase','predDay'],['allPhase','allDay'],['resPhase','resDay'],['adminPredPhase','adminPredDay']].forEach(([p,d])=>{let pe=document.getElementById(p),de=document.getElementById(d); if(!pe||!de)return; let old=de.value, ds=daysFor(pe.value); de.innerHTML=ds.map(x=>`<option value="${x}">${x}${x===todayKey()?' · Hoy':''}</option>`).join(''); if(old&&ds.includes(old))de.value=old; else de.value=preferredDay(pe.value);})}
 function matchList(phase,day){return matches.filter(m=>m.phase===phase && (!day||dayKey(m.date)===day))}
-function predFor(pid,mid,gid=currentGroupId()){return state.predictions.find(p=>p.group_id===gid&&p.participant_id===pid&&p.match_id===mid)}
+function predFor(pid,mid,gid=currentGroupId()){
+  const rows=(state.predictions||[]).filter(p=>p.group_id===gid&&p.participant_id===pid&&p.match_id===mid);
+  if(!rows.length) return null;
+  return rows.sort((a,b)=>new Date(b.updated_at||0)-new Date(a.updated_at||0))[0];
+}
+function predictionKeyOf(p){return [p.group_id,p.participant_id,p.match_id].join('|')}
+function compactPredictions(){
+  const map=new Map();
+  (state.predictions||[]).forEach(p=>{const k=predictionKeyOf(p), old=map.get(k); if(!old || new Date(p.updated_at||0)>new Date(old.updated_at||0)) map.set(k,p);});
+  state.predictions=[...map.values()];
+}
 function resFor(mid){return state.results.find(r=>r.match_id===mid)}
 function matchStarted(m){return Date.now() >= new Date(m.date).getTime()}
 function hasRealResult(m){let r=resFor(m.id); return !!(r && r.home_score!==null && r.home_score!==undefined && r.away_score!==null && r.away_score!==undefined)}
@@ -229,7 +242,29 @@ function activatePredTarget(id){if(!id) return; if(id.startsWith('ps_')) setActi
 function setPredDigit(mid,val){const h='ph_'+mid, a='pa_'+mid; let target=(activePredInput===h||activePredInput===a)?activePredInput:h; const el=document.getElementById(target); if(!el || el.disabled) return; el.value=val; el.dispatchEvent(new Event('input',{bubbles:true})); activatePredTarget(nextPredTarget(target));}
 function backPredDigit(mid){const h='ph_'+mid, a='pa_'+mid; let target=(activePredInput===h||activePredInput===a)?activePredInput:h; const el=document.getElementById(target); if(!el || el.disabled) return; el.value=''; el.dispatchEvent(new Event('input',{bubbles:true})); setActivePredInput(target);}
 function predNumPad(mid,dis){if(dis) return ''; const nums=[0,1,2,3,4,5,6,7,8,9]; return `<div class="num-pad">${nums.map(n=>`<button type="button" onclick="setPredDigit('${mid}',${n})">${n}</button>`).join('')}<button type="button" onclick="backPredDigit('${mid}')">⌫ Borrar</button></div><p class="small" style="text-align:center">Flujo automático: casilla 1 → casilla 2 → Guardar → siguiente partido.</p>`}
-async function savePred(mid,advance=false){let m=matches.find(x=>x.id===mid), h=document.getElementById('ph_'+mid).value, a=document.getElementById('pa_'+mid).value, qv=document.getElementById('pq_'+mid)?.value||null; if(locked(m))return alert(lockReason(m)); const next=advance?nextPredMatchId(mid):null; await q(supa.from('predictions').upsert({group_id:currentGroupId(),participant_id:session.id,match_id:mid,home_score:h===''?null:+h,away_score:a===''?null:+a,qualifier:qv,updated_at:new Date().toISOString()})); notifyGroup('prediction','🎯 Pronóstico modificado',`${session.name} modificó ${resolvedTeam(m.home)} vs ${resolvedTeam(m.away)}.`).catch(()=>{}); await refreshAll(); if(advance&&next) setTimeout(()=>setActivePredInput('ph_'+next),150);}
+async function savePred(mid,advance=false){
+  try{
+    let m=matches.find(x=>x.id===mid), h=document.getElementById('ph_'+mid).value, a=document.getElementById('pa_'+mid).value, qv=document.getElementById('pq_'+mid)?.value||null;
+    if(!m) return alert('No encontré este partido. Actualiza la app e intenta otra vez.');
+    if(locked(m)) return alert(lockReason(m));
+    if(h==='' || a==='') return alert('Ingresa los dos marcadores antes de guardar.');
+    if(m.phase==='knockout'){
+      const hs=+h, as=+a, rm=resolvedMatch(m);
+      if(hs>as && !qv) qv=rm.home;
+      if(as>hs && !qv) qv=rm.away;
+      if(hs===as && !qv) return alert('En empate debes seleccionar quién clasifica.');
+    }
+    const row={group_id:currentGroupId(),participant_id:session.id,match_id:mid,home_score:+h,away_score:+a,qualifier:qv,updated_at:new Date().toISOString()};
+    const next=advance?nextPredMatchId(mid):null;
+    // Limpia duplicados antes de guardar para que Supabase y el ranking lean un solo pronóstico vigente.
+    await q(supa.from('predictions').delete().eq('group_id',row.group_id).eq('participant_id',row.participant_id).eq('match_id',row.match_id));
+    await q(supa.from('predictions').insert(row));
+    notifyGroup('prediction','🎯 Pronóstico modificado',`${session.name} modificó ${resolvedTeam(m.home)} vs ${resolvedTeam(m.away)}.`).catch(()=>{});
+    await refreshAll();
+    await saveRankingSnapshot();
+    if(advance&&next) setTimeout(()=>setActivePredInput('ph_'+next),150);
+  }catch(e){alert('Error al guardar pronóstico: '+(e.message||e));}
+}
 async function clearPred(mid){let m=matches.find(x=>x.id===mid); if(locked(m))return alert(lockReason(m)); await q(supa.from('predictions').delete().eq('group_id',currentGroupId()).eq('participant_id',session.id).eq('match_id',mid)); await refreshAll(); await saveRankingSnapshot()}
 function renderPred(){ updateNavBadges(); let list=matchList(predPhase.value,predDay.value); activePredInput=null; predList.innerHTML=list.map((m,i)=>{let rm=resolvedMatch(m), p=predFor(session.id,m.id)||{}; let isLocked=locked(m); let dis=isLocked?'disabled':''; let ro=isLocked?'':'readonly'; return matchCard(m,`<div class="score"><input class="pred-score" id="ph_${m.id}" type="text" inputmode="none" pattern="[0-9]*" maxlength="2" value="${p.home_score??''}" onclick="setActivePredInput('ph_${m.id}')" ${ro} ${dis}><b>-</b><input class="pred-score" id="pa_${m.id}" type="text" inputmode="none" pattern="[0-9]*" maxlength="2" value="${p.away_score??''}" onclick="setActivePredInput('pa_${m.id}')" ${ro} ${dis}></div>${predNumPad(m.id,isLocked)}${m.phase==='knockout'?`<label>Clasifica</label><select id="pq_${m.id}" ${dis}><option value="">Sin seleccionar</option>${teamOptionHtml(rm.home,p.qualifier)}${teamOptionHtml(rm.away,p.qualifier)}</select>`:''}<div style="margin-top:10px;display:flex;gap:8px"><button class="primary pred-save" id="ps_${m.id}" onclick="savePred('${m.id}',true)" ${dis}>Guardar</button><button onclick="clearPred('${m.id}')" ${dis}>Limpiar</button></div>${isLocked?`<div class="status err">${lockReason(m)}</div>`:''}`)}).join('')||'<p>No hay partidos.</p>'}
 function predictionSaved(pr){return !!(pr && pr.home_score!==null && pr.home_score!==undefined && pr.away_score!==null && pr.away_score!==undefined)}
@@ -258,8 +293,21 @@ async function saveChampionPick(){try{if(championLocked()) return alert('El pron
 async function clearChampionPick(){try{if(championLocked()) return alert('El pronóstico de campeón ya está bloqueado porque ya inició el primer partido de 16avos.'); await q(supa.from('settings').delete().eq('key',championKey(session.id))); state.settings=state.settings.filter(x=>x.key!==championKey(session.id)); await refreshAll();}catch(e){alert('Error: '+e.message)}}
 async function saveOfficialChampion(){try{if(!isAdmin()) return alert('Solo administrador.'); const v=officialChampionSelect.value; await saveSettingValue('official_champion_'+currentGroupId(),v||null); await saveRankingSnapshot(); await refreshAll();}catch(e){alert('Error: '+e.message)}}
 function renderChampion(){if(!document.getElementById('championBox')||!session) return; const teams=championTeams(), pick=championPick(session.id)||'', locked=championLocked(), off=officialChampion()||''; const visible=locked; championBox.innerHTML=`<div class="champion-card"><h3>🏆 Tu campeón del Mundial</h3><p class="muted">Puedes elegirlo o cambiarlo hasta que inicie el primer partido de <b>16avos de final</b>: <b>${fmtDateTime(firstKnockoutDate())}</b>.</p><label>Selecciona campeón</label><select id="championSelect" ${locked?'disabled':''}><option value="">Seleccionar...</option>${teams.map(t=>`<option value="${esc(t)}" ${teamKey(t)===teamKey(pick)?'selected':''}>${teamLabel(t)}</option>`).join('')}</select><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveChampionPick()" ${locked?'disabled':''}>Guardar campeón</button><button onclick="clearChampionPick()" ${locked?'disabled':''}>Limpiar</button></div>${pick?`<div class="open-note">Tu pronóstico actual: <span class="champion-pick">${teamLabel(pick)}</span></div>`:'<div class="status">Aún no has guardado campeón.</div>'}${locked?'<div class="locked-note">🔒 Pronóstico de campeón bloqueado. Ya no se puede modificar.</div>':'<div class="open-note">✅ Todavía puedes cambiar tu campeón antes del primer partido de 16avos.</div>'}<div id="champMsg" class="status"></div></div>${isAdmin()?`<div class="card"><h3>⚙️ Admin · Campeón oficial</h3><p class="muted">Cuando termine la final, selecciona aquí el campeón oficial para sumar automáticamente los 10 puntos en el ranking de eliminatorias.</p><select id="officialChampionSelect"><option value="">Sin campeón oficial</option>${teams.map(t=>`<option value="${esc(t)}" ${teamKey(t)===teamKey(off)?'selected':''}>${teamLabel(t)}</option>`).join('')}</select><button class="good" onclick="saveOfficialChampion()" style="margin-top:10px">Guardar campeón oficial</button>${off?`<div class="open-note">Campeón oficial actual: <b>${teamLabel(off)}</b></div>`:''}</div>`:''}<div class="card"><h3>👥 Campeones elegidos del grupo</h3>${visible?`<div class="champion-list">${groupMembers().map(p=>{const cp=championPick(p.id); const bonus=championBonus(p.id); return `<div class="champion-row"><b>${esc(p.name)}</b><span>${cp?teamLabel(cp):'Pendiente'} ${bonus?'<span class="bonus-pill">+10 pts</span>':''}</span></div>`}).join('')}</div>`:'<p class="muted">Los campeones de los demás estarán ocultos hasta que inicie el primer partido de 16avos.</p>'}</div>`}
-function pointsFor(p,m){let r=resFor(m.id); if(!r||r.home_score===null||r.away_score===null||!p||p.home_score===null||p.away_score===null)return 0; let pts=0; const sign=(h,a)=>h>a?'H':h<a?'A':'E'; if(sign(+p.home_score,+p.away_score)===sign(+r.home_score,+r.away_score)) pts+=1; if(+p.home_score===+r.home_score && +p.away_score===+r.away_score) pts+=3; if(m.phase==='knockout' && p.qualifier && r.qualifier && teamKey(p.qualifier)===teamKey(r.qualifier)) pts+=1; return Math.min(pts,4)}
-function ranking(phase=null){const list=phase?matches.filter(m=>m.phase===phase):matches; return groupMembers().map(p=>{let pts=0, exact=0, played=0; list.forEach(m=>{let pr=predFor(p.id,m.id); let r=resFor(m.id); if(r&&r.home_score!==null&&r.away_score!==null) played++; pts+=pointsFor(pr,m); if(pr&&r&&+pr.home_score===+r.home_score&&+pr.away_score===+r.away_score) exact++;}); let champBonus=(phase==='knockout')?championBonus(p.id):0; pts+=champBonus; return {p,pts,exact,played,champBonus}}).sort((a,b)=>b.pts-a.pts||b.champBonus-a.champBonus||b.exact-a.exact)}
+function pointsFor(p,m){
+  let r=resFor(m.id);
+  if(!r||r.home_score===null||r.home_score===undefined||r.away_score===null||r.away_score===undefined||!p||p.home_score===null||p.home_score===undefined||p.away_score===null||p.away_score===undefined) return 0;
+  let pts=0;
+  const ph=+p.home_score, pa=+p.away_score, rh=+r.home_score, ra=+r.away_score;
+  const sign=(h,a)=>h>a?'H':h<a?'A':'E';
+  const acertóResultado=sign(ph,pa)===sign(rh,ra);
+  const exacto=ph===rh && pa===ra;
+  if(acertóResultado) pts+=1;
+  if(exacto) pts+=3;
+  if(m.phase==='knockout' && p.qualifier && r.qualifier && teamKey(p.qualifier)===teamKey(r.qualifier)) pts+=1;
+  // Regla final: máximo 4 puntos por partido, tanto grupos como eliminatorias.
+  return Math.min(pts,4);
+}
+function ranking(phase=null){compactPredictions(); const list=phase?matches.filter(m=>m.phase===phase):matches; return groupMembers().map(p=>{let pts=0, exact=0, played=0; list.forEach(m=>{let pr=predFor(p.id,m.id); let r=resFor(m.id); if(r&&r.home_score!==null&&r.home_score!==undefined&&r.away_score!==null&&r.away_score!==undefined) played++; pts+=pointsFor(pr,m); if(pr&&r&&+pr.home_score===+r.home_score&&+pr.away_score===+r.away_score) exact++;}); let champBonus=(phase==='knockout')?championBonus(p.id):0; pts+=champBonus; return {p,pts,exact,played,champBonus}}).sort((a,b)=>b.pts-a.pts||b.champBonus-a.champBonus||b.exact-a.exact)}
 function previousPositions(phase){const h=settingValue('history_'+currentGroupId(),[])||[]; const last=h.length?h[h.length-1]:null; const arr=last?(phase==='groups'?last.groups:last.knockout)||[]:[]; const pos={}; arr.forEach((x,i)=>pos[x.id]=i+1); return pos;}
 function moveBadge(pid,pos,phase){const prev=previousPositions(phase)[pid]; if(!prev) return '<span class="move-same">Nuevo</span>'; const diff=prev-pos; if(diff>0) return `<span class="move-up">↑${diff}</span>`; if(diff<0) return `<span class="move-down">↓${Math.abs(diff)}</span>`; return '<span class="move-same">—</span>';}
 
@@ -351,7 +399,17 @@ function isScheduledLiveCandidate(m){
     return now >= start-preWindow && now <= start+gameWindow;
   }catch(e){return false;}
 }
-function liveMatches(){const byId=new Map(); matches.forEach(m=>{if(isLiveResult(resFor(m.id))||isScheduledLiveCandidate(m)) byId.set(m.id,m);}); return [...byId.values()].sort((a,b)=>new Date(a.date)-new Date(b.date))}
+function liveMatches(){
+  const now=Date.now(), byId=new Map();
+  matches.forEach(m=>{
+    const r=resFor(m.id), start=new Date(m.date).getTime();
+    if(isFinishedResult(r)) return;
+    // Si ya pasaron más de 130 min y no hay estado vivo real, no lo sigas dejando arriba como vivo.
+    if(!isLiveResult(r) && now>start+130*60000) return;
+    if(isLiveResult(r)||isScheduledLiveCandidate(m)) byId.set(m.id,m);
+  });
+  return [...byId.values()].sort((a,b)=>new Date(a.date)-new Date(b.date));
+}
 function liveFallbackNotice(m){const r=resFor(m.id); if(isLiveResult(r)) return ''; return '<div class="status ok live-state"><span class="live-badge">EN VIVO</span> Por horario · esperando marcador API</div><div class="small muted">El partido ya inició según calendario. El marcador aparecerá cuando API Football/Supabase lo confirme.</div>'}
 
 function recentFinishedMatches(limit=1){const now=Date.now(); return matches.filter(m=>{const r=resFor(m.id); const t=new Date(m.date).getTime(); return isFinishedResult(r) && t<now && t>now-8*3600000;}).sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,limit)}
@@ -363,7 +421,20 @@ function renderEventList(details){
   if(!parts.length) return '<div class="live-events muted">Minuto/estado actualizado por API Football. Eventos aparecerán si la API los devuelve.</div>';
   return `<div class="live-events"><b>Eventos importantes</b><div class="event-list">${parts.map(ev=>`<div class="event-item"><div class="event-icon">${eventIconFromText(ev)}</div><div>${esc(ev)}</div></div>`).join('')}</div></div>`;
 }
-function renderLiveHome(){const lives=liveMatches(); if(!lives.length){const finished=recentFinishedMatches(1); if(finished.length){liveMatchBox.innerHTML=finished.map(m=>{let r=resFor(m.id)||{}, details=statusDetails(r.status); return matchCard(m,`<div class="status ok live-state"><span class="live-badge">TERMINADO</span> ${esc(statusBase(r.status)||'Finalizado')}</div><div class="live-score">${r.home_score??'-'} - ${r.away_score??'-'}</div>${details?renderEventList(details):'<div class="small muted">Marcador final confirmado.</div>'}`)}).join('')+(isAdmin()?'<button class="good" onclick="updateApiFootballLive(false)">Actualizar vivo ahora</button>':''); return;} liveMatchBox.innerHTML='<p class="muted">No hay partido en vivo en este momento.</p>'+(isAdmin()?'<button class="good" onclick="updateApiFootballLive(false)">Actualizar vivo ahora</button>':''); return;} liveMatchBox.innerHTML=lives.map(m=>{let r=resFor(m.id)||{}, details=statusDetails(r.status); const score=(r.home_score!=null&&r.away_score!=null)?`<div class="live-score">${r.home_score} - ${r.away_score}</div>`:'<div class="live-score">0 - 0</div><div class="small muted">Marcador pendiente de confirmar</div>'; const top=isLiveResult(r)?`<div class="status err live-state"><span class="live-badge">EN VIVO</span> ${esc(statusBase(r.status)||'En vivo')}</div>`:liveFallbackNotice(m); return matchCard(m,`${top}${score}${details?renderEventList(details):'<div class="live-events muted">Esperando actualización automática de API Football.</div>'}`)}).join('')+(isAdmin()?'<button class="good" onclick="updateApiFootballLive(false)">Actualizar vivo ahora</button>':'')}
+function renderLiveHome(){
+  const adminBtn=isAdmin()?'<button class="good" onclick="updateApiFootballLive(false)">Actualizar vivo ahora</button>':'';
+  const lives=liveMatches().slice(0,1);
+  if(!lives.length){
+    liveMatchBox.innerHTML='<p class="muted">No hay partido en vivo en este momento.</p>'+adminBtn;
+    return;
+  }
+  liveMatchBox.innerHTML=lives.map(m=>{
+    let r=resFor(m.id)||{}, details=statusDetails(r.status);
+    const score=(r.home_score!=null&&r.away_score!=null)?`<div class="live-score">${r.home_score} - ${r.away_score}</div>`:'<div class="live-score">0 - 0</div><div class="small muted">Marcador pendiente de confirmar</div>';
+    const top=isLiveResult(r)?`<div class="status err live-state"><span class="live-badge">EN VIVO</span> ${esc(statusBase(r.status)||'En vivo')}</div>`:liveFallbackNotice(m);
+    return matchCard(m,`${top}${score}${details?renderEventList(details):'<div class="live-events muted">Esperando actualización automática de API Football.</div>'}`)
+  }).join('')+adminBtn;
+}
 
 function phaseMatches(phase){return matches.filter(m=>m.phase===phase)}
 function phaseComplete(phase){const list=phaseMatches(phase); return list.length && list.every(m=>{const r=resFor(m.id); return r&&r.home_score!==null&&r.away_score!==null})}
@@ -478,14 +549,27 @@ function fillAdminPredPlayers(){
   if(old && ps.some(p=>p.id===old)) adminPredPlayer.value=old;
 }
 async function saveAdminPrediction(pid,mid){
-  if(!isAdmin()) return alert('Solo administrador.');
-  let h=document.getElementById('aph_'+pid+'_'+mid).value;
-  let a=document.getElementById('apa_'+pid+'_'+mid).value;
-  let qv=document.getElementById('apq_'+pid+'_'+mid)?.value||null;
-  await q(supa.from('predictions').upsert({group_id:currentGroupId(),participant_id:pid,match_id:mid,home_score:h===''?null:+h,away_score:a===''?null:+a,qualifier:qv,updated_at:new Date().toISOString()}));
-  const player=state.participants.find(x=>x.id===pid); const match=matches.find(x=>x.id===mid);
-  notifyGroup('prediction','🎯 Pronóstico modificado',`${player?.name||'Un participante'} modificó ${match?.home||''} vs ${match?.away||''}.`).catch(()=>{});
-  await refreshAll();
+  try{
+    if(!isAdmin()) return alert('Solo administrador.');
+    const match=matches.find(x=>x.id===mid);
+    let h=document.getElementById('aph_'+pid+'_'+mid).value;
+    let a=document.getElementById('apa_'+pid+'_'+mid).value;
+    let qv=document.getElementById('apq_'+pid+'_'+mid)?.value||null;
+    if(h===''||a==='') return alert('Ingresa los dos marcadores antes de guardar.');
+    if(match?.phase==='knockout'){
+      const hs=+h, as=+a, rm=resolvedMatch(match);
+      if(hs>as && !qv) qv=rm.home;
+      if(as>hs && !qv) qv=rm.away;
+      if(hs===as && !qv) return alert('En empate debes seleccionar quién clasifica.');
+    }
+    const row={group_id:currentGroupId(),participant_id:pid,match_id:mid,home_score:+h,away_score:+a,qualifier:qv,updated_at:new Date().toISOString()};
+    await q(supa.from('predictions').delete().eq('group_id',row.group_id).eq('participant_id',row.participant_id).eq('match_id',row.match_id));
+    await q(supa.from('predictions').insert(row));
+    const player=state.participants.find(x=>x.id===pid);
+    notifyGroup('prediction','🎯 Pronóstico modificado',`${player?.name||'Un participante'} modificó ${match?.home||''} vs ${match?.away||''}.`).catch(()=>{});
+    await refreshAll();
+    await saveRankingSnapshot();
+  }catch(e){alert('Error al guardar pronóstico admin: '+(e.message||e));}
 }
 async function clearAdminPrediction(pid,mid){
   if(!isAdmin()) return alert('Solo administrador.');
@@ -1169,6 +1253,7 @@ function renderAdmin(){
 }
 
 function renderAll(){
+  compactPredictions();
   fillDays(); renderProfile(); renderHome(); renderPred(); renderAllPreds(); renderChampion(); renderRanking(); renderWorld(); renderRetame(); renderChat(); updateNavBadges(); preloadCriticalFlags();
   if(isAdmin()) renderAdmin();
 }
