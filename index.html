@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071a3f">
-<link rel="manifest" href="manifest.webmanifest?v=31328-ux-lag">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-v31328-ux-lag.png?v=31328-ux-lag">
-<link rel="apple-touch-icon-precomposed" sizes="180x180" href="apple-touch-icon-v31328-ux-lag.png?v=31328-ux-lag">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192-v31328-ux-lag.png?v=31328-ux-lag">
+<link rel="manifest" href="manifest.webmanifest?v=31613-rank-perf">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-v31333-debug-api.png?v=31613-rank-perf">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="apple-touch-icon-v31333-debug-api.png?v=31613-rank-perf">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192-v31333-debug-api.png?v=31613-rank-perf">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512-v31328-ux-lag.png?v=31328-ux-lag">
 <link rel="shortcut icon" href="favicon-v31328-ux-lag.ico?v=31328-ux-lag">
 <link rel="preload" as="image" href="logo-hcq-login-v31317.png?v=31328-ux-lag" fetchpriority="high">
 <link rel="preconnect" href="https://flagcdn.com" crossorigin>
 <link rel="dns-prefetch" href="https://flagcdn.com">
-<title>HCQ - Hattrick Club Quinielas V316.10</title>
+<title>HCQ - Hattrick Club Quinielas V316.13</title>
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -261,7 +261,7 @@ button:not(.primary):not(.good):not(.danger){background:#132638!important;color:
 .rank-points small{grid-column:2;color:#ffffff!important;font-size:11px!important;letter-spacing:.8px!important;}
 .rank-fun{font-size:18px!important;font-weight:1000!important;color:#f8c547!important;}.rank-pos{font-size:16px!important;color:#ffffff!important;}.rank-exact-pill{font-size:14px!important;}
 @media(max-width:520px){.rank-line{grid-template-columns:92px 1fr!important;}.rank-line>.pill:last-child{grid-column:2;margin-top:5px;width:max-content}.rank-big-emoji{font-size:36px!important}.rank-score{font-size:29px!important}.rank-points{min-width:86px!important}.rank-meta{font-size:11px!important}}
-/* ===== V316.12 Ranking: iconos desplegables siempre visibles ===== */
+/* ===== V316.13 Ranking: iconos desplegables siempre visibles ===== */
 .rank-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
 .rank-action-btn{border:1px solid rgba(212,175,55,.32)!important;background:rgba(212,175,55,.14)!important;color:#f8c547!important;border-radius:999px!important;padding:7px 9px!important;font-weight:1000!important;font-size:13px!important;min-height:auto!important;box-shadow:none!important}
 .rank-action-btn:hover{background:rgba(248,197,71,.22)!important}
@@ -851,7 +851,7 @@ body.dark .champion-hero{background:linear-gradient(135deg,rgba(248,197,71,.30),
 body.dark .champion-hero h1{color:#fff} body.dark .champion-name{color:#f8c547}
 
 
-/* ===== V316.10 ajustes solicitados ===== */
+/* ===== V316.13 ajustes solicitados ===== */
 #homeAlerts .champion-hero{
   background:linear-gradient(135deg,#ffffff 0%,#fff7cc 45%,#eef6ff 100%)!important;
   color:#061326!important;
@@ -874,7 +874,7 @@ body.dark .champion-hero h1{color:#fff} body.dark .champion-name{color:#f8c547}
 <div id="championModal" class="champion-modal"><div class="champion-modal-card"><button class="champion-close" onclick="closeChampionModal()">Cerrar ✕</button><div id="championModalContent"></div></div></div>
 <div id="loginScreen" class="login">
  <div class="login-card">
-  <div class="logo" aria-label="HCQ"></div><h1><span class="brand-main">HCQ</span><span class="brand-sub">Hattrick Club Quinielas</span></h1><p class="muted">Pronostica • Compite • Gana<br>V316.10 HCQ · Eliminatorias</p>
+  <div class="logo" aria-label="HCQ"></div><h1><span class="brand-main">HCQ</span><span class="brand-sub">Hattrick Club Quinielas</span></h1><p class="muted">Pronostica • Compite • Gana<br>V316.13 HCQ · Eliminatorias</p>
   <div id="configBox" class="alert hidden"><b>Falta configurar Supabase.</b><label>URL Supabase</label><input id="cfgUrl" placeholder="URL Supabase"><label>Clave publicable</label><input id="cfgKey" placeholder="sb_publishable_..."><button class="primary" style="width:100%;margin-top:8px" onclick="saveConfig()">Guardar configuración</button></div>
   <label>Usuario</label><input id="loginUser" value="admin"><label>Contraseña</label><input id="loginPass" type="password" value="1234">
   <label>Grupo</label><select id="loginGroup"></select>
@@ -882,7 +882,7 @@ body.dark .champion-hero h1{color:#fff} body.dark .champion-name{color:#f8c547}
   <div id="loginMsg" class="status">Cargando grupos...</div>
  </div>
 </div>
-<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V316.10 HCQ · <span id="cloudState">Conectando...</span><span class="perf-note">V316.10</span></div><div class="top-group-switch" id="topGroupSwitchBox"><label>Grupo</label><select id="topGroupSwitch" onchange="switchSessionGroup(this.value)"></select></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
+<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V316.13 HCQ · <span id="cloudState">Conectando...</span><span class="perf-note">V316.13</span></div><div class="top-group-switch" id="topGroupSwitchBox"><label>Grupo</label><select id="topGroupSwitch" onchange="switchSessionGroup(this.value)"></select></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
 <div class="wrap">
 <section id="inicio" class="section active"><div class="card live-priority-card"><h2>🔴 Partido en vivo</h2><div id="liveMatchBox"></div></div><div class="card"><h2>📋 Partido anterior</h2><div id="previousMatchBox"></div></div><div class="card"><h2>⏳ Próximo partido</h2><div id="nextMatchBox"></div></div><div class="card"><h2>🏟️ Panel general</h2><p class="muted">Grupo actual: <b id="currentGroupName"></b></p><div id="homeGroupSwitchBox" class="hidden" style="margin:10px 0"><label>Cambiar grupo</label><select id="homeGroupSwitch" onchange="switchSessionGroup(this.value)"></select><p class="small">Puedes cambiar de grupo sin cerrar sesión.</p></div><div class="grid3"><div class="status">Participantes<br><b id="statPlayers">0</b></div><div class="status">Bolsa<br><b id="statPool">Q0</b></div><div class="status">Líder<br><b id="statLeader">-</b></div></div></div><div class="card"><h2>🥇 Top 3 del grupo</h2><div id="homePlayers" class="players"></div></div><div class="card"><h2>🔔 Alertas y avisos</h2><div id="homeAlerts"></div></div><div class="card"><h2>🎉 Ganadores</h2><div id="winnerBox"></div></div></section>
 <section id="quiniela" class="section"><div class="card"><h2>⚽ Quiniela</h2><div class="module-tabs"><button class="active" data-qtab="pronosticos" onclick="setQuinielaTab('pronosticos')">🎯 Pronósticos</button><button data-qtab="ver" onclick="setQuinielaTab('ver')">👥 Ver pronósticos</button><button data-qtab="campeon" onclick="setQuinielaTab('campeon')">👑 Campeón</button></div></div><div id="qtab-pronosticos" class="q-panel active"><div class="card"><h2>🎯 Mis pronósticos</h2><div class="grid2"><div><label>Fase</label><select id="predPhase" onchange="fillDays();renderPred()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="predDay" onchange="renderPred()"></select></div></div><div id="predList"></div></div></div><div id="qtab-ver" class="q-panel"><div class="card"><h2>👥 Pronósticos de todos</h2><div class="grid2"><div><label>Fase</label><select id="allPhase" onchange="fillDays();renderAllPreds()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="allDay" onchange="renderAllPreds()"></select></div></div><div id="allBox"></div></div></div><div id="qtab-campeon" class="q-panel"><div class="card"><h2>👑 Pronóstico de campeón</h2><p class="muted">Esta elección cuenta solo para la quiniela de eliminatorias. Si aciertas el campeón, suma <b>10 puntos extra</b>.</p><div id="championBox"></div></div></div></section>
@@ -895,11 +895,11 @@ body.dark .champion-hero h1{color:#fff} body.dark .champion-name{color:#f8c547}
 <div id="atab-resultados" class="q-panel a-panel"><div class="card"><h2>Admin · Resultados reales</h2><div class="grid2"><div><label>Fase</label><select id="resPhase" onchange="fillDays();renderResultsAdmin()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="resDay" onchange="renderResultsAdmin()"></select></div></div><div id="resultsAdmin"></div></div></div>
 <div id="atab-pronosticos" class="q-panel a-panel"><div class="card"><h2>Admin · Modificar pronósticos de participantes</h2><p class="muted">Uso especial para corregir o restaurar pronósticos. Afecta solo al grupo actual.</p><div class="grid3"><div><label>Participante</label><select id="adminPredPlayer" onchange="renderAdminPredictions()"></select></div><div><label>Fase</label><select id="adminPredPhase" onchange="fillDays();renderAdminPredictions()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="adminPredDay" onchange="renderAdminPredictions()"></select></div></div><div id="adminPredBox"></div></div></div>
 <div id="atab-notificaciones" class="q-panel a-panel"><div class="card"><h2>Admin · Notificaciones externas OneSignal</h2><p class="muted">Activa avisos push fuera de la app solo para chat, pronósticos modificados, recordatorios 30 y 10 minutos antes únicamente a quienes tengan pendiente ese pronóstico, y aviso de inicio de partido. En Netlify debes agregar la variable <b>ONESIGNAL_REST_API_KEY</b>. El App ID sí se guarda aquí porque es público.</p><div class="grid2"><div><label>OneSignal App ID</label><input id="oneSignalAppId" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></div><div><label>Estado</label><input id="oneSignalStatus" readonly value="Sin configurar"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveOneSignalConfig()">Guardar OneSignal</button><button class="good" onclick="enableBrowserAlerts()">Activar avisos en este dispositivo</button><button onclick="sendOneSignalTest()">Enviar prueba al grupo</button></div><div id="oneSignalMsg" class="status">Configura App ID y la variable secreta en Netlify para enviar notificaciones externas.</div></div></div>
-<div id="atab-api" class="q-panel a-panel"><div class="card"><h2>Admin · API Football</h2><p class="muted">Actualiza resultados reales desde API Football sin tocar pronósticos ni participantes. V316.10 mantiene la función programada de Netlify para actualizar aunque ningún admin esté conectado.</p><div class="grid3"><div><label>API Key</label><input id="apiFootballKey" placeholder="Pega tu API key"></div><div><label>League ID</label><input id="apiFootballLeague" value="1"></div><div><label>Season</label><input id="apiFootballSeason" value="2026"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveApiFootballConfig()">Guardar API Key</button><button class="good" onclick="updateApiFootballDay()">Actualizar día seleccionado</button><button class="good" onclick="updateApiFootballAll()">Actualizar todos los partidos</button></div><div id="apiFootballMsg" class="status">Primero guarda la API Key. Luego elige un día en Resultados reales y presiona actualizar.</div></div></div>
+<div id="atab-api" class="q-panel a-panel"><div class="card"><h2>Admin · API Football</h2><p class="muted">Actualiza resultados reales desde API Football sin tocar pronósticos ni participantes. V316.13 mantiene la función programada de Netlify para actualizar aunque ningún admin esté conectado.</p><div class="grid3"><div><label>API Key</label><input id="apiFootballKey" placeholder="Pega tu API key"></div><div><label>League ID</label><input id="apiFootballLeague" value="1"></div><div><label>Season</label><input id="apiFootballSeason" value="2026"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveApiFootballConfig()">Guardar API Key</button><button class="good" onclick="updateApiFootballDay()">Actualizar día seleccionado</button><button class="good" onclick="updateApiFootballAll()">Actualizar todos los partidos</button></div><div id="apiFootballMsg" class="status">Primero guarda la API Key. Luego elige un día en Resultados reales y presiona actualizar.</div></div></div>
 <div id="atab-limpieza" class="q-panel a-panel"><div class="card danger-zone"><h2>Admin · Limpieza del sistema</h2><p class="muted">Herramientas delicadas. Haz respaldo antes de usar. La limpieza total mantiene los grupos, el administrador y la configuración de API Football.</p><div class="danger-actions"><button class="danger" onclick="deleteGroupPredictions()">Eliminar pronósticos del grupo actual</button><button class="danger" onclick="deleteAllPredictions()">Eliminar TODOS los pronósticos</button><button class="danger" onclick="cleanWholeSystem()">Limpiar todo el sistema</button></div><div id="cleanMsg" class="status">Disponible solo para administradores.</div></div></div></section>
 
 <section id="retame" class="section"><div class="card"><h2>🔥 Rétame</h2><p class="muted">Solo queda activa la <b>Apuesta rápida</b>. La app registra acuerdos amistosos entre participantes; no procesa pagos.</p></div><div id="retab-apuestas" class="q-panel retame-panel active"><div class="card"><div class="retame-section-title"><h2>⚡ Apuesta rápida</h2><button onclick="document.getElementById('retameCreateBox').classList.toggle('hidden')">➕ Crear apuesta rápida</button></div><p class="muted">Elige un partido, tu ganador y el premio/reto opcional. Los demás aceptan y tú confirmas.</p><div id="retameCreateBox" class="retame-card hidden"><h2>➕ Crear apuesta rápida</h2><div class="grid2"><div><label>Partido</label><select id="retameMatch"></select></div><div><label>Yo apuesto por</label><select id="retamePick"></select></div></div><div class="grid2"><div><label>Tipo de premio/reto</label><select id="retameRewardType"><option value="orgullo">🏆 Solo orgullo</option><option value="dinero">💰 Cantidad monetaria</option><option value="comida">🍔 Comida/bebida</option><option value="castigo">😂 Reto al perdedor</option><option value="personalizado">✍️ Personalizado</option></select></div><div><label>Detalle</label><input id="retameReward" placeholder="$10, tacos, desayuno, reto divertido..."></div></div><label>Mensaje opcional</label><input id="retameMsg" placeholder="Ej: A que México gana este partido 😆"><div class="retame-form-note">Los demás pueden aceptar. Tú decides después si confirmas o rechazas a cada participante.</div><div class="retame-actions"><button class="primary" onclick="createRetameChallenge()">Publicar apuesta rápida</button></div><div id="retameCreateMsg" class="status"></div></div><div id="retameWallBox"></div></div></div></section>
-<section id="chat" class="section"><div class="card chat-card-premium"><div class="chat-premium-head"><div><h2>💬 Chat del grupo</h2><span class="chat-title-chip">✨ Eliminatorias V316.11</span></div><button type="button" class="scroll-bottom-btn" onclick="scrollChatBottom()">⬇️ Último</button></div><p class="muted">Mensajes visibles solo para el grupo actual. Diseño premium con burbujas, avatar, menciones, reacciones, fijados, búsqueda e indicador escribiendo.</p><div id="chatStats" class="chat-stats"></div><div id="chatOnline" class="online-box">Conectados: calculando...</div><div id="chatTyping" class="online-box hidden"></div><div id="chatPinned" class="pin-box hidden"></div><div class="chat-tools"><input id="chatSearch" placeholder="Buscar en el chat..." oninput="renderChat()"><button onclick="clearChatSearch()">Limpiar</button></div><div id="chatReplyBox" class="reply-box hidden"></div><div class="emoji-row" id="emojiRow"><button type="button" onclick="addEmoji('⚽')">⚽</button><button type="button" onclick="addEmoji('🔥')">🔥</button><button type="button" onclick="addEmoji('😂')">😂</button><button type="button" onclick="addEmoji('👏')">👏</button><button type="button" onclick="addEmoji('🏆')">🏆</button><button type="button" onclick="addEmoji('😱')">😱</button><button type="button" onclick="addEmoji('💪')">💪</button><button type="button" onclick="addEmoji('✅')">✅</button></div><div id="chatBox" class="chat-box"></div><div class="chat-form"><input id="chatInput" maxlength="280" placeholder="Escribe un mensaje para tu grupo... Usa @nombre para mencionar" oninput="chatTypingPulse()"><button class="primary" onclick="sendChatMessage()">Enviar</button></div><div id="chatMsg" class="status"></div></div></section>
+<section id="chat" class="section"><div class="card chat-card-premium"><div class="chat-premium-head"><div><h2>💬 Chat del grupo</h2><span class="chat-title-chip">✨ Eliminatorias V316.13</span></div><button type="button" class="scroll-bottom-btn" onclick="scrollChatBottom()">⬇️ Último</button></div><p class="muted">Mensajes visibles solo para el grupo actual. Diseño premium con burbujas, avatar, menciones, reacciones, fijados, búsqueda e indicador escribiendo.</p><div id="chatStats" class="chat-stats"></div><div id="chatOnline" class="online-box">Conectados: calculando...</div><div id="chatTyping" class="online-box hidden"></div><div id="chatPinned" class="pin-box hidden"></div><div class="chat-tools"><input id="chatSearch" placeholder="Buscar en el chat..." oninput="renderChat()"><button onclick="clearChatSearch()">Limpiar</button></div><div id="chatReplyBox" class="reply-box hidden"></div><div class="emoji-row" id="emojiRow"><button type="button" onclick="addEmoji('⚽')">⚽</button><button type="button" onclick="addEmoji('🔥')">🔥</button><button type="button" onclick="addEmoji('😂')">😂</button><button type="button" onclick="addEmoji('👏')">👏</button><button type="button" onclick="addEmoji('🏆')">🏆</button><button type="button" onclick="addEmoji('😱')">😱</button><button type="button" onclick="addEmoji('💪')">💪</button><button type="button" onclick="addEmoji('✅')">✅</button></div><div id="chatBox" class="chat-box"></div><div class="chat-form"><input id="chatInput" maxlength="280" placeholder="Escribe un mensaje para tu grupo... Usa @nombre para mencionar" oninput="chatTypingPulse()"><button class="primary" onclick="sendChatMessage()">Enviar</button></div><div id="chatMsg" class="status"></div></div></section>
 <section id="reglas" class="section">
   <div class="card">
     <h2>📜 Reglas oficiales de la quiniela</h2>
@@ -1218,17 +1218,34 @@ function preferredDay(phase){const ds=daysFor(phase), t=todayKey(); return ds.in
 function resetDayToToday(phaseId,dayId){let pe=document.getElementById(phaseId), de=document.getElementById(dayId); if(pe&&de) de.value=preferredDay(pe.value);}
 function fillDays(){ if(groupsStageClosed()){['predPhase','allPhase'].forEach(id=>{const el=document.getElementById(id); if(el&&el.value==='groups') el.value='knockout';}); } [['predPhase','predDay'],['allPhase','allDay'],['resPhase','resDay'],['adminPredPhase','adminPredDay']].forEach(([p,d])=>{let pe=document.getElementById(p),de=document.getElementById(d); if(!pe||!de)return; let old=de.value, ds=daysFor(pe.value); de.innerHTML=ds.map(x=>`<option value="${x}">${x}${x===todayKey()?' · Hoy':''}</option>`).join(''); if(old&&ds.includes(old))de.value=old; else de.value=preferredDay(pe.value);})}
 function matchList(phase,day){return matches.filter(m=>m.phase===phase && (!day||dayKey(m.date)===day))}
+let _hcqIndexSig='', _hcqPredMap=new Map(), _hcqResMap=new Map(), _hcqMetricSig='', _hcqMetricCache={}, _hcqRankSig='', _hcqRankCache={};
+function _latestByTime(old,row){return (!old || new Date(row?.updated_at||0)>new Date(old?.updated_at||0))?row:old;}
+function _rankingDataSig(){
+  const preds=[...(state.predictions||[]),...fallbackPredictions(currentGroupId())];
+  const pMax=preds.reduce((a,x)=>Math.max(a,new Date(x?.updated_at||0).getTime()||0),0);
+  const rMax=(state.results||[]).reduce((a,x)=>Math.max(a,new Date(x?.updated_at||0).getTime()||0),0);
+  const cMax=(state.settings||[]).filter(x=>String(x.key||'').includes('champion')).reduce((a,x)=>Math.max(a,new Date(x?.updated_at||0).getTime()||0),0);
+  return [currentGroupId(),preds.length,pMax,(state.results||[]).length,rMax,(state.settings||[]).length,cMax,groupMembers().length].join('|');
+}
+function ensureFastIndexes(){
+  const sig=_rankingDataSig();
+  if(sig===_hcqIndexSig) return;
+  _hcqIndexSig=sig; _hcqPredMap=new Map(); _hcqResMap=new Map(); _hcqMetricSig=''; _hcqMetricCache={}; _hcqRankSig=''; _hcqRankCache={};
+  mergePredictionRows([...(state.predictions||[]),...fallbackPredictions(currentGroupId())]).forEach(p=>{_hcqPredMap.set([p.group_id,p.participant_id,p.match_id].join('|'),p);});
+  (state.results||[]).forEach(r=>{const k=r.match_id; _hcqResMap.set(k,_latestByTime(_hcqResMap.get(k),r));});
+}
+function invalidateFastCaches(){_hcqIndexSig=''; _hcqMetricSig=''; _hcqMetricCache={}; _hcqRankSig=''; _hcqRankCache={};}
 function predFor(pid,mid,gid=currentGroupId()){
-  const rows=mergePredictionRows([...(state.predictions||[]),...fallbackPredictions(gid)]).filter(p=>p.group_id===gid&&p.participant_id===pid&&p.match_id===mid);
-  if(!rows.length) return null;
-  return rows.sort((a,b)=>new Date(b.updated_at||0)-new Date(a.updated_at||0))[0];
+  ensureFastIndexes();
+  return _hcqPredMap.get([gid,pid,mid].join('|'))||null;
 }
 function predictionKeyOf(p){return [p.group_id,p.participant_id,p.match_id].join('|')}
 function compactPredictions(){
   state.predictions=mergePredictionRows([...(state.predictions||[]),...fallbackPredictions(currentGroupId())]);
+  invalidateFastCaches();
 }
-function compactResults(){const map=new Map(); (state.results||[]).forEach(r=>{const k=r.match_id, old=map.get(k); if(!old || new Date(r.updated_at||0)>new Date(old.updated_at||0)) map.set(k,r);}); state.results=[...map.values()];}
-function resFor(mid){const rows=(state.results||[]).filter(r=>r.match_id===mid); if(!rows.length) return null; return rows.sort((a,b)=>new Date(b.updated_at||0)-new Date(a.updated_at||0))[0];}
+function compactResults(){const map=new Map(); (state.results||[]).forEach(r=>{const k=r.match_id; map.set(k,_latestByTime(map.get(k),r));}); state.results=[...map.values()]; invalidateFastCaches();}
+function resFor(mid){ensureFastIndexes(); return _hcqResMap.get(mid)||null;}
 function matchStarted(m){return Date.now() >= new Date(m.date).getTime()}
 function hasRealResult(m){let r=resFor(m.id); return !!(r && r.home_score!==null && r.home_score!==undefined && r.away_score!==null && r.away_score!==undefined)}
 function knockoutNumber(m){const n=knockoutMatches.findIndex(x=>x.id===m?.id); return n>=0?73+n:null}
@@ -1348,9 +1365,13 @@ function pointBreakdown(p,m){
 }
 function pointsFor(p,m){return pointBreakdown(p,m).total;}
 function ranking(phase=null){
-  compactPredictions(); compactResults();
+  ensureFastIndexes();
+  const sig=_rankingDataSig();
+  if(_hcqRankSig!==sig){_hcqRankSig=sig; _hcqRankCache={};}
+  const key=phase||'all';
+  if(_hcqRankCache[key]) return _hcqRankCache[key];
   const list=phase?matches.filter(m=>m.phase===phase):matches;
-  return groupMembers().map(p=>{
+  const rows=groupMembers().map(p=>{
     let pts=0, exact=0, played=0, winnerHits=0, qualifierHits=0;
     list.forEach(m=>{
       const pr=predFor(p.id,m.id), r=resFor(m.id);
@@ -1365,6 +1386,8 @@ function ranking(phase=null){
     pts+=champBonus;
     return {p,pts,exact,played,winnerHits,qualifierHits,champBonus};
   }).sort((a,b)=>b.pts-a.pts||b.champBonus-a.champBonus||b.exact-a.exact||a.p.name.localeCompare(b.p.name,'es'));
+  _hcqRankCache[key]=rows;
+  return rows;
 }
 function previousPositions(phase){const h=settingValue('history_'+currentGroupId(),[])||[]; const last=h.length?h[h.length-1]:null; const arr=last?(phase==='groups'?last.groups:last.knockout)||[]:[]; const pos={}; arr.forEach((x,i)=>pos[x.id]=i+1); return pos;}
 function moveBadge(pid,pos,phase){const prev=previousPositions(phase)[pid]; if(!prev) return '<span class="move-same">Nuevo</span>'; const diff=prev-pos; if(diff>0) return `<span class="move-up">↑${diff}</span>`; if(diff<0) return `<span class="move-down">↓${Math.abs(diff)}</span>`; return '<span class="move-same">—</span>';}
@@ -1383,7 +1406,7 @@ function rankMoodEmoji(pos,total,pid,phase){
 }
 
 function rankDetailId(pid,phase,type){return ('rd_'+phase+'_'+type+'_'+String(pid)).replace(/[^a-zA-Z0-9_\-]/g,'_')}
-function toggleRankDetail(id){const el=document.getElementById(id); if(el) el.classList.toggle('open');}
+function toggleRankDetail(id){const el=document.getElementById(id); if(!el) return; el.classList.toggle('open'); if(el.classList.contains('open') && el.dataset.loaded!=='1'){const box=el.querySelector('.rank-detail-list'); if(box){box.innerHTML=rankDetailRows(el.dataset.pid,el.dataset.phase,el.dataset.type); el.dataset.loaded='1';}}}
 function rankDetailRows(pid,phase,type){
   const list=(phase?matches.filter(m=>m.phase===phase):matches).slice().sort((a,b)=>new Date(a.date)-new Date(b.date));
   const rows=[];
@@ -1400,9 +1423,23 @@ function rankDetailRows(pid,phase,type){
   });
   return rows.join('')||'<div class="rank-empty">No tiene registros en esta categoría todavía.</div>';
 }
-function rankDetailPanel(pid,phase,type,title){const id=rankDetailId(pid,phase,type); return `<div id="${id}" class="rank-detail"><div class="rank-detail-title">${title}</div><div class="rank-detail-list">${rankDetailRows(pid,phase,type)}</div></div>`}
+function rankDetailPanel(pid,phase,type,title){const id=rankDetailId(pid,phase,type); return `<div id="${id}" class="rank-detail" data-pid="${esc(pid)}" data-phase="${esc(phase||'')}" data-type="${esc(type)}" data-loaded="0"><div class="rank-detail-title">${title}</div><div class="rank-detail-list"><div class="rank-empty">Toca el icono para cargar el detalle.</div></div></div>`}
 function rankHtml(r,title,sub,showChampion=false,phase='groups'){return `<div class="card"><h2>${title}</h2><p class="muted">${sub}</p>${r.map((x,i)=>{let avg=x.played?((x.pts/x.played).toFixed(1)):0; const m=playerMetrics(x.p.id,phase); const mood=rankMoodEmoji(i+1,r.length,x.p.id,phase); const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':''; const exactId=rankDetailId(x.p.id,phase,'exact'), winId=rankDetailId(x.p.id,phase,'winner'), qualId=rankDetailId(x.p.id,phase,'qualifier'); return `<div class="rank-line ${i===0?'top1':''}"><div class="rank-points"><span class="rank-big-emoji">${mood}</span><span class="rank-score">${x.pts}</span><small>PTS</small></div><div><div class="rank-pos"><span class="rank-fun">${medal} ${i+1}.</span> ${esc(x.p.name)} <span class="pill">${moveBadge(x.p.id,i+1,phase)}</span></div><div class="rank-meta">${x.exact} exacto(s) · ${x.winnerHits} ganador/empate · ${x.qualifierHits} clasificado(s) · ${m.effectiveness}% efectividad · 🔥 racha ${m.currentStreak} / mejor ${m.bestStreak} · Promedio ${avg}${showChampion?` · Campeón +10: ${x.champBonus?'✅':'—'}`:''}</div></div><div class="rank-actions"><button class="rank-action-btn" onclick="toggleRankDetail('${exactId}')" title="Ver marcadores exactos">🎯 ${x.exact}</button><button class="rank-action-btn" onclick="toggleRankDetail('${winId}')" title="Ver aciertos de ganador o empate">✅ ${x.winnerHits}</button><button class="rank-action-btn" onclick="toggleRankDetail('${qualId}')" title="Ver clasificados acertados">🔰 ${x.qualifierHits}</button>${showChampion?`<button class="rank-action-btn" title="Campeón acertado">👑 ${x.champBonus?'+10':'—'}</button>`:''}</div>${rankDetailPanel(x.p.id,phase,'exact','🎯 Marcadores exactos')}${rankDetailPanel(x.p.id,phase,'winner','✅ Aciertos de ganador / empate')}${rankDetailPanel(x.p.id,phase,'qualifier','🔰 Clasificados acertados')}</div>`}).join('')||'<p>Sin participantes.</p>'}</div>`}
-function playerMetrics(pid,phase=null){const list=(phase?matches.filter(m=>m.phase===phase):matches).slice().sort((a,b)=>new Date(a.date)-new Date(b.date)); let played=0,predicted=0,exact=0,winner=0,qualifier=0,pts=0,bestDay={day:'',pts:-1,exact:0},byDay={},currentStreak=0,bestStreak=0; list.forEach(m=>{const r=resFor(m.id), pr=predFor(pid,m.id); if(pr&&pr.home_score!==null&&pr.away_score!==null) predicted++; if(r&&r.home_score!==null&&r.away_score!==null){played++; const b=pointBreakdown(pr,m); pts+=b.total; const dk=dayKey(m.date); byDay[dk]=byDay[dk]||{pts:0,exact:0}; byDay[dk].pts+=b.total; if(b.hasWinner){winner++; currentStreak++; bestStreak=Math.max(bestStreak,currentStreak);} else {currentStreak=0;} if(b.isExact){exact++; byDay[dk].exact++;} if(b.hasQualifier) qualifier++;}}); if(phase==='knockout'||phase===null) pts+=championBonus(pid); Object.entries(byDay).forEach(([day,v])=>{if(v.pts>bestDay.pts) bestDay={day,...v}}); return {played,predicted,exact,winner,qualifier,pts,bestDay,currentStreak,bestStreak,effectiveness:played?Math.round((winner/played)*100):0,exactRate:played?Math.round((exact/played)*100):0};}
+function playerMetrics(pid,phase=null){
+  ensureFastIndexes();
+  const sig=_rankingDataSig();
+  if(_hcqMetricSig!==sig){_hcqMetricSig=sig; _hcqMetricCache={};}
+  const cacheKey=[pid,phase||'all'].join('|');
+  if(_hcqMetricCache[cacheKey]) return _hcqMetricCache[cacheKey];
+  const list=(phase?matches.filter(m=>m.phase===phase):matches).slice().sort((a,b)=>new Date(a.date)-new Date(b.date));
+  let played=0,predicted=0,exact=0,winner=0,qualifier=0,pts=0,bestDay={day:'',pts:-1,exact:0},byDay={},currentStreak=0,bestStreak=0;
+  list.forEach(m=>{const r=resFor(m.id), pr=predFor(pid,m.id); if(pr&&pr.home_score!==null&&pr.away_score!==null) predicted++; if(r&&r.home_score!==null&&r.away_score!==null){played++; const b=pointBreakdown(pr,m); pts+=b.total; const dk=dayKey(m.date); byDay[dk]=byDay[dk]||{pts:0,exact:0}; byDay[dk].pts+=b.total; if(b.hasWinner){winner++; currentStreak++; bestStreak=Math.max(bestStreak,currentStreak);} else {currentStreak=0;} if(b.isExact){exact++; byDay[dk].exact++;} if(b.hasQualifier) qualifier++;}});
+  if(phase==='knockout'||phase===null) pts+=championBonus(pid);
+  Object.entries(byDay).forEach(([day,v])=>{if(v.pts>bestDay.pts) bestDay={day,...v}});
+  const out={played,predicted,exact,winner,qualifier,pts,bestDay,currentStreak,bestStreak,effectiveness:played?Math.round((winner/played)*100):0,exactRate:played?Math.round((exact/played)*100):0};
+  _hcqMetricCache[cacheKey]=out;
+  return out;
+}
 function badgesFor(pid){const m=playerMetrics(pid), rg=ranking('groups'), rk=ranking('knockout'), all=ranking(); const badges=[]; if(all[0]?.p.id===pid) badges.push('👑 Líder general'); if(rg[0]?.p.id===pid) badges.push('🏆 Líder grupos'); if(rk[0]?.p.id===pid) badges.push('⚔️ Líder eliminatorias'); if(m.exact>=1) badges.push('🎯 Primer exacto'); if(m.exact>=5) badges.push('💎 5 exactos'); if(m.winner>=10) badges.push('✅ 10 ganadores acertados'); if(m.currentStreak>=3) badges.push('🔥 Racha activa x3'); if(m.bestStreak>=5) badges.push('🚀 Racha x5'); if(m.effectiveness>=70&&m.played>=3) badges.push('🧠 Efectividad alta'); if(championBonus(pid)) badges.push('👑 Campeón acertado'); if(phaseComplete('groups')&&rg[0]?.p.id===pid) badges.push('🏆 Campeón fase de grupos'); if(phaseComplete('knockout')&&rk[0]?.p.id===pid) badges.push('🏆 Campeón eliminatorias'); return badges;}
 function statsHtml(){const list=groupMembers().map(p=>({p,...playerMetrics(p.id)})).sort((a,b)=>b.pts-a.pts); return `<div class="stat-grid">${list.map(x=>`<div class="stat-card"><b>${x.pts}</b> pts<br><strong>${esc(x.p.name)}</strong><div class="small">✅ ${x.winner}/${x.played} ganador/empate · 🎯 ${x.exact} exactos · ${x.effectiveness}% efectividad · 🔥 mejor racha ${x.bestStreak}</div><div class="mini-bars"><div class="mini-bar"><span>Efectividad</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:${Math.min(100,x.effectiveness)}%"></div></div><b>${x.effectiveness}%</b></div><div class="mini-bar"><span>Exactos</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:${Math.min(100,x.exactRate)}%"></div></div><b>${x.exactRate}%</b></div></div></div>`).join('')||'<p>Sin datos.</p>'}</div>`}
 function badgesHtml(){const ps=groupMembers(); return `<div class="stat-grid">${ps.map(p=>{const b=badgesFor(p.id); return `<div class="stat-card"><strong>${esc(p.name)}</strong><div class="badge-grid">${b.length?b.map(x=>`<span class="auto-badge">${x}</span>`).join(''):'<span class="muted">Sin insignias todavía</span>'}</div></div>`}).join('')||'<p>Sin participantes.</p>'}</div>`}
@@ -1474,7 +1511,7 @@ function renderRanking(){
   if(document.getElementById('profileStatsBox')) profileStatsBox.innerHTML=profileStatsHtml();
   if(document.getElementById('comparePlayer') && tab==='comparar') renderCompare();
 }
-function scheduleRankingRender(){clearTimeout(_rankingRenderTimer); _rankingRenderTimer=setTimeout(renderRanking,60);}
+function scheduleRankingRender(){clearTimeout(_rankingRenderTimer); _rankingRenderTimer=setTimeout(()=>{if(window.requestAnimationFrame) requestAnimationFrame(renderRanking); else renderRanking();},40);}
 async function saveRankingSnapshot(){if(!supa||!session) return; const key='history_'+currentGroupId(); const prev=settingValue(key,[])||[]; const snap={at:new Date().toISOString(),groups:ranking('groups').map(x=>({id:x.p.id,name:x.p.name,pts:x.pts,exact:x.exact})),knockout:ranking('knockout').map(x=>({id:x.p.id,name:x.p.name,pts:x.pts,exact:x.exact}))}; const sig=JSON.stringify(snap.groups.map(x=>[x.id,x.pts,x.exact]).concat(snap.knockout.map(x=>[x.id,x.pts,x.exact]))); const last=prev[prev.length-1]; const lastSig=last?JSON.stringify((last.groups||[]).map(x=>[x.id,x.pts,x.exact]).concat((last.knockout||[]).map(x=>[x.id,x.pts,x.exact]))):''; if(sig!==lastSig){await saveSettingValue(key,[...prev.slice(-39),snap]);}}
 
 function statusBase(s){return String(s||'').split('|')[0].trim()}
