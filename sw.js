@@ -1,4 +1,4 @@
-const APP_VERSION='316.14';
+const APP_VERSION='316.15';
 const CACHE='hcq-v316-14-render-performance';
 const ASSETS=[
   './?v=31614-render-performance',

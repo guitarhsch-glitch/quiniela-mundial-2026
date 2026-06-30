@@ -1,7 +1,7 @@
 {
   "name": "HCQ - Hattrick Club Quinielas",
   "short_name": "HCQ",
-  "description": "App premium de quinielas multigrupo HCQ V316.14 optimizada.",
+  "description": "App premium de quinielas multigrupo HCQ V316.15 optimizada.",
   "id": "./?app=hcq&v=31614-render-performance",
   "start_url": "./?v=31614-render-performance",
   "scope": "./",
