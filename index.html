@@ -13,7 +13,7 @@
 <link rel="preload" as="image" href="logo-hcq-login-v31317.png?v=31619-supabase-offline" fetchpriority="high">
 <link rel="preconnect" href="https://flagcdn.com" crossorigin>
 <link rel="dns-prefetch" href="https://flagcdn.com">
-<title>HCQ - Hattrick Club Quinielas V316.19</title>
+<title>HCQ - Hattrick Club Quinielas V316.20</title>
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -261,7 +261,7 @@ button:not(.primary):not(.good):not(.danger){background:#132638!important;color:
 .rank-points small{grid-column:2;color:#ffffff!important;font-size:11px!important;letter-spacing:.8px!important;}
 .rank-fun{font-size:18px!important;font-weight:1000!important;color:#f8c547!important;}.rank-pos{font-size:16px!important;color:#ffffff!important;}.rank-exact-pill{font-size:14px!important;}
 @media(max-width:520px){.rank-line{grid-template-columns:92px 1fr!important;}.rank-line>.pill:last-child{grid-column:2;margin-top:5px;width:max-content}.rank-big-emoji{font-size:36px!important}.rank-score{font-size:29px!important}.rank-points{min-width:86px!important}.rank-meta{font-size:11px!important}}
-/* ===== V316.19 Ranking: iconos desplegables siempre visibles ===== */
+/* ===== V316.20 Ranking: iconos desplegables siempre visibles ===== */
 .rank-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
 .rank-action-btn{border:1px solid rgba(212,175,55,.32)!important;background:rgba(212,175,55,.14)!important;color:#f8c547!important;border-radius:999px!important;padding:7px 9px!important;font-weight:1000!important;font-size:13px!important;min-height:auto!important;box-shadow:none!important}
 .rank-action-btn:hover{background:rgba(248,197,71,.22)!important}
@@ -851,7 +851,7 @@ body.dark .champion-hero{background:linear-gradient(135deg,rgba(248,197,71,.30),
 body.dark .champion-hero h1{color:#fff} body.dark .champion-name{color:#f8c547}
 
 
-/* ===== V316.19 ajustes solicitados ===== */
+/* ===== V316.20 ajustes solicitados ===== */
 #homeAlerts .champion-hero{
   background:linear-gradient(135deg,#ffffff 0%,#fff7cc 45%,#eef6ff 100%)!important;
   color:#061326!important;
@@ -870,7 +870,7 @@ body.dark .champion-hero h1{color:#fff} body.dark .champion-name{color:#f8c547}
 
 
 
-/* ===== V316.19 FIX rendimiento visual / pantallas que cargan por partes ===== */
+/* ===== V316.20 FIX rendimiento visual / pantallas que cargan por partes ===== */
 html,body,#app{min-height:100%;background:#050d1f;}
 body{overscroll-behavior-y:none;}
 #app{background:
@@ -894,7 +894,7 @@ body{overscroll-behavior-y:none;}
 <div id="championModal" class="champion-modal"><div class="champion-modal-card"><button class="champion-close" onclick="closeChampionModal()">Cerrar ✕</button><div id="championModalContent"></div></div></div>
 <div id="loginScreen" class="login">
  <div class="login-card">
-  <div class="logo" aria-label="HCQ"></div><h1><span class="brand-main">HCQ</span><span class="brand-sub">Hattrick Club Quinielas</span></h1><p class="muted">Pronostica • Compite • Gana<br>V316.19 HCQ · Eliminatorias</p>
+  <div class="logo" aria-label="HCQ"></div><h1><span class="brand-main">HCQ</span><span class="brand-sub">Hattrick Club Quinielas</span></h1><p class="muted">Pronostica • Compite • Gana<br>V316.20 HCQ · Eliminatorias</p>
   <div id="configBox" class="alert hidden"><b>Falta configurar Supabase.</b><label>URL Supabase</label><input id="cfgUrl" placeholder="URL Supabase"><label>Clave publicable</label><input id="cfgKey" placeholder="sb_publishable_..."><button class="primary" style="width:100%;margin-top:8px" onclick="saveConfig()">Guardar configuración</button></div>
   <label>Usuario</label><input id="loginUser" value="admin"><label>Contraseña</label><input id="loginPass" type="password" value="1234">
   <label>Grupo</label><select id="loginGroup"></select>
@@ -902,7 +902,7 @@ body{overscroll-behavior-y:none;}
   <div id="loginMsg" class="status">Cargando grupos...</div>
  </div>
 </div>
-<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V316.19 HCQ · <span id="cloudState">Conectando...</span><span class="perf-note">V316.19</span></div><div class="top-group-switch" id="topGroupSwitchBox"><label>Grupo</label><select id="topGroupSwitch" onchange="switchSessionGroup(this.value)"></select></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
+<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V316.20 HCQ · <span id="cloudState">Conectando...</span><span class="perf-note">V316.20</span></div><div class="top-group-switch" id="topGroupSwitchBox"><label>Grupo</label><select id="topGroupSwitch" onchange="switchSessionGroup(this.value)"></select></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
 <div class="wrap">
 <section id="inicio" class="section active"><div class="card live-priority-card"><h2>🔴 Partido en vivo</h2><div id="liveMatchBox"></div></div><div class="card"><h2>📋 Partido anterior</h2><div id="previousMatchBox"></div></div><div class="card"><h2>⏳ Próximo partido</h2><div id="nextMatchBox"></div></div><div class="card"><h2>🏟️ Panel general</h2><p class="muted">Grupo actual: <b id="currentGroupName"></b></p><div id="homeGroupSwitchBox" class="hidden" style="margin:10px 0"><label>Cambiar grupo</label><select id="homeGroupSwitch" onchange="switchSessionGroup(this.value)"></select><p class="small">Puedes cambiar de grupo sin cerrar sesión.</p></div><div class="grid3"><div class="status">Participantes<br><b id="statPlayers">0</b></div><div class="status">Bolsa<br><b id="statPool">Q0</b></div><div class="status">Líder<br><b id="statLeader">-</b></div></div></div><div class="card"><h2>🥇 Top 3 del grupo</h2><div id="homePlayers" class="players"></div></div><div class="card"><h2>🔔 Alertas y avisos</h2><div id="homeAlerts"></div></div><div class="card"><h2>🎉 Ganadores</h2><div id="winnerBox"></div></div></section>
 <section id="quiniela" class="section"><div class="card"><h2>⚽ Quiniela</h2><div class="module-tabs"><button class="active" data-qtab="pronosticos" onclick="setQuinielaTab('pronosticos')">🎯 Pronósticos</button><button data-qtab="ver" onclick="setQuinielaTab('ver')">👥 Ver pronósticos</button><button data-qtab="campeon" onclick="setQuinielaTab('campeon')">👑 Campeón</button></div></div><div id="qtab-pronosticos" class="q-panel active"><div class="card"><h2>🎯 Mis pronósticos</h2><div class="grid2"><div><label>Fase</label><select id="predPhase" onchange="fillDays();renderPred()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="predDay" onchange="renderPred()"></select></div></div><div id="predList"></div></div></div><div id="qtab-ver" class="q-panel"><div class="card"><h2>👥 Pronósticos de todos</h2><div class="grid2"><div><label>Fase</label><select id="allPhase" onchange="fillDays();renderAllPreds()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="allDay" onchange="renderAllPreds()"></select></div></div><div id="allBox"></div></div></div><div id="qtab-campeon" class="q-panel"><div class="card"><h2>👑 Pronóstico de campeón</h2><p class="muted">Esta elección cuenta solo para la quiniela de eliminatorias. Si aciertas el campeón, suma <b>10 puntos extra</b>.</p><div id="championBox"></div></div></div></section>
@@ -915,11 +915,11 @@ body{overscroll-behavior-y:none;}
 <div id="atab-resultados" class="q-panel a-panel"><div class="card"><h2>Admin · Resultados reales</h2><div class="grid2"><div><label>Fase</label><select id="resPhase" onchange="fillDays();renderResultsAdmin()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="resDay" onchange="renderResultsAdmin()"></select></div></div><div id="resultsAdmin"></div></div></div>
 <div id="atab-pronosticos" class="q-panel a-panel"><div class="card"><h2>Admin · Modificar pronósticos de participantes</h2><p class="muted">Uso especial para corregir o restaurar pronósticos. Afecta solo al grupo actual.</p><div class="grid3"><div><label>Participante</label><select id="adminPredPlayer" onchange="renderAdminPredictions()"></select></div><div><label>Fase</label><select id="adminPredPhase" onchange="fillDays();renderAdminPredictions()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="adminPredDay" onchange="renderAdminPredictions()"></select></div></div><div id="adminPredBox"></div></div></div>
 <div id="atab-notificaciones" class="q-panel a-panel"><div class="card"><h2>Admin · Notificaciones externas OneSignal</h2><p class="muted">Activa avisos push fuera de la app solo para chat, pronósticos modificados, recordatorios 30 y 10 minutos antes únicamente a quienes tengan pendiente ese pronóstico, y aviso de inicio de partido. En Netlify debes agregar la variable <b>ONESIGNAL_REST_API_KEY</b>. El App ID sí se guarda aquí porque es público.</p><div class="grid2"><div><label>OneSignal App ID</label><input id="oneSignalAppId" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></div><div><label>Estado</label><input id="oneSignalStatus" readonly value="Sin configurar"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveOneSignalConfig()">Guardar OneSignal</button><button class="good" onclick="enableBrowserAlerts()">Activar avisos en este dispositivo</button><button onclick="sendOneSignalTest()">Enviar prueba al grupo</button></div><div id="oneSignalMsg" class="status">Configura App ID y la variable secreta en Netlify para enviar notificaciones externas.</div></div></div>
-<div id="atab-api" class="q-panel a-panel"><div class="card"><h2>Admin · API Football</h2><p class="muted">Actualiza resultados reales desde API Football sin tocar pronósticos ni participantes. V316.19 mantiene el cron de Netlify y agrega actualización automática desde la app cuando hay partido cercano o en vivo.</p><div class="grid3"><div><label>API Key</label><input id="apiFootballKey" placeholder="Pega tu API key"></div><div><label>League ID</label><input id="apiFootballLeague" value="1"></div><div><label>Season</label><input id="apiFootballSeason" value="2026"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveApiFootballConfig()">Guardar API Key</button><button class="good" onclick="updateApiFootballDay()">Actualizar día seleccionado</button><button class="good" onclick="updateApiFootballAll()">Actualizar todos los partidos</button></div><div id="apiFootballMsg" class="status">Primero guarda la API Key. Luego elige un día en Resultados reales y presiona actualizar.</div></div></div>
+<div id="atab-api" class="q-panel a-panel"><div class="card"><h2>Admin · API Football</h2><p class="muted">Actualiza resultados reales desde API Football sin tocar pronósticos ni participantes. V316.20 mantiene el cron de Netlify y agrega actualización automática desde la app cuando hay partido cercano o en vivo.</p><div class="grid3"><div><label>API Key</label><input id="apiFootballKey" placeholder="Pega tu API key"></div><div><label>League ID</label><input id="apiFootballLeague" value="1"></div><div><label>Season</label><input id="apiFootballSeason" value="2026"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveApiFootballConfig()">Guardar API Key</button><button class="good" onclick="updateApiFootballDay()">Actualizar día seleccionado</button><button class="good" onclick="updateApiFootballAll()">Actualizar todos los partidos</button></div><div id="apiFootballMsg" class="status">Primero guarda la API Key. Luego elige un día en Resultados reales y presiona actualizar.</div></div></div>
 <div id="atab-limpieza" class="q-panel a-panel"><div class="card danger-zone"><h2>Admin · Limpieza del sistema</h2><p class="muted">Herramientas delicadas. Haz respaldo antes de usar. La limpieza total mantiene los grupos, el administrador y la configuración de API Football.</p><div class="danger-actions"><button class="danger" onclick="deleteGroupPredictions()">Eliminar pronósticos del grupo actual</button><button class="danger" onclick="deleteAllPredictions()">Eliminar TODOS los pronósticos</button><button class="danger" onclick="cleanWholeSystem()">Limpiar todo el sistema</button></div><div id="cleanMsg" class="status">Disponible solo para administradores.</div></div></div></section>
 
 <section id="retame" class="section"><div class="card"><h2>🔥 Rétame</h2><p class="muted">Solo queda activa la <b>Apuesta rápida</b>. La app registra acuerdos amistosos entre participantes; no procesa pagos.</p></div><div id="retab-apuestas" class="q-panel retame-panel active"><div class="card"><div class="retame-section-title"><h2>⚡ Apuesta rápida</h2><button onclick="document.getElementById('retameCreateBox').classList.toggle('hidden')">➕ Crear apuesta rápida</button></div><p class="muted">Elige un partido, tu ganador y el premio/reto opcional. Los demás aceptan y tú confirmas.</p><div id="retameCreateBox" class="retame-card hidden"><h2>➕ Crear apuesta rápida</h2><div class="grid2"><div><label>Partido</label><select id="retameMatch"></select></div><div><label>Yo apuesto por</label><select id="retamePick"></select></div></div><div class="grid2"><div><label>Tipo de premio/reto</label><select id="retameRewardType"><option value="orgullo">🏆 Solo orgullo</option><option value="dinero">💰 Cantidad monetaria</option><option value="comida">🍔 Comida/bebida</option><option value="castigo">😂 Reto al perdedor</option><option value="personalizado">✍️ Personalizado</option></select></div><div><label>Detalle</label><input id="retameReward" placeholder="$10, tacos, desayuno, reto divertido..."></div></div><label>Mensaje opcional</label><input id="retameMsg" placeholder="Ej: A que México gana este partido 😆"><div class="retame-form-note">Los demás pueden aceptar. Tú decides después si confirmas o rechazas a cada participante.</div><div class="retame-actions"><button class="primary" onclick="createRetameChallenge()">Publicar apuesta rápida</button></div><div id="retameCreateMsg" class="status"></div></div><div id="retameWallBox"></div></div></div></section>
-<section id="chat" class="section"><div class="card chat-card-premium"><div class="chat-premium-head"><div><h2>💬 Chat del grupo</h2><span class="chat-title-chip">✨ Eliminatorias V316.19</span></div><button type="button" class="scroll-bottom-btn" onclick="scrollChatBottom()">⬇️ Último</button></div><p class="muted">Mensajes visibles solo para el grupo actual. Diseño premium con burbujas, avatar, menciones, reacciones, fijados, búsqueda e indicador escribiendo.</p><div id="chatStats" class="chat-stats"></div><div id="chatOnline" class="online-box">Conectados: calculando...</div><div id="chatTyping" class="online-box hidden"></div><div id="chatPinned" class="pin-box hidden"></div><div class="chat-tools"><input id="chatSearch" placeholder="Buscar en el chat..." oninput="renderChat()"><button onclick="clearChatSearch()">Limpiar</button></div><div id="chatReplyBox" class="reply-box hidden"></div><div class="emoji-row" id="emojiRow"><button type="button" onclick="addEmoji('⚽')">⚽</button><button type="button" onclick="addEmoji('🔥')">🔥</button><button type="button" onclick="addEmoji('😂')">😂</button><button type="button" onclick="addEmoji('👏')">👏</button><button type="button" onclick="addEmoji('🏆')">🏆</button><button type="button" onclick="addEmoji('😱')">😱</button><button type="button" onclick="addEmoji('💪')">💪</button><button type="button" onclick="addEmoji('✅')">✅</button></div><div id="chatBox" class="chat-box"></div><div class="chat-form"><input id="chatInput" maxlength="280" placeholder="Escribe un mensaje para tu grupo... Usa @nombre para mencionar" oninput="chatTypingPulse()"><button class="primary" onclick="sendChatMessage()">Enviar</button></div><div id="chatMsg" class="status"></div></div></section>
+<section id="chat" class="section"><div class="card chat-card-premium"><div class="chat-premium-head"><div><h2>💬 Chat del grupo</h2><span class="chat-title-chip">✨ Eliminatorias V316.20</span></div><button type="button" class="scroll-bottom-btn" onclick="scrollChatBottom()">⬇️ Último</button></div><p class="muted">Mensajes visibles solo para el grupo actual. Diseño premium con burbujas, avatar, menciones, reacciones, fijados, búsqueda e indicador escribiendo.</p><div id="chatStats" class="chat-stats"></div><div id="chatOnline" class="online-box">Conectados: calculando...</div><div id="chatTyping" class="online-box hidden"></div><div id="chatPinned" class="pin-box hidden"></div><div class="chat-tools"><input id="chatSearch" placeholder="Buscar en el chat..." oninput="renderChat()"><button onclick="clearChatSearch()">Limpiar</button></div><div id="chatReplyBox" class="reply-box hidden"></div><div class="emoji-row" id="emojiRow"><button type="button" onclick="addEmoji('⚽')">⚽</button><button type="button" onclick="addEmoji('🔥')">🔥</button><button type="button" onclick="addEmoji('😂')">😂</button><button type="button" onclick="addEmoji('👏')">👏</button><button type="button" onclick="addEmoji('🏆')">🏆</button><button type="button" onclick="addEmoji('😱')">😱</button><button type="button" onclick="addEmoji('💪')">💪</button><button type="button" onclick="addEmoji('✅')">✅</button></div><div id="chatBox" class="chat-box"></div><div class="chat-form"><input id="chatInput" maxlength="280" placeholder="Escribe un mensaje para tu grupo... Usa @nombre para mencionar" oninput="chatTypingPulse()"><button class="primary" onclick="sendChatMessage()">Enviar</button></div><div id="chatMsg" class="status"></div></div></section>
 <section id="reglas" class="section">
   <div class="card">
     <h2>📜 Reglas oficiales de la quiniela</h2>
@@ -1007,7 +1007,7 @@ const knockoutMatches=[{"id":"k1","phase":"knockout","date":"2026-06-28T13:00:00
 const matches=[...groupMatches,...knockoutMatches];
 
 let supa=null, session=null, state={groups:[],participants:[],members:[],predictions:[],results:[],settings:[]};
-const STATE_CACHE_KEY='hcq_state_cache_v31619';
+const STATE_CACHE_KEY='hcq_state_cache_v31620';
 function cacheStateSnapshot(){
   try{
     if(state && Array.isArray(state.groups) && state.groups.length){
@@ -1142,7 +1142,7 @@ async function refreshAll(){
 function subscribe(){
   if(!supa) return;
   let t=null;
-  supa.channel('v31619-main').on('postgres_changes',{event:'*',schema:'public'},()=>{
+  supa.channel('v31620-main').on('postgres_changes',{event:'*',schema:'public'},()=>{
     clearTimeout(t);
     t=setTimeout(()=>refreshAll(),1200);
   }).subscribe();
@@ -1159,6 +1159,8 @@ function groupMembers(gid=currentGroupId()){let ids=state.members.filter(m=>m.gr
 function currentGroupId(){return session?.group_id||loginGroup.value||state.groups[0]?.id}
 function currentGroup(){return state.groups.find(g=>g.id===currentGroupId())||state.groups[0]||{id:'',name:'Sin grupo',fee:0,currency:'GTQ'}}
 function settingValue(key, fallback=null){const row=state.settings.find(x=>x.key===key); return row&&row.value!==undefined?row.value:fallback}
+function safeArray(v){return Array.isArray(v)?v:[]}
+function safeAnswersArray(g){return safeArray(g&&g.answers)}
 function fallbackPredKey(gid=currentGroupId()){return 'predictions_backup_'+gid}
 function localPredKey(gid=currentGroupId()){return 'hcq_local_predictions_backup_'+gid}
 function safeJsonParse(txt,fallback){try{return JSON.parse(txt)}catch(e){return fallback}}
@@ -1174,7 +1176,7 @@ function shouldReplacePrediction(old,row){
   if(!old) return true;
   const o=normalizePredictionRow(old), r=normalizePredictionRow(row);
   const ov=predictionHasScore(o), rv=predictionHasScore(r);
-  // V316.19: nunca permitir que una fila vacía/nula más reciente borre visualmente un pronóstico válido.
+  // V316.20: nunca permitir que una fila vacía/nula más reciente borre visualmente un pronóstico válido.
   if(ov && !rv) return false;
   if(!ov && rv) return true;
   return new Date(r?.updated_at||0)>new Date(o?.updated_at||0);
@@ -1242,8 +1244,8 @@ async function login(){try{
   session={...user,group_id:gid};
   localStorage.setItem('v300_last_group', gid);
   loginScreen.classList.add('hidden'); app.classList.remove('hidden'); adminTab.style.display=isAdmin()?'block':'none'; fillDays(); forceHomeTab(); renderAll(); startLiveTimer(); initOneSignalForSession(); scheduleMatchPushes(); setTimeout(()=>window.scrollTo({top:0,behavior:'auto'}),20);
-}catch(e){loginMsg.className='status err'; loginMsg.textContent=e.message}}
-function logout(){if(liveTimer) clearInterval(liveTimer); if(apiAutoTimer) clearInterval(apiAutoTimer); session=null; app.classList.add('hidden'); loginScreen.classList.remove('hidden')}
+}catch(e){loginMsg.className='status err'; loginMsg.textContent=(String(e&&e.message||'').includes('.find is not a function')?'Datos temporales de Rétame corregidos. Intenta entrar otra vez.':(e.message||'Error al entrar'))}}
+function logout(){if(liveTimer) clearInterval(liveTimer); if(apiAutoTimer) clearInterval(apiAutoTimer); session=null; try{loginMsg.className='status'; loginMsg.textContent='';}catch(e){} app.classList.add('hidden'); loginScreen.classList.remove('hidden'); fillLoginGroups(localStorage.getItem('v300_last_group')||'');}
 function isAdmin(){return !!session?.is_super_admin || state.members.some(m=>m.group_id===currentGroupId()&&m.participant_id===session?.id&&m.is_group_admin)}
 function forceHomeTab(){
   document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id==='inicio'));
@@ -1277,7 +1279,7 @@ async function setSec(id){
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.sec===id));
   if(id==='ranking' && document.getElementById('rankBox')) rankBox.innerHTML=rankingLoadingHtml();
   if(id==='quiniela') { if(groupsStageClosed()&&document.getElementById('predPhase')) predPhase.value='knockout'; resetDayToToday('predPhase','predDay'); setQuinielaTab('pronosticos'); }
-  // V316.19: no bloquear la pantalla esperando Supabase. Primero pinta con datos locales y luego refresca en segundo plano.
+  // V316.20: no bloquear la pantalla esperando Supabase. Primero pinta con datos locales y luego refresca en segundo plano.
   renderActiveSection(id);
   refreshAll().catch(()=>{});
   setTimeout(()=>window.scrollTo({top:0,behavior:'smooth'}),30);
@@ -1409,7 +1411,7 @@ async function savePred(mid,advance=false){
       if(Array.isArray(saved)&&saved[0]) applyLocalPrediction({...row,...saved[0]});
     }catch(dbErr){ console.warn('Predicción guardada en respaldo porque Supabase rechazó tabla predictions:',dbErr); }
     notifyGroup('prediction','🎯 Pronóstico modificado',`${session.name} modificó ${resolvedTeam(m.home)} vs ${resolvedTeam(m.away)}.`).catch(()=>{});
-    // V316.19: mantener el marcador en pantalla inmediatamente. La recarga de Supabase queda en segundo plano
+    // V316.20: mantener el marcador en pantalla inmediatamente. La recarga de Supabase queda en segundo plano
     // y no puede sobrescribir visualmente con filas nulas/vacías antiguas.
     renderPred(); scheduleRankingRender(); renderHome();
     saveRankingSnapshot().catch(()=>{});
@@ -2110,7 +2112,7 @@ async function updateApiFootballAll(){
   }catch(e){apiFootballMsg.className='status err'; apiFootballMsg.textContent='Error API Football: '+e.message;}
 }
 
-// V316.19 - Actualización automática API Football desde la app.
+// V316.20 - Actualización automática API Football desde la app.
 // Netlify cron sigue disponible, pero el celular/admin también hace sync solo cuando hay partido cercano o en vivo.
 let apiAutoTimer=null, apiAutoInFlight=false, apiAutoLastAt=0, apiAutoDayLastAt=0;
 function apiAutoWindowMatches(){
@@ -2355,7 +2357,7 @@ function pendingTodayPredictions(){
 
 /* ===== V315.1 Rétame ===== */
 function retameKey(){return 'retame_'+currentGroupId()}
-function retameList(){return settingValue(retameKey(),[])||[]}
+function retameList(){return safeArray(settingValue(retameKey(),[]))}
 function saveRetameList(list){return saveSettingValue(retameKey(),list)}
 function retameMatchOptions(){return matches.slice().sort((a,b)=>new Date(a.date)-new Date(b.date)).filter(m=>new Date(m.date).getTime()>Date.now()-6*3600000)}
 function retameStatusLabel(c){return ({open:'Abierto',pending_creator:'Pendiente de confirmar',active:'Confirmado',settled:'Finalizado',cancelled:'Cancelado'}[c.status]||c.status)}
@@ -2376,7 +2378,7 @@ function renderRetame(){if(!document.getElementById('retameWallBox')||!session) 
 
 
 function retameGamesKey(){return 'retame_games_'+currentGroupId()}
-function retameGamesList(){return settingValue(retameGamesKey(),[])||[]}
+function retameGamesList(){return safeArray(settingValue(retameGamesKey(),[]))}
 function saveRetameGames(list){return saveSettingValue(retameGamesKey(),list)}
 const RETAME_TRIVIA=[
  {cat:'campeones',q:'¿Quién ganó el Mundial 2010?',a:'España',opts:['España','Holanda','Alemania','Brasil']},
@@ -2542,10 +2544,10 @@ function triviaRoomCard(g){
 async function createTriviaFlash(){const idx=+(document.getElementById('triviaQuestionSelect')?.value||0); const t=RETAME_TRIVIA[idx]||RETAME_TRIVIA[0]; const item={id:'g_'+Date.now()+'_'+Math.random().toString(36).slice(2),type:'trivia',creatorId:session.id,creatorName:session.name,question:t.q,options:t.opts,correctAnswer:t.a,status:'open',answers:[],createdAt:new Date().toISOString()}; await saveRetameGames([item,...retameGamesList()].slice(0,200)); notifyGroup('retame','⚡ Trivia Flash disponible',t.q).catch(()=>{}); renderRetame();}
 async function createExpressChallenge(){const m=matches.find(x=>x.id===expressMatch.value); if(!m) return alert('Selecciona un partido.'); const item={id:'g_'+Date.now()+'_'+Math.random().toString(36).slice(2),type:'express',creatorId:session.id,creatorName:session.name,matchId:m.id,question:expressQuestion.value,status:'open',answers:[],createdAt:new Date().toISOString()}; await saveRetameGames([item,...retameGamesList()].slice(0,200)); notifyGroup('retame','⚽ Reto Express disponible',`${m.home} vs ${m.away}`).catch(()=>{}); renderRetame();}
 async function createGroupChallenge(){const m=matches.find(x=>x.id===groupRetameMatch.value); if(!m) return alert('Selecciona un partido.'); const item={id:'g_'+Date.now()+'_'+Math.random().toString(36).slice(2),type:'grupal',creatorId:session.id,creatorName:session.name,matchId:m.id,question:(groupRetameQuestion.value||'¿Quién gana el partido?').trim(),status:'open',answers:[],createdAt:new Date().toISOString()}; await saveRetameGames([item,...retameGamesList()].slice(0,200)); notifyGroup('retame','👥 Reto grupal disponible',`${m.home} vs ${m.away}`).catch(()=>{}); renderRetame();}
-async function answerRetameGame(id,answer){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.status!=='open') return g; if((g.answers||[]).some(a=>a.pid===session.id)) return g; const ans={pid:session.id,name:session.name,answer,at:new Date().toISOString()}; const answers=[...(g.answers||[]),ans]; if(g.type==='trivia' && String(answer)===String(g.correctAnswer)){return {...g,answers:[...answers.slice(0,-1),{...ans,correct:true}],status:'closed',winnerId:session.id,winnerName:session.name,closedAt:new Date().toISOString(),winningAnswer:answer};} return {...g,answers};}); await saveRetameGames(updated); renderRetame();}
-async function closeRetameGame(id,winningAnswer){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.creatorId!==session.id) return g; const winners=(g.answers||[]).filter(a=>String(a.answer)===String(winningAnswer)).map(a=>a.pid); return {...g,status:'closed',winningAnswer,winners,closedAt:new Date().toISOString()};}); await saveRetameGames(updated); renderRetame();}
+async function answerRetameGame(id,answer){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.status!=='open') return g; if(safeAnswersArray(g).some(a=>a.pid===session.id)) return g; const ans={pid:session.id,name:session.name,answer,at:new Date().toISOString()}; const answers=[...safeAnswersArray(g),ans]; if(g.type==='trivia' && String(answer)===String(g.correctAnswer)){return {...g,answers:[...answers.slice(0,-1),{...ans,correct:true}],status:'closed',winnerId:session.id,winnerName:session.name,closedAt:new Date().toISOString(),winningAnswer:answer};} return {...g,answers};}); await saveRetameGames(updated); renderRetame();}
+async function closeRetameGame(id,winningAnswer){const list=retameGamesList(); const updated=list.map(g=>{if(g.id!==id||g.creatorId!==session.id) return g; const winners=safeAnswersArray(g).filter(a=>String(a.answer)===String(winningAnswer)).map(a=>a.pid); return {...g,status:'closed',winningAnswer,winners,closedAt:new Date().toISOString()};}); await saveRetameGames(updated); renderRetame();}
 async function cancelRetameGame(id){const list=retameGamesList(); const g=list.find(x=>x.id===id); if(!g||g.creatorId!==session.id) return alert('Solo el creador puede cancelar.'); await saveRetameGames(list.map(x=>x.id===id?{...x,status:'cancelled',closedAt:new Date().toISOString()}:x)); renderRetame();}
-function retameGameCard(g){const m=matches.find(x=>x.id===g.matchId)||{}; const opts=retameGameOptions(g); const mine=(g.answers||[]).find(a=>a.pid===session.id); const isCreator=g.creatorId===session.id; const title={trivia:'⚡ Trivia Flash',express:'⚽ Reto Express',grupal:'👥 Reto Grupal'}[g.type]||'🔥 Juego'; const match=m.home?` · ${esc(m.home)} vs ${esc(m.away)}`:''; const buttons=(g.status==='open'&&!mine)?`<div class="retame-game-options">${opts.map(o=>`<button onclick="answerRetameGame('${g.id}','${esc(o)}')">${esc(o)}</button>`).join('')}</div>`:(mine?`<span class="retame-chip">Tu respuesta: ${esc(mine.answer)}</span>`:''); const close=(isCreator&&g.status==='open'&&g.type!=='trivia')?`<div class="retame-game-options"><b>Cerrar con:</b>${opts.map(o=>`<button class="good" onclick="closeRetameGame('${g.id}','${esc(o)}')">${esc(o)}</button>`).join('')}<button class="danger" onclick="cancelRetameGame('${g.id}')">Cancelar</button></div>`:(isCreator&&g.status==='open'?`<button class="danger" onclick="cancelRetameGame('${g.id}')">Cancelar</button>`:''); const rows=(g.answers||[]).map(a=>`<div class="retame-answer-row"><span>${esc(a.name)}: <b>${esc(a.answer)}</b></span><span>${g.type==='trivia'?(a.correct?'<span class="retame-correct">Correcto</span>':''):(g.status==='closed'&&String(a.answer)===String(g.winningAnswer)?'<span class="retame-correct">Ganó</span>':'')}</span></div>`).join(''); const result=g.status==='closed'?`<div class="status ok">Ganador${(g.winners||[]).length>1?'es':''}: ${g.winnerName?esc(g.winnerName):((g.winners||[]).length?(g.winners||[]).map(pid=>esc(groupMembers().find(p=>p.id===pid)?.name||pid)).join(', '):'Sin ganador')}</div>`:''; return `<div class="retame-game-card"><h3>${title}</h3><div class="meta">${esc(g.creatorName)}${match} · ${fmtDateTime(g.createdAt)} ${g.status==='open'?'<span class="retame-live-pill">Abierto</span>':'<span class="retame-status">Cerrado</span>'}</div><p><b>${esc(g.question)}</b></p>${buttons}${close}${result}<div style="margin-top:10px">${rows||'<p class="muted">Aún no hay respuestas.</p>'}</div></div>`;}
+function retameGameCard(g){const m=matches.find(x=>x.id===g.matchId)||{}; const opts=retameGameOptions(g); const mine=safeAnswersArray(g).find(a=>a.pid===session.id); const isCreator=g.creatorId===session.id; const title={trivia:'⚡ Trivia Flash',express:'⚽ Reto Express',grupal:'👥 Reto Grupal'}[g.type]||'🔥 Juego'; const match=m.home?` · ${esc(m.home)} vs ${esc(m.away)}`:''; const buttons=(g.status==='open'&&!mine)?`<div class="retame-game-options">${opts.map(o=>`<button onclick="answerRetameGame('${g.id}','${esc(o)}')">${esc(o)}</button>`).join('')}</div>`:(mine?`<span class="retame-chip">Tu respuesta: ${esc(mine.answer)}</span>`:''); const close=(isCreator&&g.status==='open'&&g.type!=='trivia')?`<div class="retame-game-options"><b>Cerrar con:</b>${opts.map(o=>`<button class="good" onclick="closeRetameGame('${g.id}','${esc(o)}')">${esc(o)}</button>`).join('')}<button class="danger" onclick="cancelRetameGame('${g.id}')">Cancelar</button></div>`:(isCreator&&g.status==='open'?`<button class="danger" onclick="cancelRetameGame('${g.id}')">Cancelar</button>`:''); const rows=safeAnswersArray(g).map(a=>`<div class="retame-answer-row"><span>${esc(a.name)}: <b>${esc(a.answer)}</b></span><span>${g.type==='trivia'?(a.correct?'<span class="retame-correct">Correcto</span>':''):(g.status==='closed'&&String(a.answer)===String(g.winningAnswer)?'<span class="retame-correct">Ganó</span>':'')}</span></div>`).join(''); const result=g.status==='closed'?`<div class="status ok">Ganador${(g.winners||[]).length>1?'es':''}: ${g.winnerName?esc(g.winnerName):((g.winners||[]).length?(g.winners||[]).map(pid=>esc(groupMembers().find(p=>p.id===pid)?.name||pid)).join(', '):'Sin ganador')}</div>`:''; return `<div class="retame-game-card"><h3>${title}</h3><div class="meta">${esc(g.creatorName)}${match} · ${fmtDateTime(g.createdAt)} ${g.status==='open'?'<span class="retame-live-pill">Abierto</span>':'<span class="retame-status">Cerrado</span>'}</div><p><b>${esc(g.question)}</b></p>${buttons}${close}${result}<div style="margin-top:10px">${rows||'<p class="muted">Aún no hay respuestas.</p>'}</div></div>`;}
 function retameGameScoreRows(games){const score={}; groupMembers().forEach(p=>score[p.id]={p,w:0,l:0,pts:0}); games.filter(g=>g.status==='closed').forEach(g=>{if(g.type==='trivia_room'){const best=[...(g.players||[])].sort((a,b)=>(b.score||0)-(a.score||0))[0]; if(best&&score[best.pid]){score[best.pid].w++; score[best.pid].pts+=(best.score||0);} return;} const winners=g.winnerId?[g.winnerId]:(g.winners||[]); winners.forEach(pid=>{if(score[pid]){score[pid].w++; score[pid].pts+=(g.type==='trivia'?5:3);}});}); return score;}
 
 function markSeen(type){try{localStorage.setItem(localSeenKey(type),new Date().toISOString())}catch(e){}}
@@ -2635,7 +2637,7 @@ let lastNotifyKey='';
 function checkOpenAppNotifications(){try{if(!('Notification' in window)||Notification.permission!=='granted'||!session) return; const now=Date.now(); const soon=matches.filter(m=>{const ms=new Date(m.date).getTime()-now; return ms>0 && ms<30*60000;}); const key=soon.map(m=>m.id).join(',')+'|'+liveMatches().map(m=>m.id+statusBase(resFor(m.id)?.status)).join(','); if(key && key!==lastNotifyKey){lastNotifyKey=key; if(soon[0]) new Notification('⏰ Pronósticos por cerrar',{body:`${soon[0].home} vs ${soon[0].away} inicia pronto.`}); const lv=liveMatches()[0]; if(lv) new Notification('🔴 Partido en vivo',{body:`${lv.home} vs ${lv.away} · ${statusBase(resFor(lv.id)?.status)||''}`});}}catch(e){}}
 let liveTimer=null; function startLiveTimer(){
   if(liveTimer) clearInterval(liveTimer);
-  // V316.19: además del cron de Netlify, la app sincroniza API Football automáticamente cuando hay partido cercano/en vivo.
+  // V316.20: además del cron de Netlify, la app sincroniza API Football automáticamente cuando hay partido cercano/en vivo.
   checkOpenAppNotifications(); lastChatPresenceWrite=0; updateChatPresence(); scheduleMatchPushes(); startApiFootballAutoTimer();
   liveTimer=setInterval(()=>{
     checkOpenAppNotifications(); updateChatPresence(); scheduleMatchPushes(); autoApiFootballTick(false);
