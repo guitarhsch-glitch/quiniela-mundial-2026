@@ -1,21 +1,12 @@
-HCQ V313.34 - Recuperación Netlify + Supabase URL Fix
+V313.31 CRON FIX
 
-Cambios:
-- api-football-cron baja de cada 1 minuto a cada 5 minutos para reducir consumo de Netlify.
-- Corrige error Supabase 404 cuando SUPABASE_URL fue guardada con /rest/v1 o /v1.
-- Mantiene logs, pero reduce cantidad de unmatched para no gastar tanto.
-- Versión de emergencia para evitar que Netlify vuelva a pausar el sitio por exceso de uso.
+Corrección principal:
+- api-football-cron ahora replica automáticamente el botón Admin “Actualizar todos los partidos” cuando hay partido en vivo por horario o por API.
+- Ya no depende de entrar como administrador para que se guarde el marcador en Supabase.
+- live=all se consulta sin filtro primero, porque API Football a veces falla con live=all + league + season.
+- Mantiene backfill de fechas y aliases.
 
-IMPORTANTE:
-En Netlify, SUPABASE_URL idealmente debe ser solo:
-https://TU-PROYECTO.supabase.co
-
-NO debe ser:
-https://TU-PROYECTO.supabase.co/rest/v1
-ni terminar solo en /v1
-
-Para reactivar el sitio pausado:
-1. Netlify > Billing / Usage.
-2. Revisar el límite alcanzado.
-3. Actualizar plan o añadir método de pago, o esperar reinicio de ciclo si Netlify lo permite.
-4. Después subir V313.34 y hacer Trigger deploy.
+Después de subir a Netlify:
+1. Deploys -> subir ZIP -> esperar verde.
+2. Logs & metrics -> Functions -> api-football-cron -> Run now.
+3. Verificar en la app versión V313.31.

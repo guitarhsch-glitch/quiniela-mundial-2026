@@ -1,29 +1,12 @@
-HCQ V313.28 - UX / LAG / CAMPEÓN
+HCQ V313.26 - Auditoría y reparación de estabilidad
 
-Mejoras incluidas:
-1. Cron inteligente API Football:
-   - Netlify ejecuta api-football-cron cada 1 minuto.
-   - Si hay partido en vivo, consulta y actualiza cada minuto.
-   - Si no hay partido en vivo, evita trabajo pesado y mantiene sincronización completa cada ~2 minutos.
-   - Guarda estado visible en Supabase: api_football_cron_status.
+Cambios aplicados:
+1. Registro del Service Worker en index.html para activar actualización/caché controlado.
+2. Reparadas rutas de iconos del manifest y head; se agregaron iconos v31326.
+3. Refresco Supabase protegido contra llamadas simultáneas y con debounce para evitar parpadeos/lags.
+4. Presencia del chat limitada a una escritura cada 4 minutos para evitar ciclos render -> write -> refresh.
+5. Configuración API Football / OneSignal se carga desde state y solo cuando cambia la configuración, no en cada render.
+6. Timer vivo ajustado de 2 a 3 minutos para reducir carga en celulares sin quitar actualización automática.
+7. Limpieza de READMEs antiguos para evitar confusión en deploy.
 
-2. Menú inferior mejorado:
-   - Diseño tipo burbuja transparente / glassmorphism.
-   - Más cómodo para iPhone, separado de la barra inferior.
-   - Mejor indicador activo y mejor toque móvil.
-
-3. Pantalla de campeón:
-   - Contraste oscuro premium similar a Partidos en Vivo / Alertas.
-   - Textos, selectores, avisos y tarjetas con colores legibles.
-
-4. Menos lag / banderas más rápidas:
-   - Preconnect a flagcdn.
-   - Banderas más livianas w40/w80.
-   - Decoding async, fallback por emoji y precarga de banderas críticas.
-   - Service Worker cachea banderas externas.
-   - Debounce de refresh en Supabase más suave para evitar renderizados repetidos.
-
-Después de subir el ZIP:
-- Verifica en Netlify > Functions que api-football-cron ahora muestre schedule */1 * * * *.
-- Presiona Run now una vez para probar.
-- Revisa que la app muestre V313.28.
+Subir este ZIP completo a Netlify.

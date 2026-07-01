@@ -1,12 +1,12 @@
-HCQ V314.1 · Ranking y estadísticas
+HCQ V313.36 Stable Restore
 
-Cambios incluidos:
-- Versión visible actualizada a V314.1.
-- Ranking separado por submenús para no recargar la pantalla.
-- Ranking General conserva el diseño visual actual.
-- Nuevos submenús: Mis Estadísticas, Mi Historial, Compararme y Récords.
-- Mi Historial muestra pronóstico, resultado real y puntos por partido.
-- Compararme permite elegir otro participante y comparar puntos, exactos, aciertos y partidos donde cada uno ganó más puntos.
-- Service Worker actualizado para forzar nueva caché V314.1.
+Base: V313.34 estable que sí cargaba participantes, pronósticos, calendario y resultados.
 
-No se tocó la lógica crítica de guardado de pronósticos, privacidad, grupos ni API Football.
+Cambios:
+- Mantiene conexión pública de Supabase en frontend.
+- Evita que Netlify bloquee el deploy por exposed secret de SUPABASE_URL.
+- Mantiene cron de Netlify con SUPABASE_URL desde variables de entorno.
+
+Importante:
+- En Netlify, SUPABASE_URL debe estar sin /v1 ni /rest/v1.
+- Después del deploy, presionar Run now en api-football-cron para probar.

@@ -1,8 +1,11 @@
-HCQ V315.5 - Flujo automático en Pronósticos
+HCQ V314.2 · Centro Mundial
 
-Cambios:
-- En Pronósticos, después de seleccionar el marcador local pasa automáticamente al marcador visitante.
-- Después del marcador visitante, resalta el botón Guardar del mismo partido.
-- Al presionar Guardar, avanza automáticamente a la primera casilla del siguiente partido.
-- El botón Guardar activo queda resaltado para que se vea claramente el siguiente paso.
-- Service Worker/cache actualizado a V315.5.
+Cambios reales implementados sobre V314.1:
+- Versión visible actualizada a V314.2.
+- Pestañas horizontales dentro de Mundial.
+- Secciones: Calendario, Grupos, Eliminatorias, Estadísticas, Jugadores, Selecciones, Noticias, Histórico y Sorpresas.
+- Estadísticas calculadas desde resultados reales ya cargados.
+- Selecciones con ficha rápida, último resultado y próximo partido.
+- Service Worker actualizado con caché V314.2.
+
+No se tocó la lógica crítica de pronósticos, grupos, Supabase ni API Football.

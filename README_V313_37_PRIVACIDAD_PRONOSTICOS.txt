@@ -1,9 +1,21 @@
-V313.37 · Privacidad de pronósticos
+HCQ V313.34 - Recuperación Netlify + Supabase URL Fix
 
-Cambios realizados:
-- En la pestaña "Todos", antes de que inicie/bloquee un partido, ya no se muestran marcadores ni clasificado de ningún participante.
-- Antes del inicio, solo aparece si cada participante ya guardó su pronóstico: "✅ Ya pronosticó" o "Pendiente".
-- Al iniciar/bloquearse el partido, los pronósticos completos se habilitan automáticamente para todos.
-- La vista de administrador también respeta esta privacidad: no puede ver marcadores de otros antes del inicio/bloqueo.
-- Se agregaron reglas explicando esta privacidad.
-- Versión visible actualizada a V313.37.
+Cambios:
+- api-football-cron baja de cada 1 minuto a cada 5 minutos para reducir consumo de Netlify.
+- Corrige error Supabase 404 cuando SUPABASE_URL fue guardada con /rest/v1 o /v1.
+- Mantiene logs, pero reduce cantidad de unmatched para no gastar tanto.
+- Versión de emergencia para evitar que Netlify vuelva a pausar el sitio por exceso de uso.
+
+IMPORTANTE:
+En Netlify, SUPABASE_URL idealmente debe ser solo:
+https://TU-PROYECTO.supabase.co
+
+NO debe ser:
+https://TU-PROYECTO.supabase.co/rest/v1
+ni terminar solo en /v1
+
+Para reactivar el sitio pausado:
+1. Netlify > Billing / Usage.
+2. Revisar el límite alcanzado.
+3. Actualizar plan o añadir método de pago, o esperar reinicio de ciclo si Netlify lo permite.
+4. Después subir V313.34 y hacer Trigger deploy.
