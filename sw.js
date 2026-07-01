@@ -1,23 +1,47 @@
-HCQ V316.6 - Auditoría y correcciones
+const APP_VERSION='316.17';
+const CACHE='hcq-v316-17-runtime-fix';
+const ASSETS=[
+  './?v=31618-runtime-fix',
+  './index.html?v=31618-runtime-fix',
+  './manifest.webmanifest?v=31618-runtime-fix',
+  './icon-192-v31333-debug-api.png?v=31618-runtime-fix',
+  './icon-512-v31333-debug-api.png?v=31618-runtime-fix',
+  './apple-touch-icon-v31333-debug-api.png?v=31618-runtime-fix',
+  './favicon-v31333-debug-api.ico?v=31618-runtime-fix',
+  './logo-hcq-login-v31317.png?v=31618-runtime-fix'
+];
 
-1) Pronósticos
-- Se cambió el guardado para eliminar el pronóstico anterior del mismo participante/partido/grupo antes de insertar el nuevo.
-- Esto evita duplicados que podían causar fallas al guardar o lecturas incorrectas.
-- Se agregó mensaje de error claro si Supabase rechaza el guardado.
-- Se fuerza guardar ambos marcadores y clasificado en eliminatorias cuando aplica.
+self.addEventListener('install',event=>{
+  self.skipWaiting();
+  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).catch(()=>{}));
+});
 
-2) Puntajes / ranking
-- El ranking ahora compacta pronósticos duplicados y siempre usa el último updated_at.
-- La regla queda explícita: máximo 4 puntos por partido.
-- Eliminatorias: ganador/empate + exacto + clasificado, con tope 4.
-- Se actualiza snapshot de ranking después de guardar pronóstico.
+self.addEventListener('activate',event=>{
+  event.waitUntil((async()=>{
+    const keys=await caches.keys();
+    await Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)));
+    await self.clients.claim();
+    const clients=await self.clients.matchAll({type:'window',includeUncontrolled:true});
+    for(const client of clients){ client.postMessage({type:'APP_UPDATED',version:APP_VERSION,forceIconRefresh:true}); }
+  })());
+});
 
-3) Inicio / partido en vivo
-- El bloque superior muestra solo 1 partido en vivo.
-- Si no hay vivo, muestra “No hay partido en vivo”.
-- El partido anterior queda únicamente abajo en su propio bloque.
-- Se evita que partidos viejos queden pegados como vivos por más de 130 minutos si la API no marca final.
+self.addEventListener('message',event=>{ if(event.data && event.data.type==='SKIP_WAITING') self.skipWaiting(); });
 
-4) Campeón
-- Protección extra: la app bloquea que se guarde/cambie la llave champion_ de otro participante.
-- El admin conserva únicamente el campeón oficial, no puede editar el campeón elegido por otros.
+self.addEventListener('fetch',event=>{
+  const req=event.request;
+  if(req.method!=='GET') return;
+  const url=new URL(req.url);
+  const isAppShell=req.mode==='navigate'||url.pathname.endsWith('/index.html');
+  const isFreshAsset=url.pathname.endsWith('/sw.js')||url.pathname.endsWith('/manifest.webmanifest')||/icon-|apple-touch-icon|favicon/.test(url.pathname);
+  const isFlag=url.hostname==='flagcdn.com';
+  if(isAppShell||isFreshAsset){
+    event.respondWith(fetch(req,{cache:'reload'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;}).catch(()=>caches.match(req).then(r=>r||caches.match('./index.html?v=31618-runtime-fix'))));
+    return;
+  }
+  if(isFlag){
+    event.respondWith(caches.match(req).then(cached=>cached||fetch(req,{mode:'no-cors',cache:'force-cache'}).then(resp=>{const copy=resp.clone(); caches.open(CACHE).then(cache=>cache.put(req,copy)).catch(()=>{}); return resp;})).catch(()=>fetch(req)));
+    return;
+  }
+  event.respondWith(fetch(req,{cache:'no-store'}).catch(()=>caches.match(req)));
+});

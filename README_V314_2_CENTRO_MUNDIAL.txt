@@ -1,9 +1,11 @@
-V313.37 · Privacidad de pronósticos
+HCQ V314.2 · Centro Mundial
 
-Cambios realizados:
-- En la pestaña "Todos", antes de que inicie/bloquee un partido, ya no se muestran marcadores ni clasificado de ningún participante.
-- Antes del inicio, solo aparece si cada participante ya guardó su pronóstico: "✅ Ya pronosticó" o "Pendiente".
-- Al iniciar/bloquearse el partido, los pronósticos completos se habilitan automáticamente para todos.
-- La vista de administrador también respeta esta privacidad: no puede ver marcadores de otros antes del inicio/bloqueo.
-- Se agregaron reglas explicando esta privacidad.
-- Versión visible actualizada a V313.37.
+Cambios reales implementados sobre V314.1:
+- Versión visible actualizada a V314.2.
+- Pestañas horizontales dentro de Mundial.
+- Secciones: Calendario, Grupos, Eliminatorias, Estadísticas, Jugadores, Selecciones, Noticias, Histórico y Sorpresas.
+- Estadísticas calculadas desde resultados reales ya cargados.
+- Selecciones con ficha rápida, último resultado y próximo partido.
+- Service Worker actualizado con caché V314.2.
+
+No se tocó la lógica crítica de pronósticos, grupos, Supabase ni API Football.

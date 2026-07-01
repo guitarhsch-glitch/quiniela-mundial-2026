@@ -1,24 +1,16 @@
-HCQ V313.27 - API Football automático 24/7
+V313.29 - Alias + Backfill API Football
 
-Qué cambia:
-1. Agrega netlify/functions/api-football-cron.mjs
-2. Esa función corre cada 2 minutos en Netlify.
-3. Consulta API Football y actualiza la tabla results en Supabase aunque ningún admin esté conectado.
-4. La app ya no hace consulta automática al API desde el celular/admin cada 3 minutos; queda solo el botón manual del Admin.
+Correcciones principales:
+1. Alias reforzados para España / Cabo Verde:
+   - Spain, España, ESP
+   - Cape Verde, Cape Verde Islands, Cabo Verde, Cabo Verde Islands, CPV, CV
+2. Backfill automático cada 6 horas:
+   - Revisa los últimos 10 días, hoy y los próximos 2 días.
+   - Sirve para recuperar partidos que API Football no detectó en el momento exacto.
+3. Cron sigue cada 1 minuto, pero no hace consultas pesadas todo el tiempo.
+4. El status de Netlify ahora puede mostrar mode=backfill_6h cuando haga revisión amplia.
 
-Variables necesarias en Netlify:
-- SUPABASE_URL = https://<tu-proyecto>.supabase.co
-- SUPABASE_SERVICE_ROLE_KEY = clave service_role de Supabase (Project Settings > API)
-- API_FOOTBALL_KEY = tu key de API Football (opcional si ya está guardada en Admin, pero recomendado)
-- API_FOOTBALL_LEAGUE = 1
-- API_FOOTBALL_SEASON = 2026
-
-Después de subir el ZIP:
-1. En Netlify, ve a Site configuration > Environment variables.
-2. Agrega las variables anteriores.
-3. Haz Deploy del ZIP.
-4. En Functions debe aparecer api-football-cron.
-5. Puedes probar manualmente abriendo: /.netlify/functions/api-football-cron
-
-Nota importante:
-La service_role key es secreta. No la pegues dentro del index.html. Solo va en variables de Netlify.
+Después de subir esta versión:
+- Trigger deploy.
+- En Netlify > Logs & metrics > Functions > api-football-cron puedes usar Run now.
+- Espera el siguiente cron y revisa settings api_football_cron_status si quieres ver unmatched.

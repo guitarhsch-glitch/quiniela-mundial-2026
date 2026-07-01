@@ -1,16 +1,12 @@
-V313.29 - Alias + Backfill API Football
+V313.31 CRON FIX
 
-Correcciones principales:
-1. Alias reforzados para España / Cabo Verde:
-   - Spain, España, ESP
-   - Cape Verde, Cape Verde Islands, Cabo Verde, Cabo Verde Islands, CPV, CV
-2. Backfill automático cada 6 horas:
-   - Revisa los últimos 10 días, hoy y los próximos 2 días.
-   - Sirve para recuperar partidos que API Football no detectó en el momento exacto.
-3. Cron sigue cada 1 minuto, pero no hace consultas pesadas todo el tiempo.
-4. El status de Netlify ahora puede mostrar mode=backfill_6h cuando haga revisión amplia.
+Corrección principal:
+- api-football-cron ahora replica automáticamente el botón Admin “Actualizar todos los partidos” cuando hay partido en vivo por horario o por API.
+- Ya no depende de entrar como administrador para que se guarde el marcador en Supabase.
+- live=all se consulta sin filtro primero, porque API Football a veces falla con live=all + league + season.
+- Mantiene backfill de fechas y aliases.
 
-Después de subir esta versión:
-- Trigger deploy.
-- En Netlify > Logs & metrics > Functions > api-football-cron puedes usar Run now.
-- Espera el siguiente cron y revisa settings api_football_cron_status si quieres ver unmatched.
+Después de subir a Netlify:
+1. Deploys -> subir ZIP -> esperar verde.
+2. Logs & metrics -> Functions -> api-football-cron -> Run now.
+3. Verificar en la app versión V313.31.

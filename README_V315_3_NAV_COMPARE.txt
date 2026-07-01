@@ -1,12 +1,5 @@
-HCQ V314.1 · Ranking y estadísticas
-
-Cambios incluidos:
-- Versión visible actualizada a V314.1.
-- Ranking separado por submenús para no recargar la pantalla.
-- Ranking General conserva el diseño visual actual.
-- Nuevos submenús: Mis Estadísticas, Mi Historial, Compararme y Récords.
-- Mi Historial muestra pronóstico, resultado real y puntos por partido.
-- Compararme permite elegir otro participante y comparar puntos, exactos, aciertos y partidos donde cada uno ganó más puntos.
-- Service Worker actualizado para forzar nueva caché V314.1.
-
-No se tocó la lógica crítica de guardado de pronósticos, privacidad, grupos ni API Football.
+V315.3
+- Submenú Quiniela y Ranking más grande, visible y fijo al hacer scroll.
+- Menú inferior más grande y con pestaña activa claramente resaltada.
+- Corrección de Compararme en Ranking: ya no depende de variables globales del navegador y conserva el participante seleccionado.
+- Service Worker/cache actualizado a V315.3 para forzar refresco.
