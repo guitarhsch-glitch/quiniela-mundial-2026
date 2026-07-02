@@ -1,7 +1,6 @@
-[[headers]]
-for = "/*"
-[headers.values]
-Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
-
 [functions]
-  directory = "netlify/functions"
+directory = "netlify/functions"
+node_bundler = "esbuild"
+
+[functions."api-football-cron"]
+schedule = "*/1 * * * *"
