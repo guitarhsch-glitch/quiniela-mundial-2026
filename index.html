@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071a3f">
-<link rel="manifest" href="manifest.webmanifest?v=3170-estabilidad">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-v31333-debug-api.png?v=3170-estabilidad">
-<link rel="apple-touch-icon-precomposed" sizes="180x180" href="apple-touch-icon-v31333-debug-api.png?v=3170-estabilidad">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192-v31333-debug-api.png?v=3170-estabilidad">
-<link rel="icon" type="image/png" sizes="512x512" href="icon-512-v31328-ux-lag.png?v=3171-enterprise">
-<link rel="shortcut icon" href="favicon-v31328-ux-lag.ico?v=3171-enterprise">
-<link rel="preload" as="image" href="logo-hcq-login-v31317.png?v=3171-enterprise" fetchpriority="high">
+<link rel="manifest" href="manifest.webmanifest?v=31614-render-perf">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-v31333-debug-api.png?v=31614-render-perf">
+<link rel="apple-touch-icon-precomposed" sizes="180x180" href="apple-touch-icon-v31333-debug-api.png?v=31614-render-perf">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192-v31333-debug-api.png?v=31614-render-perf">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512-v31328-ux-lag.png?v=3172-enterprise">
+<link rel="shortcut icon" href="favicon-v31328-ux-lag.ico?v=3172-enterprise">
+<link rel="preload" as="image" href="logo-hcq-login-v31317.png?v=3172-enterprise" fetchpriority="high">
 <link rel="preconnect" href="https://flagcdn.com" crossorigin>
 <link rel="dns-prefetch" href="https://flagcdn.com">
-<title>HCQ - Hattrick Club Quinielas V317.1</title>
+<title>HCQ - Hattrick Club Quinielas V317.2</title>
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -138,7 +138,7 @@ nav button.active{transform:translateY(-1px);}
   width:118px!important;
   height:118px!important;
   border-radius:30px!important;
-  background:#050d1f url('logo-hcq-login-v31317.png?v=3171-enterprise') center/contain no-repeat!important;
+  background:#050d1f url('logo-hcq-login-v31317.png?v=3172-enterprise') center/contain no-repeat!important;
   box-shadow:0 18px 42px rgba(0,0,0,.38), inset 0 0 0 2px rgba(248,197,71,.45)!important;
 }
 .logo:before,.logo:after{content:none!important;}
@@ -146,7 +146,7 @@ nav button.active{transform:translateY(-1px);}
 .login-card h1 .brand-main{display:block;font-size:34px;font-weight:1000;letter-spacing:.8px;color:#071a3f;}
 .login-card h1 .brand-sub{display:block;font-size:15px;font-weight:900;letter-spacing:.4px;color:#334155;margin-top:2px;}
 .brand{display:flex;align-items:center;gap:10px;}
-.brand:before{content:"";width:38px;height:38px;border-radius:12px;background:#050d1f url('logo-hcq-login-v31317.png?v=3171-enterprise') center/contain no-repeat;box-shadow:0 0 0 1px rgba(248,197,71,.45);flex:0 0 auto;}
+.brand:before{content:"";width:38px;height:38px;border-radius:12px;background:#050d1f url('logo-hcq-login-v31317.png?v=3172-enterprise') center/contain no-repeat;box-shadow:0 0 0 1px rgba(248,197,71,.45);flex:0 0 auto;}
 
 #updateBanner{position:fixed;left:12px;right:12px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:9999;background:rgba(255,255,255,.96);color:#150b35;border-radius:16px;padding:12px 14px;text-align:center;font-weight:900;box-shadow:0 8px 24px rgba(0,0,0,.35);display:none}
 #updateBanner.show{display:block}
@@ -183,7 +183,7 @@ header{
   box-shadow:0 10px 34px rgba(0,0,0,.45);
 }
 .brand{display:flex;align-items:center;gap:9px;letter-spacing:.3px;color:#fff;text-transform:uppercase;font-size:15px}
-.brand:before{width:34px;height:34px;border-radius:10px;background:#061326 url('logo-hcq-login-v31317.png?v=3171-enterprise') center/contain no-repeat;box-shadow:0 0 0 1px rgba(248,197,71,.55),0 8px 20px rgba(0,0,0,.35)}
+.brand:before{width:34px;height:34px;border-radius:10px;background:#061326 url('logo-hcq-login-v31317.png?v=3172-enterprise') center/contain no-repeat;box-shadow:0 0 0 1px rgba(248,197,71,.55),0 8px 20px rgba(0,0,0,.35)}
 .ver{color:#f8c547;opacity:1;font-weight:800;letter-spacing:.3px}
 .card,.match,.row,.stat-card,.bracket-round,.event-item,.chat-msg,.champion-row,.hof-row,.record-row,.history-item{
   background:linear-gradient(180deg,rgba(11,27,53,.96),rgba(5,13,31,.96))!important;
@@ -261,7 +261,7 @@ button:not(.primary):not(.good):not(.danger){background:#132638!important;color:
 .rank-points small{grid-column:2;color:#ffffff!important;font-size:11px!important;letter-spacing:.8px!important;}
 .rank-fun{font-size:18px!important;font-weight:1000!important;color:#f8c547!important;}.rank-pos{font-size:16px!important;color:#ffffff!important;}.rank-exact-pill{font-size:14px!important;}
 @media(max-width:520px){.rank-line{grid-template-columns:92px 1fr!important;}.rank-line>.pill:last-child{grid-column:2;margin-top:5px;width:max-content}.rank-big-emoji{font-size:36px!important}.rank-score{font-size:29px!important}.rank-points{min-width:86px!important}.rank-meta{font-size:11px!important}}
-/* ===== V317.1 Ranking: iconos desplegables siempre visibles ===== */
+/* ===== V317.2 Ranking: iconos desplegables siempre visibles ===== */
 .rank-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
 .rank-action-btn{border:1px solid rgba(212,175,55,.32)!important;background:rgba(212,175,55,.14)!important;color:#f8c547!important;border-radius:999px!important;padding:7px 9px!important;font-weight:1000!important;font-size:13px!important;min-height:auto!important;box-shadow:none!important}
 .rank-action-btn:hover{background:rgba(248,197,71,.22)!important}
@@ -851,7 +851,7 @@ body.dark .champion-hero{background:linear-gradient(135deg,rgba(248,197,71,.30),
 body.dark .champion-hero h1{color:#fff} body.dark .champion-name{color:#f8c547}
 
 
-/* ===== V317.1 ajustes solicitados ===== */
+/* ===== V317.2 ajustes solicitados ===== */
 #homeAlerts .champion-hero{
   background:linear-gradient(135deg,#ffffff 0%,#fff7cc 45%,#eef6ff 100%)!important;
   color:#061326!important;
@@ -870,7 +870,7 @@ body.dark .champion-hero h1{color:#fff} body.dark .champion-name{color:#f8c547}
 
 
 
-/* ===== V317.1 FIX rendimiento visual / pantallas que cargan por partes ===== */
+/* ===== V317.2 FIX rendimiento visual / pantallas que cargan por partes ===== */
 html,body,#app{min-height:100%;background:#050d1f;}
 body{overscroll-behavior-y:none;}
 #app{background:
@@ -888,23 +888,13 @@ body{overscroll-behavior-y:none;}
 .rank-detail.open{display:block;}
 @media(max-width:720px){.ranking-loading-card{min-height:430px;margin-bottom:120px}.rank-line{grid-template-columns:auto 1fr;}.rank-actions{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}.rank-action-btn{flex:1 1 auto;min-width:92px}}
 
-
-/* ===== V317.1 Auditoría rendimiento / estabilidad ===== */
-.section{content-visibility:auto;contain-intrinsic-size:900px 1200px;}
-.section.active{content-visibility:visible;}
-.diag-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:10px}
-.diag-card{background:rgba(15,23,42,.72);border:1px solid rgba(250,204,21,.25);border-radius:18px;padding:12px;color:#e5e7eb}
-.diag-card b{display:block;font-size:1.35rem;color:#facc15}
-.diag-log{max-height:260px;overflow:auto;background:rgba(2,6,23,.75);border-radius:16px;padding:10px;font-family:ui-monospace,Consolas,monospace;font-size:.82rem;white-space:pre-wrap}
-.sync-chip{display:inline-block;margin:3px;padding:5px 8px;border-radius:999px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);color:#bbf7d0;font-size:.82rem}
-
 </style>
 </head><body>
 <div id="updateBanner">Nueva versión disponible. Actualizando...</div>
 <div id="championModal" class="champion-modal"><div class="champion-modal-card"><button class="champion-close" onclick="closeChampionModal()">Cerrar ✕</button><div id="championModalContent"></div></div></div>
 <div id="loginScreen" class="login">
  <div class="login-card">
-  <div class="logo" aria-label="HCQ"></div><h1><span class="brand-main">HCQ</span><span class="brand-sub">Hattrick Club Quinielas</span></h1><p class="muted">Pronostica • Compite • Gana<br>V317.1 HCQ · Eliminatorias</p>
+  <div class="logo" aria-label="HCQ"></div><h1><span class="brand-main">HCQ</span><span class="brand-sub">Hattrick Club Quinielas</span></h1><p class="muted">Pronostica • Compite • Gana<br>V317.2 HCQ · Eliminatorias</p>
   <div id="configBox" class="alert hidden"><b>Falta configurar Supabase.</b><label>URL Supabase</label><input id="cfgUrl" placeholder="URL Supabase"><label>Clave publicable</label><input id="cfgKey" placeholder="sb_publishable_..."><button class="primary" style="width:100%;margin-top:8px" onclick="saveConfig()">Guardar configuración</button></div>
   <label>Usuario</label><input id="loginUser" value="admin"><label>Contraseña</label><input id="loginPass" type="password" value="1234">
   <label>Grupo</label><select id="loginGroup"></select>
@@ -912,7 +902,7 @@ body{overscroll-behavior-y:none;}
   <div id="loginMsg" class="status">Cargando grupos...</div>
  </div>
 </div>
-<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V317.1 HCQ · <span id="cloudState">Conectando...</span><span class="perf-note">V317.1</span></div><div class="top-group-switch" id="topGroupSwitchBox"><label>Grupo</label><select id="topGroupSwitch" onchange="switchSessionGroup(this.value)"></select></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
+<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V317.2 HCQ · <span id="cloudState">Conectando...</span><span class="perf-note">V317.2</span></div><div class="top-group-switch" id="topGroupSwitchBox"><label>Grupo</label><select id="topGroupSwitch" onchange="switchSessionGroup(this.value)"></select></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
 <div class="wrap">
 <section id="inicio" class="section active"><div class="card live-priority-card"><h2>🔴 Partido en vivo</h2><div id="liveMatchBox"></div></div><div class="card"><h2>📋 Partido anterior</h2><div id="previousMatchBox"></div></div><div class="card"><h2>⏳ Próximo partido</h2><div id="nextMatchBox"></div></div><div class="card"><h2>🏟️ Panel general</h2><p class="muted">Grupo actual: <b id="currentGroupName"></b></p><div id="homeGroupSwitchBox" class="hidden" style="margin:10px 0"><label>Cambiar grupo</label><select id="homeGroupSwitch" onchange="switchSessionGroup(this.value)"></select><p class="small">Puedes cambiar de grupo sin cerrar sesión.</p></div><div class="grid3"><div class="status">Participantes<br><b id="statPlayers">0</b></div><div class="status">Bolsa<br><b id="statPool">Q0</b></div><div class="status">Líder<br><b id="statLeader">-</b></div></div></div><div class="card"><h2>🥇 Top 3 del grupo</h2><div id="homePlayers" class="players"></div></div><div class="card"><h2>🔔 Alertas y avisos</h2><div id="homeAlerts"></div></div><div class="card"><h2>🎉 Ganadores</h2><div id="winnerBox"></div></div></section>
 <section id="quiniela" class="section"><div class="card"><h2>⚽ Quiniela</h2><div class="module-tabs"><button class="active" data-qtab="pronosticos" onclick="setQuinielaTab('pronosticos')">🎯 Pronósticos</button><button data-qtab="ver" onclick="setQuinielaTab('ver')">👥 Ver pronósticos</button><button data-qtab="campeon" onclick="setQuinielaTab('campeon')">👑 Campeón</button></div></div><div id="qtab-pronosticos" class="q-panel active"><div class="card"><h2>🎯 Mis pronósticos</h2><div class="grid2"><div><label>Fase</label><select id="predPhase" onchange="fillDays();renderPred()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="predDay" onchange="renderPred()"></select></div></div><div id="predList"></div></div></div><div id="qtab-ver" class="q-panel"><div class="card"><h2>👥 Pronósticos de todos</h2><div class="grid2"><div><label>Fase</label><select id="allPhase" onchange="fillDays();renderAllPreds()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="allDay" onchange="renderAllPreds()"></select></div></div><div id="allBox"></div></div></div><div id="qtab-campeon" class="q-panel"><div class="card"><h2>👑 Pronóstico de campeón</h2><p class="muted">Esta elección cuenta solo para la quiniela de eliminatorias. Si aciertas el campeón, suma <b>10 puntos extra</b>.</p><div id="championBox"></div></div></div></section>
@@ -925,12 +915,13 @@ body{overscroll-behavior-y:none;}
 <div id="atab-resultados" class="q-panel a-panel"><div class="card"><h2>Admin · Resultados reales</h2><div class="grid2"><div><label>Fase</label><select id="resPhase" onchange="fillDays();renderResultsAdmin()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="resDay" onchange="renderResultsAdmin()"></select></div></div><div id="resultsAdmin"></div></div></div>
 <div id="atab-pronosticos" class="q-panel a-panel"><div class="card"><h2>Admin · Modificar pronósticos de participantes</h2><p class="muted">Uso especial para corregir o restaurar pronósticos. Afecta solo al grupo actual.</p><div class="grid3"><div><label>Participante</label><select id="adminPredPlayer" onchange="renderAdminPredictions()"></select></div><div><label>Fase</label><select id="adminPredPhase" onchange="fillDays();renderAdminPredictions()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="adminPredDay" onchange="renderAdminPredictions()"></select></div></div><div id="adminPredBox"></div></div></div>
 <div id="atab-notificaciones" class="q-panel a-panel"><div class="card"><h2>Admin · Notificaciones externas OneSignal</h2><p class="muted">Activa avisos push fuera de la app solo para chat, pronósticos modificados, recordatorios 30 y 10 minutos antes únicamente a quienes tengan pendiente ese pronóstico, y aviso de inicio de partido. En Netlify debes agregar la variable <b>ONESIGNAL_REST_API_KEY</b>. El App ID sí se guarda aquí porque es público.</p><div class="grid2"><div><label>OneSignal App ID</label><input id="oneSignalAppId" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></div><div><label>Estado</label><input id="oneSignalStatus" readonly value="Sin configurar"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveOneSignalConfig()">Guardar OneSignal</button><button class="good" onclick="enableBrowserAlerts()">Activar avisos en este dispositivo</button><button onclick="sendOneSignalTest()">Enviar prueba al grupo</button></div><div id="oneSignalMsg" class="status">Configura App ID y la variable secreta en Netlify para enviar notificaciones externas.</div></div></div>
-<div id="atab-api" class="q-panel a-panel"><div class="card"><h2>Admin · API Football</h2><p class="muted">Actualiza resultados reales desde API Football sin tocar pronósticos ni participantes. V317.1 mantiene el cron de Netlify y agrega actualización automática desde la app cuando hay partido cercano o en vivo.</p><div class="grid3"><div><label>API Key</label><input id="apiFootballKey" placeholder="Pega tu API key"></div><div><label>League ID</label><input id="apiFootballLeague" value="1"></div><div><label>Season</label><input id="apiFootballSeason" value="2026"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveApiFootballConfig()">Guardar API Key</button><button class="good" onclick="updateApiFootballDay()">Actualizar día seleccionado</button><button class="good" onclick="updateApiFootballAll()">Actualizar todos los partidos</button></div><div id="apiFootballMsg" class="status">Primero guarda la API Key. Luego elige un día en Resultados reales y presiona actualizar.</div></div></div>
-<div id="atab-diagnostico" class="q-panel a-panel"><div class="card"><h2>🧪 Diagnóstico y rendimiento</h2><p class="muted">Panel solo para administrador. Sirve para revisar sincronización, conteos de Supabase, API Football, caché y tiempos de render.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="primary" onclick="renderDiagnostics()">Actualizar diagnóstico</button><button onclick="copyDiagnostics()">Copiar diagnóstico</button><button onclick="refreshAll(true).then(renderDiagnostics)">Forzar sync Supabase</button><button onclick="autoApiFootballTick(true).then(renderDiagnostics)">Forzar sync API</button></div><div id="diagnosticsBox" class="status">Abre este panel para calcular diagnóstico.</div></div></div>
+<div id="atab-api" class="q-panel a-panel"><div class="card"><h2>Admin · API Football</h2><p class="muted">Actualiza resultados reales desde API Football sin tocar pronósticos ni participantes. V317.2 mantiene el cron de Netlify y agrega actualización automática desde la app cuando hay partido cercano o en vivo.</p><div class="grid3"><div><label>API Key</label><input id="apiFootballKey" placeholder="Pega tu API key"></div><div><label>League ID</label><input id="apiFootballLeague" value="1"></div><div><label>Season</label><input id="apiFootballSeason" value="2026"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveApiFootballConfig()">Guardar API Key</button><button class="good" onclick="updateApiFootballDay()">Actualizar día seleccionado</button><button class="good" onclick="updateApiFootballAll()">Actualizar todos los partidos</button></div><div id="apiFootballMsg" class="status">Primero guarda la API Key. Luego elige un día en Resultados reales y presiona actualizar.</div></div></div>
+
+<div id="atab-diagnostico" class="q-panel a-panel"><div class="card"><h2>Admin · Diagnóstico</h2><p class="muted">Estado interno de sincronización, conteos descargados, caché, API Football y rendimiento. Solo visible para administradores.</p><div id="diagBox" class="status">Cargando diagnóstico...</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="good" onclick="renderDiagnostics()">Actualizar diagnóstico</button><button onclick="copyDiagnostics()">Copiar diagnóstico</button><button onclick="autoApiFootballTick(true)">Probar sync API Football</button></div><div id="diagMsg" class="status"></div></div></div>
 <div id="atab-limpieza" class="q-panel a-panel"><div class="card danger-zone"><h2>Admin · Limpieza del sistema</h2><p class="muted">Herramientas delicadas. Haz respaldo antes de usar. La limpieza total mantiene los grupos, el administrador y la configuración de API Football.</p><div class="danger-actions"><button class="danger" onclick="deleteGroupPredictions()">Eliminar pronósticos del grupo actual</button><button class="danger" onclick="deleteAllPredictions()">Eliminar TODOS los pronósticos</button><button class="danger" onclick="cleanWholeSystem()">Limpiar todo el sistema</button></div><div id="cleanMsg" class="status">Disponible solo para administradores.</div></div></div></section>
 
 <section id="retame" class="section"><div class="card"><h2>🔥 Rétame</h2><p class="muted">Solo queda activa la <b>Apuesta rápida</b>. La app registra acuerdos amistosos entre participantes; no procesa pagos.</p></div><div id="retab-apuestas" class="q-panel retame-panel active"><div class="card"><div class="retame-section-title"><h2>⚡ Apuesta rápida</h2><button onclick="document.getElementById('retameCreateBox').classList.toggle('hidden')">➕ Crear apuesta rápida</button></div><p class="muted">Elige un partido, tu ganador y el premio/reto opcional. Los demás aceptan y tú confirmas.</p><div id="retameCreateBox" class="retame-card hidden"><h2>➕ Crear apuesta rápida</h2><div class="grid2"><div><label>Partido</label><select id="retameMatch"></select></div><div><label>Yo apuesto por</label><select id="retamePick"></select></div></div><div class="grid2"><div><label>Tipo de premio/reto</label><select id="retameRewardType"><option value="orgullo">🏆 Solo orgullo</option><option value="dinero">💰 Cantidad monetaria</option><option value="comida">🍔 Comida/bebida</option><option value="castigo">😂 Reto al perdedor</option><option value="personalizado">✍️ Personalizado</option></select></div><div><label>Detalle</label><input id="retameReward" placeholder="$10, tacos, desayuno, reto divertido..."></div></div><label>Mensaje opcional</label><input id="retameMsg" placeholder="Ej: A que México gana este partido 😆"><div class="retame-form-note">Los demás pueden aceptar. Tú decides después si confirmas o rechazas a cada participante.</div><div class="retame-actions"><button class="primary" onclick="createRetameChallenge()">Publicar apuesta rápida</button></div><div id="retameCreateMsg" class="status"></div></div><div id="retameWallBox"></div></div></div></section>
-<section id="chat" class="section"><div class="card chat-card-premium"><div class="chat-premium-head"><div><h2>💬 Chat del grupo</h2><span class="chat-title-chip">✨ Eliminatorias V317.1</span></div><button type="button" class="scroll-bottom-btn" onclick="scrollChatBottom()">⬇️ Último</button></div><p class="muted">Mensajes visibles solo para el grupo actual. Diseño premium con burbujas, avatar, menciones, reacciones, fijados, búsqueda e indicador escribiendo.</p><div id="chatStats" class="chat-stats"></div><div id="chatOnline" class="online-box">Conectados: calculando...</div><div id="chatTyping" class="online-box hidden"></div><div id="chatPinned" class="pin-box hidden"></div><div class="chat-tools"><input id="chatSearch" placeholder="Buscar en el chat..." oninput="renderChat()"><button onclick="clearChatSearch()">Limpiar</button></div><div id="chatReplyBox" class="reply-box hidden"></div><div class="emoji-row" id="emojiRow"><button type="button" onclick="addEmoji('⚽')">⚽</button><button type="button" onclick="addEmoji('🔥')">🔥</button><button type="button" onclick="addEmoji('😂')">😂</button><button type="button" onclick="addEmoji('👏')">👏</button><button type="button" onclick="addEmoji('🏆')">🏆</button><button type="button" onclick="addEmoji('😱')">😱</button><button type="button" onclick="addEmoji('💪')">💪</button><button type="button" onclick="addEmoji('✅')">✅</button></div><div id="chatBox" class="chat-box"></div><div class="chat-form"><input id="chatInput" maxlength="280" placeholder="Escribe un mensaje para tu grupo... Usa @nombre para mencionar" oninput="chatTypingPulse()"><button class="primary" onclick="sendChatMessage()">Enviar</button></div><div id="chatMsg" class="status"></div></div></section>
+<section id="chat" class="section"><div class="card chat-card-premium"><div class="chat-premium-head"><div><h2>💬 Chat del grupo</h2><span class="chat-title-chip">✨ Eliminatorias V317.2</span></div><button type="button" class="scroll-bottom-btn" onclick="scrollChatBottom()">⬇️ Último</button></div><p class="muted">Mensajes visibles solo para el grupo actual. Diseño premium con burbujas, avatar, menciones, reacciones, fijados, búsqueda e indicador escribiendo.</p><div id="chatStats" class="chat-stats"></div><div id="chatOnline" class="online-box">Conectados: calculando...</div><div id="chatTyping" class="online-box hidden"></div><div id="chatPinned" class="pin-box hidden"></div><div class="chat-tools"><input id="chatSearch" placeholder="Buscar en el chat..." oninput="renderChat()"><button onclick="clearChatSearch()">Limpiar</button></div><div id="chatReplyBox" class="reply-box hidden"></div><div class="emoji-row" id="emojiRow"><button type="button" onclick="addEmoji('⚽')">⚽</button><button type="button" onclick="addEmoji('🔥')">🔥</button><button type="button" onclick="addEmoji('😂')">😂</button><button type="button" onclick="addEmoji('👏')">👏</button><button type="button" onclick="addEmoji('🏆')">🏆</button><button type="button" onclick="addEmoji('😱')">😱</button><button type="button" onclick="addEmoji('💪')">💪</button><button type="button" onclick="addEmoji('✅')">✅</button></div><div id="chatBox" class="chat-box"></div><div class="chat-form"><input id="chatInput" maxlength="280" placeholder="Escribe un mensaje para tu grupo... Usa @nombre para mencionar" oninput="chatTypingPulse()"><button class="primary" onclick="sendChatMessage()">Enviar</button></div><div id="chatMsg" class="status"></div></div></section>
 <section id="reglas" class="section">
   <div class="card">
     <h2>📜 Reglas oficiales de la quiniela</h2>
@@ -997,21 +988,11 @@ body{overscroll-behavior-y:none;}
 
 (function(){
   const img=new Image();
-  img.src='logo-hcq-login-v31317.png?v=3171-enterprise';
+  img.src='logo-hcq-login-v31317.png?v=3172-enterprise';
   if(img.decode) img.decode().catch(()=>{});
 })();
-const DEFAULT_URL='';
-const EMBED_KEY='';
-let PUBLIC_CFG={url:'',key:''};
-async function loadPublicConfig(){
-  try{
-    const r=await fetch('/.netlify/functions/public-config',{cache:'no-store'});
-    if(!r.ok) return false;
-    const c=await r.json();
-    PUBLIC_CFG={url:(c.url||'').trim(), key:(c.key||'').trim()};
-    return !!(PUBLIC_CFG.url && PUBLIC_CFG.key);
-  }catch(e){return false;}
-}
+const DEFAULT_URL=['https://','kwezracgftuzctzwejlt','.supabase','.co'].join('');
+const EMBED_KEY='sb_publishable_-O5P9UDDqqkcbkWK4TkXbQ_XRXt_kqD'; // Clave publicable integrada para no pedir configuración en celulares.
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 const teams=[["Grupo A","México","🇲🇽"],["Grupo A","Sudáfrica","🇿🇦"],["Grupo A","Corea del Sur","🇰🇷"],["Grupo A","Chequia","🇨🇿"],["Grupo B","Canadá","🇨🇦"],["Grupo B","Suiza","🇨🇭"],["Grupo B","Catar","🇶🇦"],["Grupo B","Bosnia y Herzegovina","🇧🇦"],["Grupo C","Brasil","🇧🇷"],["Grupo C","Marruecos","🇲🇦"],["Grupo C","Haití","🇭🇹"],["Grupo C","Escocia","🏴"],["Grupo D","Estados Unidos","🇺🇸"],["Grupo D","Paraguay","🇵🇾"],["Grupo D","Australia","🇦🇺"],["Grupo D","Turquía","🇹🇷"],["Grupo E","Alemania","🇩🇪"],["Grupo E","Curazao","🇨🇼"],["Grupo E","Costa de Marfil","🇨🇮"],["Grupo E","Ecuador","🇪🇨"],["Grupo F","Países Bajos","🇳🇱"],["Grupo F","Japón","🇯🇵"],["Grupo F","Túnez","🇹🇳"],["Grupo F","Suecia","🇸🇪"],["Grupo G","Bélgica","🇧🇪"],["Grupo G","Egipto","🇪🇬"],["Grupo G","Irán","🇮🇷"],["Grupo G","Nueva Zelanda","🇳🇿"],["Grupo H","España","🇪🇸"],["Grupo H","Cabo Verde","🇨🇻"],["Grupo H","Arabia Saudita","🇸🇦"],["Grupo H","Uruguay","🇺🇾"],["Grupo I","Francia","🇫🇷"],["Grupo I","Senegal","🇸🇳"],["Grupo I","Noruega","🇳🇴"],["Grupo I","Irak","🇮🇶"],["Grupo J","Argentina","🇦🇷"],["Grupo J","Argelia","🇩🇿"],["Grupo J","Austria","🇦🇹"],["Grupo J","Jordania","🇯🇴"],["Grupo K","Portugal","🇵🇹"],["Grupo K","Uzbekistán","🇺🇿"],["Grupo K","Colombia","🇨🇴"],["Grupo K","Congo RD","🇨🇩"],["Grupo L","Inglaterra","🏴"],["Grupo L","Croacia","🇭🇷"],["Grupo L","Ghana","🇬🇭"],["Grupo L","Panamá","🇵🇦"]];
 const flagOf=n=>(teams.find(t=>t[1]===n)||['','','🏳️'])[2], allTeamNames=[...new Set(teams.map(t=>t[1]))].sort();
@@ -1030,7 +1011,7 @@ const knockoutMatches=[{"id":"k1","phase":"knockout","date":"2026-06-28T13:00:00
 const matches=[...groupMatches,...knockoutMatches];
 
 let supa=null, session=null, state={groups:[],participants:[],members:[],predictions:[],results:[],settings:[]};
-const STATE_CACHE_KEY='hcq_state_cache_v31624';
+const STATE_CACHE_KEY='hcq_state_cache_v3172';
 function cacheStateSnapshot(){
   try{
     if(state && Array.isArray(state.groups) && state.groups.length){
@@ -1063,28 +1044,24 @@ function friendlyLoadError(e){
   return 'Error Supabase: '+msg;
 }
 let refreshInFlight=null, refreshQueued=false, refreshRenderTimer=null, lastRefreshAt=0;
-const HCQ_VERSION='V317.1 Enterprise';
-window.HCQ_DIAG={version:HCQ_VERSION,started_at:new Date().toISOString(),lastSync:null,tables:{},api:{},renders:[],errors:[],queryGroup:null};
-function diagLog(type,msg,extra){try{const row={at:new Date().toISOString(),type,msg:String(msg||''),extra:extra||null}; const d=window.HCQ_DIAG; (type==='api'?d.api:d).last=row; d.errors=d.errors||[]; if(type==='error') d.errors.push(row); if(d.errors.length>30)d.errors=d.errors.slice(-30); console.info('HCQ DIAG',row);}catch(e){}}
-function activeDataGroupId(){try{return session?.group_id || loginGroup?.value || localStorage.getItem('v300_last_group') || '';}catch(e){return ''}}
 let lastChatPresenceWrite=0;
 let configLoadedForGroup='';
-function getCfg(){return {url:localStorage.getItem('v300_url')||PUBLIC_CFG.url||DEFAULT_URL,key:localStorage.getItem('v300_key')||PUBLIC_CFG.key||EMBED_KEY}}
+function getCfg(){return {url:localStorage.getItem('v300_url')||DEFAULT_URL,key:localStorage.getItem('v300_key')||EMBED_KEY}}
 function saveConfig(){localStorage.setItem('v300_url',cfgUrl.value.trim());localStorage.setItem('v300_key',cfgKey.value.trim());location.reload()}
 function initClient(){const c=getCfg(); cfgUrl.value=c.url; if(c.key) cfgKey.value=c.key; if(!c.key){configBox.classList.remove('hidden'); loginMsg.className='status err'; loginMsg.textContent='Pega la clave publicable de Supabase para conectar.'; return false} supa=window.supabase.createClient(c.url,c.key); return true}
 async function q(p){const r=await p; if(r.error) throw r.error; return r.data||[]}
-async function qAll(makeQuery, pageSize=1000, label='tabla'){
-  // V317.1 ESTABILIDAD: todas las consultas grandes se paginan y se diagnostican.
-  let all=[], pages=0, started=performance.now();
-  for(let from=0; from<50000; from+=pageSize){
+async function qAll(makeQuery, pageSize=1000){
+  // V317.2 ESTABILIDAD: Supabase puede limitar cualquier select() a 1000 filas.
+  // Esta función pagina TODAS las tablas grandes para evitar datos incompletos por teléfono.
+  let all=[];
+  for(let from=0; from<20000; from+=pageSize){
     const to=from+pageSize-1;
     const r=await makeQuery().range(from,to);
     if(r.error) throw r.error;
-    const rows=r.data||[]; pages++;
+    const rows=r.data||[];
     all=all.concat(rows);
     if(rows.length<pageSize) break;
   }
-  try{window.HCQ_DIAG.tables[label]={rows:all.length,pages,ms:Math.round(performance.now()-started),at:new Date().toISOString()};}catch(e){}
   return all;
 }
 function stripUnsupportedColumns(row, err){
@@ -1134,7 +1111,7 @@ async function saveUniqueRow(table,row,filters){
   return ir.data||[];
 }
 async function upsertSettingRow(row){
-  // V317.1: guardar configuración/backups sin borrar primero.
+  // V317.2: guardar configuración/backups sin borrar primero.
   // El DELETE podía fallar con RLS y dejaba respaldos diferentes por dispositivo.
   let r=await supa.from('settings').update(row).eq('key',row.key).select('*');
   if(r.error) throw r.error;
@@ -1143,25 +1120,22 @@ async function upsertSettingRow(row){
   if(r.error) throw r.error;
   return r.data||[];
 }
-async function refreshAll(force=false){
+async function refreshAll(){
   if(!supa) return;
   if(refreshInFlight){ refreshQueued=true; return refreshInFlight; }
   refreshInFlight=(async()=>{
     try{
       cloudState.textContent='Actualizando...';
-      const gid=activeDataGroupId();
-      window.HCQ_DIAG.queryGroup=gid||'todos';
-      const predQuery=()=>{let q=supa.from('predictions').select('*').order('updated_at',{ascending:false}); if(gid) q=q.eq('group_id',gid); return q;};
       const [groups,participants,members,predictions,results,settings]=await Promise.all([
-        qAll(()=>supa.from('groups').select('*').order('name'),1000,'groups'),
-        qAll(()=>supa.from('participants').select('*').order('name'),1000,'participants'),
-        qAll(()=>supa.from('group_members').select('*'),1000,'group_members'),
-        qAll(predQuery,1000,'predictions'+(gid?':'+gid:':todos')),
-        qAll(()=>supa.from('results').select('*').order('updated_at',{ascending:false}),1000,'results'),
-        qAll(()=>supa.from('settings').select('*'),1000,'settings')
+        qAll(()=>supa.from('groups').select('*').order('name')),
+        qAll(()=>supa.from('participants').select('*').order('name')),
+        qAll(()=>supa.from('group_members').select('*')),
+        qAll(()=>supa.from('predictions').select('*').order('updated_at',{ascending:false})),
+        qAll(()=>supa.from('results').select('*').order('updated_at',{ascending:false})),
+        qAll(()=>supa.from('settings').select('*'))
       ]);
       state={groups,participants,members,predictions,results,settings};
-      try{ window.HCQ_LAST_COUNTS={groups:groups.length,participants:participants.length,members:members.length,predictions:predictions.length,results:results.length,settings:settings.length,group:gid||'todos',at:new Date().toISOString()}; window.HCQ_DIAG.lastSync=window.HCQ_LAST_COUNTS; console.info('HCQ sync counts',window.HCQ_LAST_COUNTS); }catch(_e){}
+      try{ window.HCQ_LAST_COUNTS={groups:groups.length,participants:participants.length,members:members.length,predictions:predictions.length,results:results.length,settings:settings.length,at:new Date().toISOString()}; console.info('HCQ sync counts',window.HCQ_LAST_COUNTS); }catch(_e){}
       compactPredictions(); compactResults(); cacheStateSnapshot();
       lastRefreshAt=Date.now();
       cloudState.textContent='Online'; cloudState.style.color='#bbf7d0';
@@ -1171,7 +1145,6 @@ async function refreshAll(force=false){
         refreshRenderTimer=setTimeout(()=>renderActiveSection(),80);
       }
     }catch(e){
-      diagLog('error','refreshAll: '+(e.message||e));
       const hadCache = (state.groups&&state.groups.length) || loadCachedState();
       if(hadCache){
         fillLoginGroups(loginGroup?.value || localStorage.getItem('v300_last_group') || '');
@@ -1191,7 +1164,7 @@ async function refreshAll(force=false){
 function subscribe(){
   if(!supa) return;
   let t=null;
-  supa.channel('v317-main').on('postgres_changes',{event:'*',schema:'public'},()=>{
+  supa.channel('v3172-main').on('postgres_changes',{event:'*',schema:'public'},()=>{
     clearTimeout(t);
     t=setTimeout(()=>refreshAll(),1200);
   }).subscribe();
@@ -1220,7 +1193,7 @@ function sharedFallbackPredictions(gid=currentGroupId()){
   return mergePredictionRows(Array.isArray(cloud)?cloud:[]);
 }
 function localPendingPredictions(gid=currentGroupId()){
-  // V317.1: el respaldo local es solo para el usuario que está en este dispositivo.
+  // V317.2: el respaldo local es solo para el usuario que está en este dispositivo.
   // Antes se mezclaba el localStorage de cada teléfono con el ranking y con "ver todos",
   // por eso unos usuarios veían unos pronósticos y otros veían otros.
   const local=safeJsonParse(localStorage.getItem(localPredKey(gid))||'[]',[]);
@@ -1238,7 +1211,7 @@ function shouldReplacePrediction(old,row){
   if(!old) return true;
   const o=normalizePredictionRow(old), r=normalizePredictionRow(row);
   const ov=predictionHasScore(o), rv=predictionHasScore(r);
-  // V317.1: nunca permitir que una fila vacía/nula más reciente borre visualmente un pronóstico válido.
+  // V317.2: nunca permitir que una fila vacía/nula más reciente borre visualmente un pronóstico válido.
   if(ov && !rv) return false;
   if(!ov && rv) return true;
   return new Date(r?.updated_at||0)>new Date(o?.updated_at||0);
@@ -1305,7 +1278,7 @@ async function login(){try{
   if(!user.is_super_admin && !state.members.some(m=>m.participant_id===user.id&&m.group_id===gid)) throw new Error('Este usuario no pertenece a este grupo');
   session={...user,group_id:gid};
   localStorage.setItem('v300_last_group', gid);
-  loginScreen.classList.add('hidden'); app.classList.remove('hidden'); adminTab.style.display=isAdmin()?'block':'none'; fillDays(); forceHomeTab(); renderActiveSection('inicio'); startLiveTimer(); initOneSignalForSession(); scheduleMatchPushes(); setTimeout(()=>window.scrollTo({top:0,behavior:'auto'}),20);
+  loginScreen.classList.add('hidden'); app.classList.remove('hidden'); adminTab.style.display=isAdmin()?'block':'none'; fillDays(); forceHomeTab(); renderAll(); startLiveTimer(); initOneSignalForSession(); scheduleMatchPushes(); setTimeout(()=>window.scrollTo({top:0,behavior:'auto'}),20);
 }catch(e){loginMsg.className='status err'; loginMsg.textContent=(String(e&&e.message||'').includes('.find is not a function')?'Datos temporales de Rétame corregidos. Intenta entrar otra vez.':(e.message||'Error al entrar'))}}
 function logout(){if(liveTimer) clearInterval(liveTimer); if(apiAutoTimer) clearInterval(apiAutoTimer); session=null; try{loginMsg.className='status'; loginMsg.textContent='';}catch(e){} app.classList.add('hidden'); loginScreen.classList.remove('hidden'); fillLoginGroups(localStorage.getItem('v300_last_group')||'');}
 function isAdmin(){return !!session?.is_super_admin || state.members.some(m=>m.group_id===currentGroupId()&&m.participant_id===session?.id&&m.is_group_admin)}
@@ -1329,7 +1302,7 @@ async function switchSessionGroup(gid){
   adminTab.style.display=isAdmin()?'block':'none';
   fillDays();
   await refreshAll();
-  renderActiveSection();
+  renderAll();
   initOneSignalForSession(false);
   scheduleMatchPushes();
   setTimeout(()=>window.scrollTo({top:0,behavior:'smooth'}),30);
@@ -1341,7 +1314,7 @@ async function setSec(id){
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.sec===id));
   if(id==='ranking' && document.getElementById('rankBox')) rankBox.innerHTML=rankingLoadingHtml();
   if(id==='quiniela') { if(groupsStageClosed()&&document.getElementById('predPhase')) predPhase.value='knockout'; resetDayToToday('predPhase','predDay'); setQuinielaTab('pronosticos'); }
-  // V317.1: no bloquear la pantalla esperando Supabase. Primero pinta con datos locales y luego refresca en segundo plano.
+  // V317.2: no bloquear la pantalla esperando Supabase. Primero pinta con datos locales y luego refresca en segundo plano.
   renderActiveSection(id);
   refreshAll().catch(()=>{});
   setTimeout(()=>window.scrollTo({top:0,behavior:'smooth'}),30);
@@ -1380,7 +1353,6 @@ function setAdminTab(id){
   if(id==='pronosticos') renderAdminPredictions();
   if(id==='notificaciones') loadOneSignalConfig();
   if(id==='api') loadApiFootballConfig();
-  if(id==='diagnostico') renderDiagnostics();
 }
 function currentWorldTab(){
   return document.getElementById('worldBox')?.dataset.tab || document.querySelector('[data-wtab].active')?.dataset.wtab || 'calendario';
@@ -1474,7 +1446,7 @@ async function savePred(mid,advance=false){
       if(Array.isArray(saved)&&saved[0]) applyLocalPrediction({...row,...saved[0]});
     }catch(dbErr){ console.warn('Predicción guardada en respaldo porque Supabase rechazó tabla predictions:',dbErr); }
     notifyGroup('prediction','🎯 Pronóstico modificado',`${session.name} modificó ${resolvedTeam(m.home)} vs ${resolvedTeam(m.away)}.`).catch(()=>{});
-    // V317.1: mantener el marcador en pantalla inmediatamente. La recarga de Supabase queda en segundo plano
+    // V317.2: mantener el marcador en pantalla inmediatamente. La recarga de Supabase queda en segundo plano
     // y no puede sobrescribir visualmente con filas nulas/vacías antiguas.
     renderPred(); scheduleRankingRender(); renderHome();
     saveRankingSnapshot().catch(()=>{});
@@ -1534,7 +1506,7 @@ function adminChampionEditorHtml(teams){
 }
 function renderChampion(){if(!document.getElementById('championBox')||!session) return; const teams=championTeams(), pick=championPick(session.id)||'', locked=championLocked(), off=officialChampion()||''; const visible=locked; championBox.innerHTML=`<div class="champion-card"><h3>🏆 Tu campeón del Mundial</h3><p class="muted">Puedes elegirlo o cambiarlo hasta que inicie el primer partido de <b>16avos de final</b>: <b>${fmtDateTime(firstKnockoutDate())}</b>.</p><label>Selecciona campeón</label><select id="championSelect" ${locked?'disabled':''}><option value="">Seleccionar...</option>${teams.map(t=>`<option value="${esc(t)}" ${teamKey(t)===teamKey(pick)?'selected':''}>${teamLabel(t)}</option>`).join('')}</select><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveChampionPick()" ${locked?'disabled':''}>Guardar campeón</button><button onclick="clearChampionPick()" ${locked?'disabled':''}>Limpiar</button></div>${pick?`<div class="open-note">Tu pronóstico actual: <span class="champion-pick">${teamLabel(pick)}</span></div>`:'<div class="status">Aún no has guardado campeón.</div>'}${locked?'<div class="locked-note">🔒 Pronóstico de campeón bloqueado. Ya no se puede modificar.</div>':'<div class="open-note">✅ Todavía puedes cambiar tu campeón antes del primer partido de 16avos.</div>'}<div id="champMsg" class="status"></div></div>${isAdmin()?`<div class="card"><h3>⚙️ Admin · Campeón oficial</h3><p class="muted">Cuando termine la final, selecciona aquí el campeón oficial para sumar automáticamente los 10 puntos en el ranking de eliminatorias.</p><select id="officialChampionSelect"><option value="">Sin campeón oficial</option>${teams.map(t=>`<option value="${esc(t)}" ${teamKey(t)===teamKey(off)?'selected':''}>${teamLabel(t)}</option>`).join('')}</select><button class="good" onclick="saveOfficialChampion()" style="margin-top:10px">Guardar campeón oficial</button>${off?`<div class="open-note">Campeón oficial actual: <b>${teamLabel(off)}</b></div>`:''}</div>`:''}${adminChampionEditorHtml(teams)}<div class="card"><h3>👥 Estado de campeón del grupo</h3>${visible?`<p class="muted">Pronósticos revelados porque ya inició el primer partido de 16avos.</p><div class="champion-list">${groupMembers().map(p=>{const cp=championPick(p.id); const bonus=championBonus(p.id); return `<div class="champion-row"><b>${esc(p.name)}</b><span>${cp?teamLabel(cp):'Pendiente'} ${bonus?'<span class="bonus-pill">+10 pts</span>':''}</span></div>`}).join('')}</div>`:`<p class="muted">Antes del cierre solo se muestra quién ya eligió campeón. La selección permanece oculta hasta que se revele.</p><div class="champion-list">${groupMembers().map(p=>{const cp=championPick(p.id); return `<div class="champion-row"><b>${esc(p.name)}</b><span>${cp?'✅ Ya pronosticó':'⏳ Pendiente'}</span></div>`}).join('')}</div>`}</div>`}
 function officialScoreForQuiniela(m,r){
-  // V317.1: En eliminatorias, ganador/empate y exacto se califican solo con 90' + añadido.
+  // V317.2: En eliminatorias, ganador/empate y exacto se califican solo con 90' + añadido.
   // Si API Football trae marcador de tiempo extra/penales, se debe guardar en home_score/away_score el score.fulltime.
   // Esta función deja preparada compatibilidad por si en el futuro existen campos regular_home_score/regular_away_score.
   if(!r) return null;
@@ -2102,7 +2074,7 @@ async function applyApiFootballFixtures(fixtures, strictDate=true){
     if(fx._live_events) status += ' | '+fx._live_events;
     if(!map){unmatched.push(`${fx.teams?.home?.name||'?'} vs ${fx.teams?.away?.name||'?'}`); continue;}
     let gh=fx.goals?.home, ga=fx.goals?.away;
-    // V317.1: para eliminatorias el marcador que cuenta para quiniela es 90' + añadido.
+    // V317.2: para eliminatorias el marcador que cuenta para quiniela es 90' + añadido.
     // API Football lo expone normalmente como score.fulltime. Los goles de extratime/penalty no deben alterar exacto ni ganador/empate.
     if(map.match.phase==='knockout'){
       const fh=fx.score?.fulltime?.home, fa=fx.score?.fulltime?.away;
@@ -2210,7 +2182,7 @@ async function updateApiFootballAll(){
   }catch(e){apiFootballMsg.className='status err'; apiFootballMsg.textContent='Error API Football: '+e.message;}
 }
 
-// V317.1 - Actualización automática API Football desde la app.
+// V317.2 - Actualización automática API Football desde la app.
 // Netlify cron sigue disponible, pero el celular/admin también hace sync solo cuando hay partido cercano o en vivo.
 let apiAutoTimer=null, apiAutoInFlight=false, apiAutoLastAt=0, apiAutoDayLastAt=0;
 function apiAutoWindowMatches(){
@@ -2255,9 +2227,8 @@ async function updateApiFootballDaySilent(date){
   return {...out, fixtures:fixtures.length};
 }
 async function autoApiFootballTick(force=false){
-  if(!supa || apiAutoInFlight) return;
-  // V317.1: la sincronización API no debe depender de que el admin esté mirando la app.
-  // En cliente se intenta cuando hay ventana de partido; el cron de Netlify queda como responsable principal 24/7.
+  if(!supa || !session || apiAutoInFlight) return;
+  if(document.hidden && !force) return;
   if(!force && !apiAutoHasReason()) return;
   const now=Date.now();
   const minGap=force?0:apiAutoIntervalMs();
@@ -2284,30 +2255,9 @@ async function autoApiFootballTick(force=false){
 }
 function startApiFootballAutoTimer(){
   if(apiAutoTimer) clearInterval(apiAutoTimer);
-  setTimeout(()=>autoApiFootballTick(false),1800);
-  apiAutoTimer=setInterval(()=>autoApiFootballTick(false),45000);
+  setTimeout(()=>autoApiFootballTick(false),2500);
+  apiAutoTimer=setInterval(()=>autoApiFootballTick(false),60000);
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) autoApiFootballTick(true); },{passive:true});
-}
-
-function diagnosticsData(){
-  const counts=window.HCQ_LAST_COUNTS||{};
-  const cron=settingValue('api_football_cron_status',null);
-  const auto=settingValue('api_football_auto_status',null);
-  const d=window.HCQ_DIAG||{};
-  return {version:HCQ_VERSION,group:currentGroupId(),groupName:currentGroup()?.name,counts,tables:d.tables||{},lastSync:d.lastSync||null,cron,auto,renders:d.renders||[],errors:d.errors||[],cacheAt:safeJsonParse(localStorage.getItem(STATE_CACHE_KEY)||'{}',{}).at||null};
-}
-function renderDiagnostics(){
-  if(!document.getElementById('diagnosticsBox')) return;
-  const x=diagnosticsData();
-  const tableCards=Object.entries(x.tables||{}).map(([k,v])=>`<div class="diag-card"><span>${esc(k)}</span><b>${v.rows??0}</b><small>${v.pages??0} pág · ${v.ms??0} ms</small></div>`).join('');
-  const renders=(x.renders||[]).slice(-8).reverse().map(r=>`${r.at?.slice(11,19)||''} · ${r.id}: ${r.ms} ms`).join('\n')||'Sin renders registrados';
-  const errors=(x.errors||[]).slice(-8).reverse().map(e=>`${e.at?.slice(11,19)||''} · ${e.msg}`).join('\n')||'Sin errores recientes';
-  diagnosticsBox.innerHTML=`<div class="diag-grid"><div class="diag-card"><span>Versión</span><b>${esc(x.version)}</b><small>${esc(x.groupName||x.group||'')}</small></div><div class="diag-card"><span>Predicciones cargadas</span><b>${x.counts.predictions??0}</b><small>Grupo: ${esc(x.counts.group||x.group||'')}</small></div><div class="diag-card"><span>Resultados</span><b>${x.counts.results??0}</b><small>Supabase</small></div><div class="diag-card"><span>Última sync</span><b>${x.counts.at?fmtDateTime(x.counts.at):'—'}</b><small>Caché: ${x.cacheAt?fmtDateTime(x.cacheAt):'—'}</small></div></div><h3>Supabase por páginas</h3><div class="diag-grid">${tableCards||'<div class="diag-card">Sin datos</div>'}</div><h3>API Football</h3><div class="diag-grid"><div class="diag-card"><span>Cron Netlify</span><b>${x.cron?.ok?'OK':'—'}</b><small>${x.cron?.at?fmtDateTime(x.cron.at):'sin datos'} · ${esc(x.cron?.mode||'')}</small></div><div class="diag-card"><span>Auto app</span><b>${x.auto?.ok?'OK':(x.auto?.ok===false?'Error':'—')}</b><small>${x.auto?.at?fmtDateTime(x.auto.at):'sin datos'} ${x.auto?.error?' · '+esc(x.auto.error):''}</small></div></div><h3>Últimos renders</h3><div class="diag-log">${esc(renders)}</div><h3>Errores recientes</h3><div class="diag-log">${esc(errors)}</div>`;
-}
-async function copyDiagnostics(){
-  const txt=JSON.stringify(diagnosticsData(),null,2);
-  try{await navigator.clipboard.writeText(txt); alert('Diagnóstico copiado.');}
-  catch(e){prompt('Copia el diagnóstico:',txt);}
 }
 
 function oneSignalAppIdValue(){return (settingValue('onesignal_app_id','')||localStorage.getItem('v313_onesignal_app_id')||'').trim()}
@@ -2716,6 +2666,55 @@ async function sendChatMessage(){try{const text=chatInput.value.trim(); if(!text
 function renderProfile(){if(!session||!document.getElementById('profileName')) return; profileName.value=session.name||''; profileUser.value=session.username||''; profilePass.value=''; profileMsg.textContent=''; renderNotificationPrefs();}
 async function saveProfile(){try{if(!session)return; const name=profileName.value.trim(), username=profileUser.value.trim(), pass=profilePass.value; if(!name||!username)return alert('Nombre visible y usuario son requeridos.'); const upd={name,username}; if(pass) upd.password=pass; await q(supa.from('participants').update(upd).eq('id',session.id)); session={...session,...upd}; profilePass.value=''; profileMsg.className='status ok'; profileMsg.textContent='Perfil actualizado.'; await refreshAll();}catch(e){profileMsg.className='status err'; profileMsg.textContent='Error: '+e.message;}}
 
+
+function diagnosticsObject(){
+  const c=window.HCQ_LAST_COUNTS||{};
+  const cron=settingValue('api_football_cron_status',{})||{};
+  const auto=settingValue('api_football_auto_status',{})||{};
+  let cacheAt='';
+  try{ const raw=localStorage.getItem(STATE_CACHE_KEY)||localStorage.getItem('hcq_state_cache_last'); if(raw) cacheAt=new Date(JSON.parse(raw).at||0).toLocaleString(); }catch(e){}
+  return {
+    version:'V317.2 Enterprise',
+    group:currentGroupId(),
+    user:session?.username||session?.id||'',
+    online:navigator.onLine,
+    cloud:document.getElementById('cloudState')?.textContent||'',
+    lastRefresh:lastRefreshAt?new Date(lastRefreshAt).toLocaleString():'Pendiente',
+    cacheAt,
+    counts:{
+      groups:state.groups?.length||0,
+      participants:state.participants?.length||0,
+      members:state.members?.length||0,
+      predictions:state.predictions?.length||0,
+      results:state.results?.length||0,
+      settings:state.settings?.length||0
+    },
+    lastDownloadedCounts:c,
+    apiCron:cron,
+    apiAuto:auto,
+    liveMatches:liveMatches().map(m=>m.id+' '+m.home+' vs '+m.away),
+    nearbyApiWindow:apiAutoWindowMatches().map(m=>m.id+' '+m.home+' vs '+m.away),
+    timers:{apiAutoInFlight, refreshInFlight:!!refreshInFlight, refreshQueued}
+  };
+}
+function renderDiagnostics(){
+  try{
+    if(!document.getElementById('diagBox')) return;
+    const d=diagnosticsObject();
+    const rows=[
+      ['Versión',d.version],['Grupo',d.group||'-'],['Usuario',d.user||'-'],['Online',d.online?'Sí':'No'],['Estado nube',d.cloud||'-'],['Última actualización',d.lastRefresh],['Caché local',d.cacheAt||'-'],
+      ['Grupos',d.counts.groups],['Participantes',d.counts.participants],['Membresías',d.counts.members],['Pronósticos',d.counts.predictions],['Resultados',d.counts.results],['Settings',d.counts.settings],
+      ['Partidos en vivo',d.liveMatches.length?d.liveMatches.join(' · '):'Ninguno'],['Ventana API',d.nearbyApiWindow.length?d.nearbyApiWindow.join(' · '):'Sin partido cercano'],
+      ['Cron API Football',d.apiCron?.at?(d.apiCron.ok?'OK ':'ERROR ')+d.apiCron.at+(d.apiCron.error?' · '+d.apiCron.error:''):'Sin registro'],
+      ['Auto API app',d.apiAuto?.at?(d.apiAuto.ok?'OK ':'ERROR ')+d.apiAuto.at+(d.apiAuto.error?' · '+d.apiAuto.error:''):'Sin registro']
+    ];
+    diagBox.innerHTML='<div class="diag-grid">'+rows.map(([k,v])=>`<div><b>${esc(k)}</b><br><span>${esc(v)}</span></div>`).join('')+'</div><pre style="white-space:pre-wrap;max-height:260px;overflow:auto;margin-top:12px">'+esc(JSON.stringify(d,null,2))+'</pre>';
+  }catch(e){ if(document.getElementById('diagBox')) diagBox.textContent='Error diagnóstico: '+e.message; }
+}
+async function copyDiagnostics(){
+  try{ await navigator.clipboard.writeText(JSON.stringify(diagnosticsObject(),null,2)); diagMsg.className='status ok'; diagMsg.textContent='Diagnóstico copiado.'; }catch(e){ diagMsg.className='status err'; diagMsg.textContent='No se pudo copiar: '+e.message; }
+}
+
 function renderAdmin(){
   if(!isAdmin()) return;
   renderGroupsAdmin();
@@ -2724,6 +2723,7 @@ function renderAdmin(){
   renderAdminPredictions();
   const cfgKey=currentGroupId()+'|'+(state.settings.length)+'|'+lastRefreshAt;
   if(configLoadedForGroup!==cfgKey){ configLoadedForGroup=cfgKey; loadApiFootballConfig(); loadOneSignalConfig(); }
+  renderDiagnostics();
   const active=document.querySelector('[data-atab].active')?.dataset.atab || 'grupos';
   setAdminTab(active);
 }
@@ -2731,7 +2731,6 @@ function renderAdmin(){
 function rankingLoadingHtml(){return '<div class="ranking-loading-card"><div><span class="ball">⚽</span><h3>Cargando ranking...</h3><p class="muted" style="color:#dbeafe">Preparando puntos y estadísticas.</p></div></div>';}
 function activeSectionId(){return document.querySelector('.section.active')?.id || 'inicio';}
 function renderActiveSection(id=activeSectionId()){
-  const _renderStart=performance.now();
   try{
     compactPredictions();
     fillDays();
@@ -2746,20 +2745,19 @@ function renderActiveSection(id=activeSectionId()){
     else if(id==='admin') renderAdmin();
     else if(id==='reglas'){}
     requestIdleCallbackSafe(()=>{ if(document.getElementById('profileStatsBox')) profileStatsBox.innerHTML=profileStatsHtml(); preloadCriticalFlags(); });
-  }catch(e){console.warn('renderActiveSection',e); diagLog('error','render '+id+': '+(e.message||e));}
-  finally{try{window.HCQ_DIAG.renders.push({id,ms:Math.round(performance.now()-_renderStart),at:new Date().toISOString()}); if(window.HCQ_DIAG.renders.length>20) window.HCQ_DIAG.renders=window.HCQ_DIAG.renders.slice(-20);}catch(e){}}
+  }catch(e){console.warn('renderActiveSection',e);}
 }
 function requestIdleCallbackSafe(fn){ if('requestIdleCallback' in window) requestIdleCallback(fn,{timeout:900}); else setTimeout(fn,120);}
 function renderAll(){
-  // V317.1: antes se renderizaban todos los módulos al entrar/cambiar grupo.
-  // Eso causaba pantallazos y carga por partes. Ahora solo se renderiza el módulo activo.
-  renderActiveSection(activeSectionId());
+  compactPredictions();
+  fillDays(); renderProfile(); renderHome(); renderPred(); renderAllPreds(); renderChampion(); renderRanking(); renderWorld(); renderRetame(); renderChat(); updateNavBadges(); preloadCriticalFlags();
+  if(isAdmin()) renderAdmin();
 }
 let lastNotifyKey='';
 function checkOpenAppNotifications(){try{if(!('Notification' in window)||Notification.permission!=='granted'||!session) return; const now=Date.now(); const soon=matches.filter(m=>{const ms=new Date(m.date).getTime()-now; return ms>0 && ms<30*60000;}); const key=soon.map(m=>m.id).join(',')+'|'+liveMatches().map(m=>m.id+statusBase(resFor(m.id)?.status)).join(','); if(key && key!==lastNotifyKey){lastNotifyKey=key; if(soon[0]) new Notification('⏰ Pronósticos por cerrar',{body:`${soon[0].home} vs ${soon[0].away} inicia pronto.`}); const lv=liveMatches()[0]; if(lv) new Notification('🔴 Partido en vivo',{body:`${lv.home} vs ${lv.away} · ${statusBase(resFor(lv.id)?.status)||''}`});}}catch(e){}}
 let liveTimer=null; function startLiveTimer(){
   if(liveTimer) clearInterval(liveTimer);
-  // V317.1: además del cron de Netlify, la app sincroniza API Football automáticamente cuando hay partido cercano/en vivo.
+  // V317.2: además del cron de Netlify, la app sincroniza API Football automáticamente cuando hay partido cercano/en vivo.
   checkOpenAppNotifications(); lastChatPresenceWrite=0; updateChatPresence(); scheduleMatchPushes(); startApiFootballAutoTimer();
   liveTimer=setInterval(()=>{
     checkOpenAppNotifications(); updateChatPresence(); scheduleMatchPushes(); autoApiFootballTick(false);
@@ -2768,7 +2766,7 @@ let liveTimer=null; function startLiveTimer(){
 
 if('serviceWorker' in navigator){
   window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('./sw.js?v=3171-enterprise',{scope:'./'}).then(reg=>{
+    navigator.serviceWorker.register('./sw.js?v=3172-enterprise',{scope:'./'}).then(reg=>{
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
       reg.addEventListener('updatefound',()=>{
         const nw=reg.installing;
@@ -2777,7 +2775,7 @@ if('serviceWorker' in navigator){
     }).catch(()=>{});
     navigator.serviceWorker.addEventListener('message',event=>{
       if(event.data?.type==='APP_UPDATED'){
-        try{ localStorage.setItem('hcq_last_sw_update',event.data.version||'315.0'); }catch(e){}
+        try{ localStorage.setItem('hcq_last_sw_update',event.data.version||'317.2'); }catch(e){}
       }
     });
   });
@@ -2789,7 +2787,6 @@ window.addEventListener('load',async()=>{
     loginMsg.className='status';
     loginMsg.textContent='Datos guardados listos. Conectando con Supabase...';
   }
-  await loadPublicConfig();
   if(initClient()){
     await refreshAll().catch(()=>{});
     subscribe();
