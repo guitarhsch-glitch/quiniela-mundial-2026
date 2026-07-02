@@ -1,4 +1,4 @@
-const HCQ_SW_VERSION='v3170-estabilidad';
+const HCQ_SW_VERSION='v3171-enterprise';
 const CORE=['./','./index.html'];
 self.addEventListener('install',event=>{self.skipWaiting();event.waitUntil(caches.open(HCQ_SW_VERSION).then(c=>c.addAll(CORE).catch(()=>{})));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==HCQ_SW_VERSION).map(k=>caches.delete(k)))));self.clients.claim();});
