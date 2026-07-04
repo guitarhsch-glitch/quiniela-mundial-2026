@@ -13,7 +13,7 @@
 <link rel="preload" as="image" href="logo-hcq-login-v31317.png?v=3172-enterprise" fetchpriority="high">
 <link rel="preconnect" href="https://flagcdn.com" crossorigin>
 <link rel="dns-prefetch" href="https://flagcdn.com">
-<title>HCQ - Hattrick Club Quinielas V317.5</title>
+<title>HCQ - Hattrick Club Quinielas V317.6</title>
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -261,7 +261,7 @@ button:not(.primary):not(.good):not(.danger){background:#132638!important;color:
 .rank-points small{grid-column:2;color:#ffffff!important;font-size:11px!important;letter-spacing:.8px!important;}
 .rank-fun{font-size:18px!important;font-weight:1000!important;color:#f8c547!important;}.rank-pos{font-size:16px!important;color:#ffffff!important;}.rank-exact-pill{font-size:14px!important;}
 @media(max-width:520px){.rank-line{grid-template-columns:92px 1fr!important;}.rank-line>.pill:last-child{grid-column:2;margin-top:5px;width:max-content}.rank-big-emoji{font-size:36px!important}.rank-score{font-size:29px!important}.rank-points{min-width:86px!important}.rank-meta{font-size:11px!important}}
-/* ===== V317.5 Ranking: iconos desplegables siempre visibles ===== */
+/* ===== V317.6 Ranking: iconos desplegables siempre visibles ===== */
 .rank-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
 .rank-action-btn{border:1px solid rgba(212,175,55,.32)!important;background:rgba(212,175,55,.14)!important;color:#f8c547!important;border-radius:999px!important;padding:7px 9px!important;font-weight:1000!important;font-size:13px!important;min-height:auto!important;box-shadow:none!important}
 .rank-action-btn:hover{background:rgba(248,197,71,.22)!important}
@@ -851,7 +851,7 @@ body.dark .champion-hero{background:linear-gradient(135deg,rgba(248,197,71,.30),
 body.dark .champion-hero h1{color:#fff} body.dark .champion-name{color:#f8c547}
 
 
-/* ===== V317.5 ajustes solicitados ===== */
+/* ===== V317.6 ajustes solicitados ===== */
 #homeAlerts .champion-hero{
   background:linear-gradient(135deg,#ffffff 0%,#fff7cc 45%,#eef6ff 100%)!important;
   color:#061326!important;
@@ -870,7 +870,7 @@ body.dark .champion-hero h1{color:#fff} body.dark .champion-name{color:#f8c547}
 
 
 
-/* ===== V317.5 FIX rendimiento visual / pantallas que cargan por partes ===== */
+/* ===== V317.6 FIX rendimiento visual / pantallas que cargan por partes ===== */
 html,body,#app{min-height:100%;background:#050d1f;}
 body{overscroll-behavior-y:none;}
 #app{background:
@@ -894,7 +894,7 @@ body{overscroll-behavior-y:none;}
 <div id="championModal" class="champion-modal"><div class="champion-modal-card"><button class="champion-close" onclick="closeChampionModal()">Cerrar ✕</button><div id="championModalContent"></div></div></div>
 <div id="loginScreen" class="login">
  <div class="login-card">
-  <div class="logo" aria-label="HCQ"></div><h1><span class="brand-main">HCQ</span><span class="brand-sub">Hattrick Club Quinielas</span></h1><p class="muted">Pronostica • Compite • Gana<br>V317.5 HCQ · Eliminatorias</p>
+  <div class="logo" aria-label="HCQ"></div><h1><span class="brand-main">HCQ</span><span class="brand-sub">Hattrick Club Quinielas</span></h1><p class="muted">Pronostica • Compite • Gana<br>V317.6 HCQ · Eliminatorias</p>
   <div id="configBox" class="alert hidden"><b>Falta configurar Supabase.</b><label>URL Supabase</label><input id="cfgUrl" placeholder="URL Supabase"><label>Clave publicable</label><input id="cfgKey" placeholder="sb_publishable_..."><button class="primary" style="width:100%;margin-top:8px" onclick="saveConfig()">Guardar configuración</button></div>
   <label>Usuario</label><input id="loginUser" value="admin"><label>Contraseña</label><input id="loginPass" type="password" value="1234">
   <label>Grupo</label><select id="loginGroup"></select>
@@ -902,7 +902,7 @@ body{overscroll-behavior-y:none;}
   <div id="loginMsg" class="status">Cargando grupos...</div>
  </div>
 </div>
-<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V317.5 HCQ · <span id="cloudState">Conectando...</span><span class="perf-note">V317.5</span></div><div class="top-group-switch" id="topGroupSwitchBox"><label>Grupo</label><select id="topGroupSwitch" onchange="switchSessionGroup(this.value)"></select></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
+<div id="app" class="hidden"><header><div class="header-row"><div><div class="brand">HCQ · Hattrick Club Quinielas</div><div class="ver">V317.6 HCQ · <span id="cloudState">Conectando...</span><span class="perf-note">V317.6</span></div><div class="top-group-switch" id="topGroupSwitchBox"><label>Grupo</label><select id="topGroupSwitch" onchange="switchSessionGroup(this.value)"></select></div></div><div><button onclick="refreshAll()">Actualizar</button><button onclick="logout()">Salir</button></div></div></header>
 <div class="wrap">
 <section id="inicio" class="section active"><div class="card live-priority-card"><h2>🔴 Partido en vivo</h2><div id="liveMatchBox"></div></div><div class="card"><h2>📋 Partido anterior</h2><div id="previousMatchBox"></div></div><div class="card"><h2>⏳ Próximo partido</h2><div id="nextMatchBox"></div></div><div class="card"><h2>🏟️ Panel general</h2><p class="muted">Grupo actual: <b id="currentGroupName"></b></p><div id="homeGroupSwitchBox" class="hidden" style="margin:10px 0"><label>Cambiar grupo</label><select id="homeGroupSwitch" onchange="switchSessionGroup(this.value)"></select><p class="small">Puedes cambiar de grupo sin cerrar sesión.</p></div><div class="grid3"><div class="status">Participantes<br><b id="statPlayers">0</b></div><div class="status">Bolsa<br><b id="statPool">Q0</b></div><div class="status">Líder<br><b id="statLeader">-</b></div></div></div><div class="card"><h2>🥇 Top 3 del grupo</h2><div id="homePlayers" class="players"></div></div><div class="card"><h2>🔔 Alertas y avisos</h2><div id="homeAlerts"></div></div><div class="card"><h2>🎉 Ganadores</h2><div id="winnerBox"></div></div></section>
 <section id="quiniela" class="section"><div class="card"><h2>⚽ Quiniela</h2><div class="module-tabs"><button class="active" data-qtab="pronosticos" onclick="setQuinielaTab('pronosticos')">🎯 Pronósticos</button><button data-qtab="ver" onclick="setQuinielaTab('ver')">👥 Ver pronósticos</button><button data-qtab="campeon" onclick="setQuinielaTab('campeon')">👑 Campeón</button></div></div><div id="qtab-pronosticos" class="q-panel active"><div class="card"><h2>🎯 Mis pronósticos</h2><div class="grid2"><div><label>Fase</label><select id="predPhase" onchange="fillDays();renderPred()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="predDay" onchange="renderPred()"></select></div></div><div id="predList"></div></div></div><div id="qtab-ver" class="q-panel"><div class="card"><h2>👥 Pronósticos de todos</h2><div class="grid2"><div><label>Fase</label><select id="allPhase" onchange="fillDays();renderAllPreds()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="allDay" onchange="renderAllPreds()"></select></div></div><div id="allBox"></div></div></div><div id="qtab-campeon" class="q-panel"><div class="card"><h2>👑 Pronóstico de campeón</h2><p class="muted">Esta elección cuenta solo para la quiniela de eliminatorias. Si aciertas el campeón, suma <b>10 puntos extra</b>.</p><div id="championBox"></div></div></div></section>
@@ -915,13 +915,13 @@ body{overscroll-behavior-y:none;}
 <div id="atab-resultados" class="q-panel a-panel"><div class="card"><h2>Admin · Resultados reales</h2><div class="grid2"><div><label>Fase</label><select id="resPhase" onchange="fillDays();renderResultsAdmin()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="resDay" onchange="renderResultsAdmin()"></select></div></div><div id="resultsAdmin"></div></div></div>
 <div id="atab-pronosticos" class="q-panel a-panel"><div class="card"><h2>Admin · Modificar pronósticos de participantes</h2><p class="muted">Uso especial para corregir o restaurar pronósticos. Afecta solo al grupo actual.</p><div class="grid3"><div><label>Participante</label><select id="adminPredPlayer" onchange="renderAdminPredictions()"></select></div><div><label>Fase</label><select id="adminPredPhase" onchange="fillDays();renderAdminPredictions()"><option value="groups">Fase de grupos</option><option value="knockout">Eliminatorias</option></select></div><div><label>Día</label><select id="adminPredDay" onchange="renderAdminPredictions()"></select></div></div><div id="adminPredBox"></div></div></div>
 <div id="atab-notificaciones" class="q-panel a-panel"><div class="card"><h2>Admin · Notificaciones externas OneSignal</h2><p class="muted">Activa avisos push fuera de la app solo para chat, pronósticos modificados, recordatorios 30 y 10 minutos antes únicamente a quienes tengan pendiente ese pronóstico, y aviso de inicio de partido. En Netlify debes agregar la variable <b>ONESIGNAL_REST_API_KEY</b>. El App ID sí se guarda aquí porque es público.</p><div class="grid2"><div><label>OneSignal App ID</label><input id="oneSignalAppId" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></div><div><label>Estado</label><input id="oneSignalStatus" readonly value="Sin configurar"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveOneSignalConfig()">Guardar OneSignal</button><button class="good" onclick="enableBrowserAlerts()">Activar avisos en este dispositivo</button><button onclick="sendOneSignalTest()">Enviar prueba al grupo</button></div><div id="oneSignalMsg" class="status">Configura App ID y la variable secreta en Netlify para enviar notificaciones externas.</div></div></div>
-<div id="atab-api" class="q-panel a-panel"><div class="card"><h2>Admin · API Football</h2><p class="muted">Actualiza resultados reales desde API Football sin tocar pronósticos ni participantes. V317.5 mantiene el cron de Netlify y agrega actualización automática desde la app cuando hay partido cercano o en vivo.</p><div class="grid3"><div><label>API Key</label><input id="apiFootballKey" placeholder="Pega tu API key"></div><div><label>League ID</label><input id="apiFootballLeague" value="1"></div><div><label>Season</label><input id="apiFootballSeason" value="2026"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveApiFootballConfig()">Guardar API Key</button><button class="good" onclick="updateApiFootballDay()">Actualizar día seleccionado</button><button class="good" onclick="updateApiFootballAll()">Actualizar todos los partidos</button></div><div id="apiFootballMsg" class="status">Primero guarda la API Key. Luego elige un día en Resultados reales y presiona actualizar.</div></div></div>
+<div id="atab-api" class="q-panel a-panel"><div class="card"><h2>Admin · API Football</h2><p class="muted">Actualiza resultados reales desde API Football sin tocar pronósticos ni participantes. V317.6 mantiene el cron de Netlify y agrega actualización automática desde la app cuando hay partido cercano o en vivo.</p><div class="grid3"><div><label>API Key</label><input id="apiFootballKey" placeholder="Pega tu API key"></div><div><label>League ID</label><input id="apiFootballLeague" value="1"></div><div><label>Season</label><input id="apiFootballSeason" value="2026"></div></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveApiFootballConfig()">Guardar API Key</button><button class="good" onclick="updateApiFootballDay()">Actualizar día seleccionado</button><button class="good" onclick="updateApiFootballAll()">Actualizar todos los partidos</button></div><div id="apiFootballMsg" class="status">Primero guarda la API Key. Luego elige un día en Resultados reales y presiona actualizar.</div></div></div>
 
 <div id="atab-diagnostico" class="q-panel a-panel"><div class="card"><h2>Admin · Diagnóstico</h2><p class="muted">Estado interno de sincronización, conteos descargados, caché, API Football y rendimiento. Solo visible para administradores.</p><div id="diagBox" class="status">Cargando diagnóstico...</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="good" onclick="renderDiagnostics()">Actualizar diagnóstico</button><button onclick="copyDiagnostics()">Copiar diagnóstico</button><button onclick="autoApiFootballTick(true)">Probar sync API Football</button></div><div id="diagMsg" class="status"></div></div></div>
 <div id="atab-limpieza" class="q-panel a-panel"><div class="card danger-zone"><h2>Admin · Limpieza del sistema</h2><p class="muted">Herramientas delicadas. Haz respaldo antes de usar. La limpieza total mantiene los grupos, el administrador y la configuración de API Football.</p><div class="danger-actions"><button class="danger" onclick="deleteGroupPredictions()">Eliminar pronósticos del grupo actual</button><button class="danger" onclick="deleteAllPredictions()">Eliminar TODOS los pronósticos</button><button class="danger" onclick="cleanWholeSystem()">Limpiar todo el sistema</button></div><div id="cleanMsg" class="status">Disponible solo para administradores.</div></div></div></section>
 
 <section id="retame" class="section"><div class="card"><h2>🔥 Rétame</h2><p class="muted">Solo queda activa la <b>Apuesta rápida</b>. La app registra acuerdos amistosos entre participantes; no procesa pagos.</p></div><div id="retab-apuestas" class="q-panel retame-panel active"><div class="card"><div class="retame-section-title"><h2>⚡ Apuesta rápida</h2><button onclick="document.getElementById('retameCreateBox').classList.toggle('hidden')">➕ Crear apuesta rápida</button></div><p class="muted">Elige un partido, tu ganador y el premio/reto opcional. Los demás aceptan y tú confirmas.</p><div id="retameCreateBox" class="retame-card hidden"><h2>➕ Crear apuesta rápida</h2><div class="grid2"><div><label>Partido</label><select id="retameMatch"></select></div><div><label>Yo apuesto por</label><select id="retamePick"></select></div></div><div class="grid2"><div><label>Tipo de premio/reto</label><select id="retameRewardType"><option value="orgullo">🏆 Solo orgullo</option><option value="dinero">💰 Cantidad monetaria</option><option value="comida">🍔 Comida/bebida</option><option value="castigo">😂 Reto al perdedor</option><option value="personalizado">✍️ Personalizado</option></select></div><div><label>Detalle</label><input id="retameReward" placeholder="$10, tacos, desayuno, reto divertido..."></div></div><label>Mensaje opcional</label><input id="retameMsg" placeholder="Ej: A que México gana este partido 😆"><div class="retame-form-note">Los demás pueden aceptar. Tú decides después si confirmas o rechazas a cada participante.</div><div class="retame-actions"><button class="primary" onclick="createRetameChallenge()">Publicar apuesta rápida</button></div><div id="retameCreateMsg" class="status"></div></div><div id="retameWallBox"></div></div></div></section>
-<section id="chat" class="section"><div class="card chat-card-premium"><div class="chat-premium-head"><div><h2>💬 Chat del grupo</h2><span class="chat-title-chip">✨ Eliminatorias V317.5</span></div><button type="button" class="scroll-bottom-btn" onclick="scrollChatBottom()">⬇️ Último</button></div><p class="muted">Mensajes visibles solo para el grupo actual. Diseño premium con burbujas, avatar, menciones, reacciones, fijados, búsqueda e indicador escribiendo.</p><div id="chatStats" class="chat-stats"></div><div id="chatOnline" class="online-box">Conectados: calculando...</div><div id="chatTyping" class="online-box hidden"></div><div id="chatPinned" class="pin-box hidden"></div><div class="chat-tools"><input id="chatSearch" placeholder="Buscar en el chat..." oninput="renderChat()"><button onclick="clearChatSearch()">Limpiar</button></div><div id="chatReplyBox" class="reply-box hidden"></div><div class="emoji-row" id="emojiRow"><button type="button" onclick="addEmoji('⚽')">⚽</button><button type="button" onclick="addEmoji('🔥')">🔥</button><button type="button" onclick="addEmoji('😂')">😂</button><button type="button" onclick="addEmoji('👏')">👏</button><button type="button" onclick="addEmoji('🏆')">🏆</button><button type="button" onclick="addEmoji('😱')">😱</button><button type="button" onclick="addEmoji('💪')">💪</button><button type="button" onclick="addEmoji('✅')">✅</button></div><div id="chatBox" class="chat-box"></div><div class="chat-form"><input id="chatInput" maxlength="280" placeholder="Escribe un mensaje para tu grupo... Usa @nombre para mencionar" oninput="chatTypingPulse()"><button class="primary" onclick="sendChatMessage()">Enviar</button></div><div id="chatMsg" class="status"></div></div></section>
+<section id="chat" class="section"><div class="card chat-card-premium"><div class="chat-premium-head"><div><h2>💬 Chat del grupo</h2><span class="chat-title-chip">✨ Eliminatorias V317.6</span></div><button type="button" class="scroll-bottom-btn" onclick="scrollChatBottom()">⬇️ Último</button></div><p class="muted">Mensajes visibles solo para el grupo actual. Diseño premium con burbujas, avatar, menciones, reacciones, fijados, búsqueda e indicador escribiendo.</p><div id="chatStats" class="chat-stats"></div><div id="chatOnline" class="online-box">Conectados: calculando...</div><div id="chatTyping" class="online-box hidden"></div><div id="chatPinned" class="pin-box hidden"></div><div class="chat-tools"><input id="chatSearch" placeholder="Buscar en el chat..." oninput="renderChat()"><button onclick="clearChatSearch()">Limpiar</button></div><div id="chatReplyBox" class="reply-box hidden"></div><div class="emoji-row" id="emojiRow"><button type="button" onclick="addEmoji('⚽')">⚽</button><button type="button" onclick="addEmoji('🔥')">🔥</button><button type="button" onclick="addEmoji('😂')">😂</button><button type="button" onclick="addEmoji('👏')">👏</button><button type="button" onclick="addEmoji('🏆')">🏆</button><button type="button" onclick="addEmoji('😱')">😱</button><button type="button" onclick="addEmoji('💪')">💪</button><button type="button" onclick="addEmoji('✅')">✅</button></div><div id="chatBox" class="chat-box"></div><div class="chat-form"><input id="chatInput" maxlength="280" placeholder="Escribe un mensaje para tu grupo... Usa @nombre para mencionar" oninput="chatTypingPulse()"><button class="primary" onclick="sendChatMessage()">Enviar</button></div><div id="chatMsg" class="status"></div></div></section>
 <section id="reglas" class="section">
   <div class="card">
     <h2>📜 Reglas oficiales de la quiniela</h2>
@@ -1051,7 +1051,7 @@ function saveConfig(){localStorage.setItem('v300_url',cfgUrl.value.trim());local
 function initClient(){const c=getCfg(); cfgUrl.value=c.url; if(c.key) cfgKey.value=c.key; if(!c.key){configBox.classList.remove('hidden'); loginMsg.className='status err'; loginMsg.textContent='Pega la clave publicable de Supabase para conectar.'; return false} supa=window.supabase.createClient(c.url,c.key); return true}
 async function q(p){const r=await p; if(r.error) throw r.error; return r.data||[]}
 async function qAll(makeQuery, pageSize=1000){
-  // V317.5 ESTABILIDAD: Supabase puede limitar cualquier select() a 1000 filas.
+  // V317.6 ESTABILIDAD: Supabase puede limitar cualquier select() a 1000 filas.
   // Esta función pagina TODAS las tablas grandes para evitar datos incompletos por teléfono.
   let all=[];
   for(let from=0; from<20000; from+=pageSize){
@@ -1111,7 +1111,7 @@ async function saveUniqueRow(table,row,filters){
   return ir.data||[];
 }
 async function upsertSettingRow(row){
-  // V317.5: guardar configuración/backups sin borrar primero.
+  // V317.6: guardar configuración/backups sin borrar primero.
   // El DELETE podía fallar con RLS y dejaba respaldos diferentes por dispositivo.
   let r=await supa.from('settings').update(row).eq('key',row.key).select('*');
   if(r.error) throw r.error;
@@ -1193,7 +1193,7 @@ function sharedFallbackPredictions(gid=currentGroupId()){
   return mergePredictionRows(Array.isArray(cloud)?cloud:[]);
 }
 function localPendingPredictions(gid=currentGroupId()){
-  // V317.5: el respaldo local es solo para el usuario que está en este dispositivo.
+  // V317.6: el respaldo local es solo para el usuario que está en este dispositivo.
   // Antes se mezclaba el localStorage de cada teléfono con el ranking y con "ver todos",
   // por eso unos usuarios veían unos pronósticos y otros veían otros.
   const local=safeJsonParse(localStorage.getItem(localPredKey(gid))||'[]',[]);
@@ -1211,7 +1211,7 @@ function shouldReplacePrediction(old,row){
   if(!old) return true;
   const o=normalizePredictionRow(old), r=normalizePredictionRow(row);
   const ov=predictionHasScore(o), rv=predictionHasScore(r);
-  // V317.5: nunca permitir que una fila vacía/nula más reciente borre visualmente un pronóstico válido.
+  // V317.6: nunca permitir que una fila vacía/nula más reciente borre visualmente un pronóstico válido.
   if(ov && !rv) return false;
   if(!ov && rv) return true;
   return new Date(r?.updated_at||0)>new Date(o?.updated_at||0);
@@ -1314,7 +1314,7 @@ async function setSec(id){
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.sec===id));
   if(id==='ranking' && document.getElementById('rankBox')) rankBox.innerHTML=rankingLoadingHtml();
   if(id==='quiniela') { if(groupsStageClosed()&&document.getElementById('predPhase')) predPhase.value='knockout'; resetDayToToday('predPhase','predDay'); setQuinielaTab('pronosticos'); }
-  // V317.5: no bloquear la pantalla esperando Supabase. Primero pinta con datos locales y luego refresca en segundo plano.
+  // V317.6: no bloquear la pantalla esperando Supabase. Primero pinta con datos locales y luego refresca en segundo plano.
   renderActiveSection(id);
   refreshAll().catch(()=>{});
   setTimeout(()=>window.scrollTo({top:0,behavior:'smooth'}),30);
@@ -1407,10 +1407,47 @@ function loserFromResult(m){const r=resFor(m?.id); const w=winnerFromResult(m); 
 function matchByNumber(num){return knockoutMatches[num-73]||null}
 function resolvedTeam(slot){const txt=String(slot||''); let m=txt.match(/Ganador\s+(\d+)/i); if(m){const prev=matchByNumber(+m[1]); return winnerFromResult(prev)||txt;} m=txt.match(/Perdedor\s+(\d+)/i); if(m){const prev=matchByNumber(+m[1]); return loserFromResult(prev)||txt;} return txt}
 function resolvedMatch(m){return {...m,home:resolvedTeam(m.home),away:resolvedTeam(m.away),_rawHome:m.home,_rawAway:m.away}}
+
+// V317.6 - Motor separado de eliminatorias: llaves, resultados y puntaje.
+// No cambia reglas ni pronósticos; evita mezclar calendario, API y puntuación.
+const KNOCKOUT_BRACKET={
+  k17:{homeFrom:73,awayFrom:76}, k18:{homeFrom:75,awayFrom:78},
+  k19:{homeFrom:74,awayFrom:77}, k20:{homeFrom:79,awayFrom:80},
+  k21:{homeFrom:84,awayFrom:83}, k22:{homeFrom:82,awayFrom:81},
+  k23:{homeFrom:87,awayFrom:86}, k24:{homeFrom:85,awayFrom:88},
+  k25:{homeFrom:89,awayFrom:90}, k26:{homeFrom:93,awayFrom:94},
+  k27:{homeFrom:91,awayFrom:92}, k28:{homeFrom:95,awayFrom:96},
+  k29:{homeFrom:97,awayFrom:98}, k30:{homeFrom:99,awayFrom:100},
+  k31:{homeFrom:101,awayFrom:102,homeLoser:true,awayLoser:true},
+  k32:{homeFrom:101,awayFrom:102}
+};
+function knockoutSlotTeam(slot){
+  if(!slot) return null;
+  const src=matchByNumber(slot.num); if(!src) return null;
+  return slot.loser?loserFromResult(src):winnerFromResult(src);
+}
+function resolvedMatchEnterprise(m){
+  if(!m || m.phase!=='knockout') return resolvedMatch(m);
+  const link=KNOCKOUT_BRACKET[m.id];
+  if(!link) return resolvedMatch(m);
+  const h=knockoutSlotTeam({num:link.homeFrom,loser:!!link.homeLoser})||m.home;
+  const a=knockoutSlotTeam({num:link.awayFrom,loser:!!link.awayLoser})||m.away;
+  return {...m,home:h,away:a,_rawHome:m.home,_rawAway:m.away,_bracket:link};
+}
+function knockoutAuditRows(){
+  return knockoutMatches.map(m=>{
+    const n=knockoutNumber(m), rm=resolvedMatchEnterprise(m), r=resFor(m.id)||{};
+    return {num:n,id:m.id,round:m.round,date:dayKey(m.date),raw:`${m.home} vs ${m.away}`,actual:`${rm.home} vs ${rm.away}`,score:(r.home_score!==undefined&&r.home_score!==null)?`${r.home_score}-${r.away_score}`:'-',qualifier:r.qualifier||'-',status:r.status||'-'};
+  });
+}
+function knockoutAuditHtml(){
+  const rows=knockoutAuditRows();
+  return `<div class="card"><h3>🧩 Auditoría eliminatorias</h3><p class="muted">Motor separado: llave real, marcador 90’+añadido, clasificado y empate API.</p><div style="overflow:auto"><table class="table-mini"><thead><tr><th>#</th><th>Ronda</th><th>Fecha</th><th>Llave</th><th>Partido actual</th><th>Resultado</th><th>Clasifica</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${x.num}</td><td>${esc(x.round)}</td><td>${esc(x.date)}</td><td>${esc(x.raw)}</td><td>${esc(x.actual)}</td><td>${esc(x.score)}</td><td>${esc(x.qualifier)}</td></tr>`).join('')}</tbody></table></div></div>`;
+}
 function teamOptionHtml(val,selected){return `<option value="${esc(val)}" ${teamKey(selected)===teamKey(val)?'selected':''}>${teamLabel(val,true)}</option>`}
 function locked(m){return matchStarted(m) || hasRealResult(m)}
 function lockReason(m){if(hasRealResult(m)) return 'Este partido ya tiene resultado real cargado.'; if(matchStarted(m)) return 'Este partido ya inició o ya pasó.'; return 'Este partido está bloqueado.'}
-function matchCard(m,inner=''){let r=resFor(m.id), rm=resolvedMatch(m), num=knockoutNumber(m); const note=(m.phase==='knockout'&&((rm._rawHome&&rm._rawHome!==rm.home)||(rm._rawAway&&rm._rawAway!==rm.away)))?`<div class="small muted">Actualizado automáticamente desde llaves anteriores.</div>`:''; return `<div class="match"><div class="teams"><div class="team">${teamLabel(rm.home)}</div><div class="mid">${num?'#'+num+' · ':''}${fmtDate(m.date)}<br>${esc(m.group||m.round||'')}</div><div class="team">${teamLabel(rm.away)}</div></div>${note}${r?`<div class="status ok">Resultado real: <b>${r.home_score} - ${r.away_score}</b>${r.qualifier?` · Clasificó: <b>${teamLabel(r.qualifier,true)}</b>`:''}</div>`:''}${inner}</div>`}
+function matchCard(m,inner=''){let r=resFor(m.id), rm=resolvedMatchEnterprise(m), num=knockoutNumber(m); const note=(m.phase==='knockout'&&((rm._rawHome&&rm._rawHome!==rm.home)||(rm._rawAway&&rm._rawAway!==rm.away)))?`<div class="small muted">Actualizado automáticamente desde llaves anteriores.</div>`:''; return `<div class="match"><div class="teams"><div class="team">${teamLabel(rm.home)}</div><div class="mid">${num?'#'+num+' · ':''}${fmtDate(m.date)}<br>${esc(m.group||m.round||'')}</div><div class="team">${teamLabel(rm.away)}</div></div>${note}${r?`<div class="status ok">Resultado real: <b>${r.home_score} - ${r.away_score}</b>${r.qualifier?` · Clasificó: <b>${teamLabel(r.qualifier,true)}</b>`:''}</div>`:''}${inner}</div>`}
 function nextPredInputId(list,i,which){if(which==='home') return 'pa_'+list[i].id; const n=list[i+1]; return n?'ph_'+n.id:null}
 let activePredInput=null;
 function clearPredFocus(){document.querySelectorAll('.pred-score').forEach(x=>x.classList.remove('active-score')); document.querySelectorAll('.pred-save').forEach(x=>x.classList.remove('active-save'));}
@@ -1420,7 +1457,7 @@ function setActivePredQualifier(mid){const el=document.getElementById('pq_'+mid)
 function predMatchIdsOnScreen(){return [...document.querySelectorAll('.pred-score[id^="ph_"]')].map(x=>x.id.slice(3));}
 function nextPredMatchId(mid){const ids=predMatchIdsOnScreen(), idx=ids.indexOf(mid); return ids[idx+1]||null;}
 function predReadyToSave(mid){const m=matches.find(x=>x.id===mid), h=document.getElementById('ph_'+mid)?.value, a=document.getElementById('pa_'+mid)?.value, q=document.getElementById('pq_'+mid)?.value; if(h===''||a===''||h==null||a==null) return false; if(m?.phase==='knockout' && !q) return false; return true;}
-function autoPredQualifier(mid){const m=matches.find(x=>x.id===mid); if(!m||m.phase!=='knockout') return; const rm=resolvedMatch(m), h=document.getElementById('ph_'+mid), a=document.getElementById('pa_'+mid), q=document.getElementById('pq_'+mid); if(!h||!a||!q) return; if(h.value===''||a.value===''){q.disabled=false; return;} const hs=+h.value, as=+a.value; if(hs>as){q.value=rm.home; q.disabled=true;} else if(as>hs){q.value=rm.away; q.disabled=true;} else {q.disabled=false; if(q.value && teamKey(q.value)!==teamKey(rm.home) && teamKey(q.value)!==teamKey(rm.away)) q.value='';}}
+function autoPredQualifier(mid){const m=matches.find(x=>x.id===mid); if(!m||m.phase!=='knockout') return; const rm=resolvedMatchEnterprise(m), h=document.getElementById('ph_'+mid), a=document.getElementById('pa_'+mid), q=document.getElementById('pq_'+mid); if(!h||!a||!q) return; if(h.value===''||a.value===''){q.disabled=false; return;} const hs=+h.value, as=+a.value; if(hs>as){q.value=rm.home; q.disabled=true;} else if(as>hs){q.value=rm.away; q.disabled=true;} else {q.disabled=false; if(q.value && teamKey(q.value)!==teamKey(rm.home) && teamKey(q.value)!==teamKey(rm.away)) q.value='';}}
 function updatePredSaveState(mid){autoPredQualifier(mid); const btn=document.getElementById('ps_'+mid); if(!btn) return; const ready=predReadyToSave(mid); btn.disabled=!ready; btn.classList.toggle('ready-save',ready); if(!ready) btn.classList.remove('active-save');}
 function onPredScoreChange(mid){updatePredSaveState(mid);}
 function onPredQualifierChange(mid){updatePredSaveState(mid); if(predReadyToSave(mid)) setActivePredSave(mid);}
@@ -1446,7 +1483,7 @@ async function savePred(mid,advance=false){
       if(Array.isArray(saved)&&saved[0]) applyLocalPrediction({...row,...saved[0]});
     }catch(dbErr){ console.warn('Predicción guardada en respaldo porque Supabase rechazó tabla predictions:',dbErr); }
     notifyGroup('prediction','🎯 Pronóstico modificado',`${session.name} modificó ${resolvedTeam(m.home)} vs ${resolvedTeam(m.away)}.`).catch(()=>{});
-    // V317.5: mantener el marcador en pantalla inmediatamente. La recarga de Supabase queda en segundo plano
+    // V317.6: mantener el marcador en pantalla inmediatamente. La recarga de Supabase queda en segundo plano
     // y no puede sobrescribir visualmente con filas nulas/vacías antiguas.
     renderPred(); scheduleRankingRender(); renderHome();
     saveRankingSnapshot().catch(()=>{});
@@ -1506,7 +1543,7 @@ function adminChampionEditorHtml(teams){
 }
 function renderChampion(){if(!document.getElementById('championBox')||!session) return; const teams=championTeams(), pick=championPick(session.id)||'', locked=championLocked(), off=officialChampion()||''; const visible=locked; championBox.innerHTML=`<div class="champion-card"><h3>🏆 Tu campeón del Mundial</h3><p class="muted">Puedes elegirlo o cambiarlo hasta que inicie el primer partido de <b>16avos de final</b>: <b>${fmtDateTime(firstKnockoutDate())}</b>.</p><label>Selecciona campeón</label><select id="championSelect" ${locked?'disabled':''}><option value="">Seleccionar...</option>${teams.map(t=>`<option value="${esc(t)}" ${teamKey(t)===teamKey(pick)?'selected':''}>${teamLabel(t)}</option>`).join('')}</select><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="primary" onclick="saveChampionPick()" ${locked?'disabled':''}>Guardar campeón</button><button onclick="clearChampionPick()" ${locked?'disabled':''}>Limpiar</button></div>${pick?`<div class="open-note">Tu pronóstico actual: <span class="champion-pick">${teamLabel(pick)}</span></div>`:'<div class="status">Aún no has guardado campeón.</div>'}${locked?'<div class="locked-note">🔒 Pronóstico de campeón bloqueado. Ya no se puede modificar.</div>':'<div class="open-note">✅ Todavía puedes cambiar tu campeón antes del primer partido de 16avos.</div>'}<div id="champMsg" class="status"></div></div>${isAdmin()?`<div class="card"><h3>⚙️ Admin · Campeón oficial</h3><p class="muted">Cuando termine la final, selecciona aquí el campeón oficial para sumar automáticamente los 10 puntos en el ranking de eliminatorias.</p><select id="officialChampionSelect"><option value="">Sin campeón oficial</option>${teams.map(t=>`<option value="${esc(t)}" ${teamKey(t)===teamKey(off)?'selected':''}>${teamLabel(t)}</option>`).join('')}</select><button class="good" onclick="saveOfficialChampion()" style="margin-top:10px">Guardar campeón oficial</button>${off?`<div class="open-note">Campeón oficial actual: <b>${teamLabel(off)}</b></div>`:''}</div>`:''}${adminChampionEditorHtml(teams)}<div class="card"><h3>👥 Estado de campeón del grupo</h3>${visible?`<p class="muted">Pronósticos revelados porque ya inició el primer partido de 16avos.</p><div class="champion-list">${groupMembers().map(p=>{const cp=championPick(p.id); const bonus=championBonus(p.id); return `<div class="champion-row"><b>${esc(p.name)}</b><span>${cp?teamLabel(cp):'Pendiente'} ${bonus?'<span class="bonus-pill">+10 pts</span>':''}</span></div>`}).join('')}</div>`:`<p class="muted">Antes del cierre solo se muestra quién ya eligió campeón. La selección permanece oculta hasta que se revele.</p><div class="champion-list">${groupMembers().map(p=>{const cp=championPick(p.id); return `<div class="champion-row"><b>${esc(p.name)}</b><span>${cp?'✅ Ya pronosticó':'⏳ Pendiente'}</span></div>`}).join('')}</div>`}</div>`}
 function officialScoreForQuiniela(m,r){
-  // V317.5: En eliminatorias, ganador/empate y exacto se califican solo con 90' + añadido.
+  // V317.6: En eliminatorias, ganador/empate y exacto se califican solo con 90' + añadido.
   // Si API Football trae marcador de tiempo extra/penales, se debe guardar en home_score/away_score el score.fulltime.
   // Esta función deja preparada compatibilidad por si en el futuro existen campos regular_home_score/regular_away_score.
   if(!r) return null;
@@ -1845,7 +1882,7 @@ async function saveResult(mid){
     alert('Resultado guardado.');
   }catch(e){alert('Error al guardar resultado: '+(e.message||e));}
 }
-function renderResultsAdmin(){let list=matchList(resPhase.value,resDay.value); resultsAdmin.innerHTML=list.map(m=>{let r=resFor(m.id)||{}; return matchCard(m,`<div class="score"><input id="rh_${m.id}" type="number" value="${r.home_score??''}"><b>-</b><input id="ra_${m.id}" type="number" value="${r.away_score??''}"></div>${m.phase==='knockout'?(()=>{const rm=resolvedMatch(m); return `<label>Clasificó</label><select id="rq_${m.id}"><option value="">Sin seleccionar</option>${teamOptionHtml(rm.home,r.qualifier)}${teamOptionHtml(rm.away,r.qualifier)}</select><div class="small muted">Marcador = 90' + añadido. No ingresar tiempo extra ni penales.</div>`})():''}<button class="good" onclick="saveResult('${m.id}')">Guardar resultado</button>`)}).join('')}
+function renderResultsAdmin(){let list=matchList(resPhase.value,resDay.value); resultsAdmin.innerHTML=list.map(m=>{let r=resFor(m.id)||{}; return matchCard(m,`<div class="score"><input id="rh_${m.id}" type="number" value="${r.home_score??''}"><b>-</b><input id="ra_${m.id}" type="number" value="${r.away_score??''}"></div>${m.phase==='knockout'?(()=>{const rm=resolvedMatchEnterprise(m); return `<label>Clasificó</label><select id="rq_${m.id}"><option value="">Sin seleccionar</option>${teamOptionHtml(rm.home,r.qualifier)}${teamOptionHtml(rm.away,r.qualifier)}</select><div class="small muted">Marcador = 90' + añadido. No ingresar tiempo extra ni penales.</div>`})():''}<button class="good" onclick="saveResult('${m.id}')">Guardar resultado</button>`)}).join('')}
 
 
 async function deleteGroupPredictions(){
@@ -1931,7 +1968,7 @@ function renderAdminPredictions(){
     if(!locked(m) && pid!==session.id){
       return matchCard(m,`<div class="players"><div class="row"><b>${esc(player?.name||pid)}</b><span>${predictionSaved(pr)?'✅ Ya pronosticó':'Pendiente'}</span></div></div><div class="status privacy-note">Marcador oculto hasta que el partido inicie.</div>`);
     }
-    return matchCard(m,`<div class="score"><input id="aph_${pid}_${m.id}" type="number" min="0" value="${pr.home_score??''}"><b>-</b><input id="apa_${pid}_${m.id}" type="number" min="0" value="${pr.away_score??''}"></div>${m.phase==='knockout'?(()=>{const rm=resolvedMatch(m); return `<label>Clasifica</label><select id="apq_${pid}_${m.id}"><option value="">Sin seleccionar</option>${teamOptionHtml(rm.home,pr.qualifier)}${teamOptionHtml(rm.away,pr.qualifier)}</select>`})():''}<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="primary" onclick="saveAdminPrediction('${pid}','${m.id}')">Guardar pronóstico</button><button onclick="clearAdminPrediction('${pid}','${m.id}')">Limpiar pronóstico</button></div>`);
+    return matchCard(m,`<div class="score"><input id="aph_${pid}_${m.id}" type="number" min="0" value="${pr.home_score??''}"><b>-</b><input id="apa_${pid}_${m.id}" type="number" min="0" value="${pr.away_score??''}"></div>${m.phase==='knockout'?(()=>{const rm=resolvedMatchEnterprise(m); return `<label>Clasifica</label><select id="apq_${pid}_${m.id}"><option value="">Sin seleccionar</option>${teamOptionHtml(rm.home,pr.qualifier)}${teamOptionHtml(rm.away,pr.qualifier)}</select>`})():''}<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="primary" onclick="saveAdminPrediction('${pid}','${m.id}')">Guardar pronóstico</button><button onclick="clearAdminPrediction('${pid}','${m.id}')">Limpiar pronóstico</button></div>`);
   }).join('') || '<p>No hay partidos.</p>';
 }
 
@@ -2018,11 +2055,15 @@ function apiMatchToLocal(apiFixture, strictDate=false){
   const ah=teamKey(apiFixture?.teams?.home?.name), aa=teamKey(apiFixture?.teams?.away?.name);
   // Corrección final: empates forzados para nombres que API Football devuelve distinto
   const forcedPairs = {
-    // V317.5: octavos 4 de julio explícitos para que API Football no dependa de llaves resueltas.
+    // V317.6: octavos 4 de julio explícitos para que API Football no dependa de llaves resueltas.
     'canada|morocco':'k17',
     'morocco|canada':'k17',
     'paraguay|france':'k18',
     'france|paraguay':'k18',
+    'canada|maroc':'k17',
+    'maroc|canada':'k17',
+    'canada|marruecos':'k17',
+    'marruecos|canada':'k17',
     'argentina|capeverde':'k15',
     'capeverde|argentina':'k15',
     'southkorea|czechia':'g2',
@@ -2035,7 +2076,7 @@ function apiMatchToLocal(apiFixture, strictDate=false){
     const fm = matches.find(m=>m.id===forcedId);
     if(fm) return {match:fm, reversed: teamKey(fm.home)!==ah};
   }
-  // V317.5: nunca empatar por equipos ignorando completamente fecha, porque en eliminatorias
+  // V317.6: nunca empatar por equipos ignorando completamente fecha, porque en eliminatorias
   // puede mover resultados/partidos al día equivocado. Primero filtra por ventana de fecha.
   let candidates=matches;
   const apiDate = apiFixture?.fixture?.date ? new Date(apiFixture.fixture.date) : null;
@@ -2045,11 +2086,11 @@ function apiMatchToLocal(apiFixture, strictDate=false){
     candidates=candidates.filter(m=>Math.abs(new Date(m.date)-apiDate) < 72*60*60*1000);
   }
   if(!candidates.length) candidates=matches;
-  // V317.5: comparar contra el partido resuelto. Si la llave dice Ganador 73,
+  // V317.6: comparar contra el partido resuelto. Si la llave dice Ganador 73,
   // usa el clasificado real para empatar con API Football.
-  let found=candidates.find(m=>{const rm=resolvedMatch(m); return teamKey(rm.home)===ah && teamKey(rm.away)===aa;});
+  let found=candidates.find(m=>{const rm=resolvedMatchEnterprise(m); return teamKey(rm.home)===ah && teamKey(rm.away)===aa;});
   if(found) return {match:found, reversed:false};
-  found=candidates.find(m=>{const rm=resolvedMatch(m); return teamKey(rm.home)===aa && teamKey(rm.away)===ah;});
+  found=candidates.find(m=>{const rm=resolvedMatchEnterprise(m); return teamKey(rm.home)===aa && teamKey(rm.away)===ah;});
   if(found) return {match:found, reversed:true};
   return null;
 }
@@ -2084,7 +2125,7 @@ async function applyApiFootballFixtures(fixtures, strictDate=true){
     if(fx._live_events) status += ' | '+fx._live_events;
     if(!map){unmatched.push(`${fx.teams?.home?.name||'?'} vs ${fx.teams?.away?.name||'?'}`); continue;}
     let gh=fx.goals?.home, ga=fx.goals?.away;
-    // V317.5: para eliminatorias el marcador que cuenta para quiniela es 90' + añadido.
+    // V317.6: para eliminatorias el marcador que cuenta para quiniela es 90' + añadido.
     // API Football lo expone normalmente como score.fulltime. Los goles de extratime/penalty no deben alterar exacto ni ganador/empate.
     if(map.match.phase==='knockout'){
       const fh=fx.score?.fulltime?.home, fa=fx.score?.fulltime?.away;
@@ -2096,8 +2137,9 @@ async function applyApiFootballFixtures(fixtures, strictDate=true){
     if(map.match.phase==='knockout'){
       const homeWinner=map.reversed?fx.teams?.away?.winner:fx.teams?.home?.winner;
       const awayWinner=map.reversed?fx.teams?.home?.winner:fx.teams?.away?.winner;
-      if(homeWinner===true) qualifier=map.match.home;
-      if(awayWinner===true) qualifier=map.match.away;
+      const rmq=resolvedMatchEnterprise(map.match);
+      if(homeWinner===true) qualifier=rmq.home;
+      if(awayWinner===true) qualifier=rmq.away;
     }
     const row={match_id:map.match.id,home_score:+gh,away_score:+ga,qualifier,status:status||'api',updated_at:new Date().toISOString()};
     if(['1H','2H','ET','P','HT','BT','SUSP','INT','LIVE'].includes(sh)) rememberLiveMatch(map.match,row);
@@ -2153,6 +2195,25 @@ async function updateApiFootballLive(silent=true){
     if(!silent && document.getElementById('apiFootballMsg')){apiFootballMsg.className='status ok'; apiFootballMsg.innerHTML=`Vivo actualizado: <b>${updates.length}</b> partido(s). API devolvió ${fixtures.length}.${unmatched.length?'<br><span class="small">Sin empatar: '+esc(unmatched.slice(0,5).join(' · '))+'</span>':''}`;}
   }catch(e){ if(!silent && document.getElementById('apiFootballMsg')){apiFootballMsg.className='status err'; apiFootballMsg.textContent='Error vivo: '+e.message;} }
 }
+async function fetchApiFootballDates(key,league,season,dates){
+  const all=[], seen=new Set();
+  for(const date of dates){
+    const url=`https://v3.football.api-sports.io/fixtures?league=${encodeURIComponent(league)}&season=${encodeURIComponent(season)}&date=${encodeURIComponent(date)}`;
+    const resp=await fetch(url,{headers:{'x-apisports-key':key},cache:'no-store'});
+    if(!resp.ok) throw new Error('API HTTP '+resp.status+' en '+date);
+    const data=await resp.json();
+    if(data.errors && (Array.isArray(data.errors)?data.errors.length:Object.keys(data.errors).length)) throw new Error('API: '+JSON.stringify(data.errors));
+    for(const fx of (data.response||[])){
+      const id=fx.fixture?.id||JSON.stringify([fx.teams?.home?.name,fx.teams?.away?.name,fx.fixture?.date]);
+      if(seen.has(id)) continue; seen.add(id); all.push(fx);
+    }
+  }
+  return all;
+}
+function adjacentDateKeys(dateStr){
+  const d=new Date(dateStr+'T12:00:00Z');
+  return [-1,0,1].map(off=>{const x=new Date(d); x.setUTCDate(x.getUTCDate()+off); return x.toISOString().slice(0,10);});
+}
 async function updateApiFootballDay(){
   try{
     if(!isAdmin()) return alert('Solo administrador.');
@@ -2161,12 +2222,7 @@ async function updateApiFootballDay(){
     const date=resDay.value || dayKey(new Date());
     const league=apiFootballLeague.value.trim()||'1', season=apiFootballSeason.value.trim()||'2026';
     apiFootballMsg.className='status'; apiFootballMsg.textContent='Consultando API Football para '+date+'...';
-    const url=`https://v3.football.api-sports.io/fixtures?league=${encodeURIComponent(league)}&season=${encodeURIComponent(season)}&date=${encodeURIComponent(date)}`;
-    const resp=await fetch(url,{headers:{'x-apisports-key':key}});
-    if(!resp.ok) throw new Error('API HTTP '+resp.status);
-    const data=await resp.json();
-    if(data.errors && (Array.isArray(data.errors)?data.errors.length:Object.keys(data.errors).length)) throw new Error('API: '+JSON.stringify(data.errors));
-    const fixtures=data.response||[];
+    const fixtures=await fetchApiFootballDates(key,league,season,adjacentDateKeys(date));
     const {updates, unmatched}=await applyApiFootballFixtures(fixtures, true);
     apiFootballMsg.className='status ok';
     apiFootballMsg.innerHTML=`Actualización completa: <b>${updates.length}</b> resultado(s) guardado(s). API devolvió ${fixtures.length} partido(s).${unmatched.length?'<br><span class="small">Sin empatar con calendario local: '+esc(unmatched.slice(0,5).join(' · '))+(unmatched.length>5?'...':'')+'</span>':''}`;
@@ -2192,7 +2248,7 @@ async function updateApiFootballAll(){
   }catch(e){apiFootballMsg.className='status err'; apiFootballMsg.textContent='Error API Football: '+e.message;}
 }
 
-// V317.5 - Actualización automática API Football desde la app.
+// V317.6 - Actualización automática API Football desde la app.
 // Netlify cron sigue disponible, pero el celular/admin también hace sync solo cuando hay partido cercano o en vivo.
 let apiAutoTimer=null, apiAutoInFlight=false, apiAutoLastAt=0, apiAutoDayLastAt=0;
 function apiAutoWindowMatches(){
@@ -2227,12 +2283,7 @@ async function updateApiFootballDaySilent(date){
   const cfg=await getApiFootballSettings();
   if(!cfg.key) return {updates:[],unmatched:[],fixtures:0,skipped:true};
   const d=date || dayKey(new Date());
-  const url=`https://v3.football.api-sports.io/fixtures?league=${encodeURIComponent(cfg.league)}&season=${encodeURIComponent(cfg.season||'2026')}&date=${encodeURIComponent(d)}`;
-  const resp=await fetch(url,{headers:{'x-apisports-key':cfg.key},cache:'no-store'});
-  if(!resp.ok) throw new Error('API día HTTP '+resp.status);
-  const data=await resp.json();
-  if(data.errors && (Array.isArray(data.errors)?data.errors.length:Object.keys(data.errors).length)) throw new Error('API día: '+JSON.stringify(data.errors));
-  const fixtures=data.response||[];
+  const fixtures=await fetchApiFootballDates(cfg.key,cfg.league,cfg.season||'2026',adjacentDateKeys(d));
   const out=await applyApiFootballFixtures(fixtures,true);
   return {...out, fixtures:fixtures.length};
 }
@@ -2684,7 +2735,7 @@ function diagnosticsObject(){
   let cacheAt='';
   try{ const raw=localStorage.getItem(STATE_CACHE_KEY)||localStorage.getItem('hcq_state_cache_last'); if(raw) cacheAt=new Date(JSON.parse(raw).at||0).toLocaleString(); }catch(e){}
   return {
-    version:'V317.5 Enterprise',
+    version:'V317.6 Enterprise',
     group:currentGroupId(),
     user:session?.username||session?.id||'',
     online:navigator.onLine,
@@ -2718,7 +2769,7 @@ function renderDiagnostics(){
       ['Cron API Football',d.apiCron?.at?(d.apiCron.ok?'OK ':'ERROR ')+d.apiCron.at+(d.apiCron.error?' · '+d.apiCron.error:''):'Sin registro'],
       ['Auto API app',d.apiAuto?.at?(d.apiAuto.ok?'OK ':'ERROR ')+d.apiAuto.at+(d.apiAuto.error?' · '+d.apiAuto.error:''):'Sin registro']
     ];
-    diagBox.innerHTML='<div class="diag-grid">'+rows.map(([k,v])=>`<div><b>${esc(k)}</b><br><span>${esc(v)}</span></div>`).join('')+'</div><pre style="white-space:pre-wrap;max-height:260px;overflow:auto;margin-top:12px">'+esc(JSON.stringify(d,null,2))+'</pre>';
+    diagBox.innerHTML='<div class="diag-grid">'+rows.map(([k,v])=>`<div><b>${esc(k)}</b><br><span>${esc(v)}</span></div>`).join('')+'</div>'+knockoutAuditHtml()+'<pre style="white-space:pre-wrap;max-height:260px;overflow:auto;margin-top:12px">'+esc(JSON.stringify(d,null,2))+'</pre>';
   }catch(e){ if(document.getElementById('diagBox')) diagBox.textContent='Error diagnóstico: '+e.message; }
 }
 async function copyDiagnostics(){
@@ -2767,7 +2818,7 @@ let lastNotifyKey='';
 function checkOpenAppNotifications(){try{if(!('Notification' in window)||Notification.permission!=='granted'||!session) return; const now=Date.now(); const soon=matches.filter(m=>{const ms=new Date(m.date).getTime()-now; return ms>0 && ms<30*60000;}); const key=soon.map(m=>m.id).join(',')+'|'+liveMatches().map(m=>m.id+statusBase(resFor(m.id)?.status)).join(','); if(key && key!==lastNotifyKey){lastNotifyKey=key; if(soon[0]) new Notification('⏰ Pronósticos por cerrar',{body:`${soon[0].home} vs ${soon[0].away} inicia pronto.`}); const lv=liveMatches()[0]; if(lv) new Notification('🔴 Partido en vivo',{body:`${lv.home} vs ${lv.away} · ${statusBase(resFor(lv.id)?.status)||''}`});}}catch(e){}}
 let liveTimer=null; function startLiveTimer(){
   if(liveTimer) clearInterval(liveTimer);
-  // V317.5: además del cron de Netlify, la app sincroniza API Football automáticamente cuando hay partido cercano/en vivo.
+  // V317.6: además del cron de Netlify, la app sincroniza API Football automáticamente cuando hay partido cercano/en vivo.
   checkOpenAppNotifications(); lastChatPresenceWrite=0; updateChatPresence(); scheduleMatchPushes(); startApiFootballAutoTimer();
   liveTimer=setInterval(()=>{
     checkOpenAppNotifications(); updateChatPresence(); scheduleMatchPushes(); autoApiFootballTick(false);
