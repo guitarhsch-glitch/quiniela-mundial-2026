@@ -1,0 +1,8 @@
+HCQ V318.0 Performance Eliminatorias
+- Motor operativo limitado a eliminatorias; fase de grupos permanece archivada en Supabase.
+- Las predicciones y resultados se consultan filtrados por grupo y por IDs de eliminatorias.
+- Ya no se ejecuta refreshAll() en cada cambio de pantalla.
+- Ranking de eliminatorias precalculado en memoria y reutilizado.
+- Inicio de sesión renderiza solo Inicio; los demás módulos se cargan al abrirse.
+- renderAll() ya no reconstruye todos los módulos.
+- Navegación sin scroll animado ni tarjeta de carga forzada.
